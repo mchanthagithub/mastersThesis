@@ -1,0 +1,45 @@
+\newcommand{\noopsort}[1]{} \newcommand{\printfirst}[2]{#1}
+  \newcommand{\singleletter}[1]{#1} \newcommand{\switchargs}[2]{#2#1}
+\begin{thebibliography}{10}
+
+\bibitem{patterson:risc}
+Some Author.
+\newblock Some title.
+
+\bibitem{rad83}
+Some Author.
+\newblock Some title.
+
+\bibitem{ellis:bulldog}
+Some Author.
+\newblock Some title.
+
+\bibitem{pet87}
+Some Author.
+\newblock Some title.
+
+\bibitem{coutant:precision-compilers}
+Some Author.
+\newblock Some title.
+
+\bibitem{gib86}
+Some Author.
+\newblock Some title.
+
+\bibitem{thornton:cdc6600}
+Some Author.
+\newblock Some title.
+
+\bibitem{magenheimer:precision}
+Some Author.
+\newblock Some title.
+
+\bibitem{byte:i860}
+Some Author.
+\newblock Some title.
+
+\bibitem{colwell:vliw}
+Some Author.
+\newblock Some title.
+
+\end{thebibliography}
