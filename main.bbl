@@ -1,30 +1,6 @@
 \newcommand{\noopsort}[1]{} \newcommand{\printfirst}[2]{#1}
   \newcommand{\singleletter}[1]{#1} \newcommand{\switchargs}[2]{#2#1}
-\begin{thebibliography}{10}
-
-\bibitem{patterson:risc}
-Some Author.
-\newblock Some title.
-
-\bibitem{rad83}
-Some Author.
-\newblock Some title.
-
-\bibitem{ellis:bulldog}
-Some Author.
-\newblock Some title.
-
-\bibitem{pet87}
-Some Author.
-\newblock Some title.
-
-\bibitem{coutant:precision-compilers}
-Some Author.
-\newblock Some title.
-
-\bibitem{gib86}
-Some Author.
-\newblock Some title.
+\begin{thebibliography}{1}
 
 \bibitem{thornton:cdc6600}
 Some Author.
@@ -38,8 +14,27 @@ Some Author.
 Some Author.
 \newblock Some title.
 
+\bibitem{ellis:bulldog}
+Some Author.
+\newblock Some title.
+
 \bibitem{colwell:vliw}
 Some Author.
 \newblock Some title.
+
+\bibitem{gib86}
+Some Author.
+\newblock Some title.
+
+\bibitem{Richard:2005:Slow}
+Patrick Richard, Mario Nicodemi, Renaud Delannay, Philippe Ribi{\`e}re, and
+  Daniel Bideau.
+\newblock Slow relaxation and compaction of granular systems.
+\newblock {\em Nature Materials.}, 4:121--128, 2005.
+
+\bibitem{sullivan06}
+Daniel~E. Sullivan.
+\newblock Materials in use in u.s. interstate highways.
+\newblock USGS Report, October 2006.
 
 \end{thebibliography}
