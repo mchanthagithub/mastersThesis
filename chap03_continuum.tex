@@ -6,8 +6,29 @@
 %% prompt when you run the file main.tex through LaTeX.
 \chapter{Continuum Model}
 
-\subsection{Hyperleastic Model}
+\section{Hyperleastic-Plastic Model}
 
-\subsection{Hypoelastic Model}
+\section{Hypoelastic-Plastic Model}
+In general, hypoelastic models differ from hyperelastic models in that the stress is not obtained from a gradient of a strain energy density function with respect to deformation. The specific hypoelastic granular continuum model used in this study was developed by Dunatunga and Kamrin \cite{Dunatunga:2015:Continuum}. To start one again begins with momentum balance and mass balance
+$$\rho\frac{D\bold{v}}{Dt} = \nabla\cdot\bm{\sigma} + \rho\bold{b}$$
+$$\frac{D\rho}{Dt} + \rho\nabla\cdot\bold{v}=0$$
+with all terms similarly defined as in the hyperelastic model. A useful quantity, the spatial velocity gradient $\bold{L}$, is defined as
+$$\bold{L}=\nabla\bold{v}$$
+$\bold{L}$ can be decomposed into a symmetric part (known as the strain rate tensor) and skew part (known as the spin tensor), $\bold{D}$ and $\bold{W}$ respectively, such that
+$$\bold{L}=\bold{D}+\bold{W}$$
+$$\bold{D}=\frac{1}{2}(\bold{L}-\bold{L}^T)$$
+$$\bold{W}=\frac{1}{2}(\bold{L}+\bold{L}^T)$$
+In contrast to the hyperelastic model, the used hypoelastic model takes an additive split of the strain and strain rate-like terms into an elastic and plastic part. For example,
+$$\bold{L}=\bold{L}^e+\bold{L}^p$$
+The elastic and plastic spatial velocity gradients can then be decomposed into spin and strain rate tensors
+$$\bold{L}^e=\bold{D}^e+\bold{W}^e$$
+$$\bold{L}^p=\bold{D}^p+\bold{W}^p$$
+A commonly taken assumption that is also taken here is one of spin-less plastic flow, so that $\bold{W}^p=\bold{0}$ and $\bold{L}^p=\bold{D}^p$. Plastic flow codirectionality with the stress deviator and isochoric plastic flow are also taken as assumptions, leading to an plastic flow rate of
+$$\bold{L}^p=\bold{\hat{D}}^p(\bm{\sigma})=\frac{1}{\sqrt{2}}\dot{\bar{\gamma}}^p(\bm{\sigma})\frac{\bm{\sigma}_0}{||\bm{\sigma}_0||}$$
+where $\dot{\bar{\gamma}}^p$ is the equivalent plastic shear strain rate.
+
+Due to the fact that a hypoelastic-plastic  model is used and there is no tracking of the deformation gradient, an objective rate must be used to update the stress. While many exist, the Jaumann rate is used here as suggested by Dunatunga and Kamrin, and is defined as
+$$\stackrel{\triangle}{\bm{\sigma}}=\dot{\bm{\sigma}}-\bm{W}\cdot\bm{\sigma}+\bm{\sigma}\cdot\bm{W}$$
+
 
 \subsection{Material Point Method}

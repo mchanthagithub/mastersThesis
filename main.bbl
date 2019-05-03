@@ -1,30 +1,94 @@
 \newcommand{\noopsort}[1]{} \newcommand{\printfirst}[2]{#1}
   \newcommand{\singleletter}[1]{#1} \newcommand{\switchargs}[2]{#2#1}
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
-\bibitem{thornton:cdc6600}
-Some Author.
-\newblock Some title.
+\bibitem{Bouchaud:1994}
+Jean-Philippe Bouchaud, Michael~E. Cates, Jagadeeshan~Ravi Prakash, and Sam~F.
+  Edwards.
+\newblock A model for the dynamics of sandpile surfaces.
+\newblock {\em Journal de Physique I}, 4(10):1383--1410, 1994.
 
-\bibitem{magenheimer:precision}
-Some Author.
-\newblock Some title.
+\bibitem{Cundall:1979}
+Peter~A. Cundall and Otto D.~L. Strack.
+\newblock A discrete numerical model for granular assemblies.
+\newblock {\em G\'eotechnique}, 29(1):47--65, 1979.
 
-\bibitem{byte:i860}
-Some Author.
-\newblock Some title.
+\bibitem{Dafalias:2004:Sand}
+Yannis~F. Dafalias, Achilleas~G. Papadimitriou, and Xiang~S. Li.
+\newblock Sand plasticity model accounting for inherent fabric anisotropy.
+\newblock {\em Journal of Engineering Mechanics}, 130(11):1319--1333, 2004.
 
-\bibitem{ellis:bulldog}
-Some Author.
-\newblock Some title.
+\bibitem{Dhia:1998}
+Hachmi~Ben Dhia.
+\newblock Multiscale mechanical problems: the arlequin method.
+\newblock {\em Comptes Rendus de l'Academie des Sciences Series IIB Mechanics
+  Physics Astronomy}, 12(326):899--904, 1998.
 
-\bibitem{colwell:vliw}
-Some Author.
-\newblock Some title.
+\bibitem{Dunatunga:2015:Continuum}
+Sachith Dunatunga and Ken Kamrin.
+\newblock Continuum modelling and simulation of granular flows through their
+  many phases.
+\newblock {\em Journal of Fluid Mechanics}, 779:483--513, 2015.
 
-\bibitem{gib86}
-Some Author.
-\newblock Some title.
+\bibitem{Midi:2004:Dense}
+{Groupement de Recherche Milieux Divis{\'e}s (GDR MiDi)}.
+\newblock On dense granular flows.
+\newblock {\em The European Physical Journal E}, 14(4):341--365, 2004.
+
+\bibitem{Holladay:2013}
+Seth~R. Holladay.
+\newblock {\em Optimized Simulation of Granular Materials}.
+\newblock PhD thesis, Brigham Young University, 2013.
+
+\bibitem{Holladay:2012}
+Seth~R. Holladay and Parris Egbert.
+\newblock Solid-state culled discrete element granular systems.
+\newblock In Carlos Andujar and Enrico Puppo, editors, {\em Eurographics 2012 -
+  Short Papers}. The Eurographics Association, 2012.
+
+\bibitem{Hsu:2010}
+Shu-Wei Hsu and John Keyser.
+\newblock Piles of objects.
+\newblock {\em ACM Trans. Graph.}, 29(6):155:1--155:6, December 2010.
+
+\bibitem{Jop:2006:Constitutive}
+Pierre Jop, Yo{\"e}l Forterre, and Olivier Pouliquen.
+\newblock A constitutive law for dense granular flows.
+\newblock {\em Nature}, 441(7094):727--730, 2006.
+
+\bibitem{Kamrin:2010}
+Ken Kamrin.
+\newblock Nonlinear elasto-plastic model for dense granular flow.
+\newblock {\em International Journal of Plasticity}, 26(2):167--188, 2010.
+
+\bibitem{Kamrin:2012:Nonlocal}
+Ken Kamrin and Georg Koval.
+\newblock Nonlocal constitutive relation for steady granular flow.
+\newblock {\em Physical Review Letters}, 108(17):178301, 2012.
+
+\bibitem{Kamrin:2014}
+Ken Kamrin and Georg Koval.
+\newblock Effect of particle surface friction on nonlocal constitutive behavior
+  of flowing granular media.
+\newblock {\em Computational Particle Mechanics}, 1(2):169--176, 2014.
+
+\bibitem{McCarthy:1998}
+Joseph~J. McCarthy and Julio~M. Ottino.
+\newblock Particle dynamics simulation: a hybrid technique applied to granular
+  mixing.
+\newblock {\em Powder Technology}, 97(2):91 -- 99, 1998.
+
+\bibitem{Mio:2009}
+Hiroshi Mio, Masatoshi Akashi, Atsuko Shimosaka, Yoshiyuki Shirakawa, Jusuke
+  Hidaka, and Shinroku Matsuzaki.
+\newblock Speed-up of computing time for numerical analysis of particle
+  charging process by using discrete element method.
+\newblock {\em Chemical Engineering Science}, 64(5):1019 -- 1026, 2009.
+
+\bibitem{Munns:2015}
+Kevin~W. Munns.
+\newblock Gaseous particulate interaction in a 3-phase granular simulation.
+\newblock Master's thesis, Brigham Young University, 2015.
 
 \bibitem{Richard:2005:Slow}
 Patrick Richard, Mario Nicodemi, Renaud Delannay, Philippe Ribi{\`e}re, and
@@ -32,9 +96,64 @@ Patrick Richard, Mario Nicodemi, Renaud Delannay, Philippe Ribi{\`e}re, and
 \newblock Slow relaxation and compaction of granular systems.
 \newblock {\em Nature Materials.}, 4:121--128, 2005.
 
+\bibitem{Rycroft:2009}
+Chris~H. Rycroft, Ken Kamrin, and Martin~Z. Bazant.
+\newblock Assessing continuum postulates in simulations of granular flow.
+\newblock {\em Journal of the Mechanics and Physics of Solids}, 57(5):828--839,
+  2009.
+
+\bibitem{Schofield:1968:Critical}
+Andrew Schofield and Peter Wroth.
+\newblock {\em Critical State Soil Mechanics}.
+\newblock McGraw-Hill, London, 1968.
+
+\bibitem{Shimokawa:2007}
+Tomotsugu Shimokawa, Toshiyasu Kinari, and S~Shintaku.
+\newblock Interaction mechanism between edge dislocations and asymmetrical tilt
+  grain boundaries investigated via quasicontinuum simulations.
+\newblock {\em Physical Review B}, 75(14):144108, 2007.
+
+\bibitem{Smith:2001}
+Gregory~S. Smith, Ellad~B. Tadmor, Noam Bernstein, and Efthimios Kaxiras.
+\newblock Multiscale simulations of silicon nanoindentation.
+\newblock {\em Acta Materialia}, 49(19):4089--4101, 2001.
+
+\bibitem{Smith:2005}
+Russell Smith et~al.
+\newblock Open dynamics engine.
+\newblock 2005.
+
 \bibitem{sullivan06}
 Daniel~E. Sullivan.
 \newblock Materials in use in u.s. interstate highways.
 \newblock USGS Report, October 2006.
+
+\bibitem{Tadmor:1996}
+Ellad~B. Tadmor, Rob Phillips, and Michael Ortiz.
+\newblock Mixed atomistic and continuum models of deformation in solids.
+\newblock {\em Langmuir}, 12(19):4529--4534, 1996.
+
+\bibitem{Wellmann:2012}
+Christian Wellmann and Peter Wriggers.
+\newblock A two-scale model of granular materials.
+\newblock {\em Computer Methods in Applied Mechanics and Engineering},
+  205-208(Supplement C):46 -- 58, 2012.
+
+\bibitem{Yan:2010}
+Beichuan Yan, Richard~A. Regueiro, and Stein Sture.
+\newblock Three-dimensional ellipsoidal discrete element modeling of granular
+  materials and its coupling with finite element facets.
+\newblock {\em Engineering Computations}, 27(4):519--550, 2010.
+
+\bibitem{Zhang:2005}
+Zhennan Zhang and Xiurun Ge.
+\newblock A new quasi-continuum constitutive model for crack growth in an
+  isotropic solid.
+\newblock {\em European Journal of Mechanics-A/Solids}, 24(2):243--252, 2005.
+
+\bibitem{Zhu:2010}
+Bo~Zhu and Xubo Yang.
+\newblock Animating sand as a surface flow.
+\newblock {\em Eurographics 2010, Short Papers}, 2010.
 
 \end{thebibliography}
