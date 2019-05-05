@@ -12,45 +12,45 @@ A level-1 auxiliary file: biblio.aux
 The style file: plain.bst
 Database file #1: main.bib
 Warning--empty journal in Smith:2005
-You've used 28 entries,
+You've used 30 entries,
             2118 wiz_defined-function locations,
-            721 strings with 9109 characters,
-and the built_in function-call counts, 9130 in all, are:
-= -- 908
-> -- 421
+            735 strings with 9494 characters,
+and the built_in function-call counts, 9831 in all, are:
+= -- 980
+> -- 452
 < -- 0
-+ -- 169
-- -- 136
-* -- 694
-:= -- 1562
-add.period$ -- 85
-call.type$ -- 28
-change.case$ -- 148
++ -- 183
+- -- 146
+* -- 751
+:= -- 1678
+add.period$ -- 91
+call.type$ -- 30
+change.case$ -- 159
 chr.to.int$ -- 0
-cite$ -- 29
-duplicate$ -- 301
-empty$ -- 713
-format.name$ -- 136
-if$ -- 1853
+cite$ -- 31
+duplicate$ -- 323
+empty$ -- 767
+format.name$ -- 146
+if$ -- 1994
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 26
-newline$ -- 144
-num.names$ -- 58
-pop$ -- 118
+int.to.str$ -- 30
+missing$ -- 28
+newline$ -- 154
+num.names$ -- 62
+pop$ -- 125
 preamble$ -- 2
-purify$ -- 122
+purify$ -- 131
 quote$ -- 0
-skip$ -- 204
+skip$ -- 219
 stack$ -- 0
-substring$ -- 678
-swap$ -- 27
+substring$ -- 740
+swap$ -- 29
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 110
+type$ -- 118
 warning$ -- 1
-while$ -- 92
-width$ -- 30
-write$ -- 307
+while$ -- 100
+width$ -- 32
+write$ -- 329
 (There was 1 warning)

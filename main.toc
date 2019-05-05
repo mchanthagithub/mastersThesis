@@ -9,6 +9,8 @@
 \contentsline {chapter}{\numberline {3}Continuum Model}{27}
 \contentsline {section}{\numberline {3.1}Hyperleastic-Plastic Model}{27}
 \contentsline {section}{\numberline {3.2}Hypoelastic-Plastic Model}{27}
-\contentsline {subsection}{\numberline {3.2.1}Material Point Method}{28}
-\contentsline {chapter}{\numberline {A}Tables}{29}
-\contentsline {chapter}{\numberline {B}Figures}{31}
+\contentsline {section}{\numberline {3.3}Material Point Method}{30}
+\contentsline {subsection}{\numberline {3.3.1}MPM Algorithm Overview}{32}
+\contentsline {subsection}{\numberline {3.3.2}MPM Formulation and Discretization}{33}
+\contentsline {chapter}{\numberline {A}Tables}{37}
+\contentsline {chapter}{\numberline {B}Figures}{39}

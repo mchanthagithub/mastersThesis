@@ -2,6 +2,12 @@
   \newcommand{\singleletter}[1]{#1} \newcommand{\switchargs}[2]{#2#1}
 \begin{thebibliography}{10}
 
+\bibitem{Bardenhagen:2004}
+Scott~G. Bardenhagen and Edward~M. Kober.
+\newblock The generalized interpolation material point method.
+\newblock {\em Computer Modeling in Engineering and Sciences}, 5(6):477--496,
+  2004.
+
 \bibitem{Bouchaud:1994}
 Jean-Philippe Bouchaud, Michael~E. Cates, Jagadeeshan~Ravi Prakash, and Sam~F.
   Edwards.
@@ -127,6 +133,12 @@ Russell Smith et~al.
 Daniel~E. Sullivan.
 \newblock Materials in use in u.s. interstate highways.
 \newblock USGS Report, October 2006.
+
+\bibitem{Sulsky:1994}
+Deborah Sulsky, Zhen Chen, and Howard~L. Schreyer.
+\newblock A particle method for history-dependent materials.
+\newblock {\em Computer methods in applied mechanics and engineering},
+  118(1):179--196, 1994.
 
 \bibitem{Tadmor:1996}
 Ellad~B. Tadmor, Rob Phillips, and Michael Ortiz.
