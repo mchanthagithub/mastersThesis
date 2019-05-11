@@ -6,51 +6,54 @@ A level-1 auxiliary file: contents.aux
 A level-1 auxiliary file: chap01_introduction.aux
 A level-1 auxiliary file: chap02_dem.aux
 A level-1 auxiliary file: chap03_continuum.aux
+A level-1 auxiliary file: chap04_hybridization.aux
+A level-1 auxiliary file: chap06_enrichment.aux
 A level-1 auxiliary file: appa.aux
 A level-1 auxiliary file: appb.aux
 A level-1 auxiliary file: biblio.aux
 The style file: plain.bst
 Database file #1: main.bib
+Warning--empty publisher in Lanczos:2012
 Warning--empty journal in Smith:2005
-You've used 30 entries,
+You've used 40 entries,
             2118 wiz_defined-function locations,
-            735 strings with 9494 characters,
-and the built_in function-call counts, 9831 in all, are:
-= -- 980
-> -- 452
+            803 strings with 11291 characters,
+and the built_in function-call counts, 13198 in all, are:
+= -- 1308
+> -- 615
 < -- 0
-+ -- 183
-- -- 146
-* -- 751
-:= -- 1678
-add.period$ -- 91
-call.type$ -- 30
-change.case$ -- 159
++ -- 250
+- -- 200
+* -- 1021
+:= -- 2246
+add.period$ -- 121
+call.type$ -- 40
+change.case$ -- 214
 chr.to.int$ -- 0
-cite$ -- 31
-duplicate$ -- 323
-empty$ -- 767
-format.name$ -- 146
-if$ -- 1994
+cite$ -- 42
+duplicate$ -- 435
+empty$ -- 1028
+format.name$ -- 200
+if$ -- 2672
 int.to.chr$ -- 0
-int.to.str$ -- 30
-missing$ -- 28
-newline$ -- 154
-num.names$ -- 62
-pop$ -- 125
+int.to.str$ -- 40
+missing$ -- 40
+newline$ -- 204
+num.names$ -- 82
+pop$ -- 175
 preamble$ -- 2
-purify$ -- 131
+purify$ -- 178
 quote$ -- 0
-skip$ -- 219
+skip$ -- 290
 stack$ -- 0
-substring$ -- 740
-swap$ -- 29
+substring$ -- 988
+swap$ -- 39
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 118
-warning$ -- 1
-while$ -- 100
-width$ -- 32
-write$ -- 329
-(There was 1 warning)
+type$ -- 154
+warning$ -- 2
+while$ -- 134
+width$ -- 42
+write$ -- 436
+(There were 2 warnings)

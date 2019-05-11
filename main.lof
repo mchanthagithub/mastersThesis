@@ -6,8 +6,18 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2-1}{\ignorespaces Two disks in contact with relevant properties labeled for DEM.\relax }}{22}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3-1}{\ignorespaces Schematic of a single timestep in MPM.\relax }}{32}
+\contentsline {figure}{\numberline {3-1}{\ignorespaces Schematic of a single timestep in MPM.\relax }}{35}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4-1}{\ignorespaces Diagram of a hybrid simulation.\relax }}{43}
+\contentsline {figure}{\numberline {4-2}{\ignorespaces Blurred Density: (Left) The reference domain $\Omega $ of an object with density $\rho (\bm {x})$. Mass density is colored in blue. (Right) A partition of unity of the density mediated by a weight function $w(\bm {x},t)$.\relax }}{45}
+\contentsline {figure}{\numberline {4-3}{\ignorespaces Initialization of a hybrid simulation: (A) We begin with a collection of DEM grains. (B) We next locate a level set corresponding to a given low density, here denoted as a black line. (C) Across the domain, we compute the distance to the density threshold, indicated by lines in lighter shades of red as the distance increases. (D) We select a user-tunable distance to the density level-set that serves as the center of the hybrid ``reconciliation" zone. We denote this critical distance as a solid black line. (E) We extend the hybrid zone along the distance field by a given half-width in each direction, indicated by dotted lines. This hybrid reconciliation zone between the dotted lines defines a zone where the DEM system will be coupled to the continuum system. We homogenize the velocity and stress for use in step (G). (F) We delete all discrete grains that fall within the inner boundary of the reconciliation zone. (G) We run the "avoid-a-void" algorithm of Yue et al. \cite {Yue:2015:Continuum} from the outer boundary in to populate the region with material points. The material point states are determined using the homogenized velocity and stress computed in step (E).\relax }}{51}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5-1}{\ignorespaces Mechanisms of deviations away from exact mass conservation.\relax }}{60}
+\contentsline {figure}{\numberline {5-2}{\ignorespaces Evolution of a hybrid flow down a chute showing mass loss.\relax }}{61}
+\contentsline {figure}{\numberline {5-3}{\ignorespaces Mass fluxes in a hybrid system and the construction of a ledger.\relax }}{63}
+\contentsline {figure}{\numberline {5-4}{\ignorespaces Discrete particle entering a pure continuum regime.\relax }}{64}
+\contentsline {figure}{\numberline {5-5}{\ignorespaces Mass over time for random packing.\relax }}{66}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {B-1}{\ignorespaces Armadillo slaying lawyer.\relax }}{40}
-\contentsline {figure}{\numberline {B-2}{\ignorespaces Armadillo eradicating national debt.\relax }}{41}
+\contentsline {figure}{\numberline {B-1}{\ignorespaces Armadillo slaying lawyer.\relax }}{70}
+\contentsline {figure}{\numberline {B-2}{\ignorespaces Armadillo eradicating national debt.\relax }}{71}

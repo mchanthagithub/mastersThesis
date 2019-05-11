@@ -8,9 +8,27 @@
 \contentsline {section}{\numberline {2.2}DEM Algorithm}{23}
 \contentsline {chapter}{\numberline {3}Continuum Model}{27}
 \contentsline {section}{\numberline {3.1}Hyperleastic-Plastic Model}{27}
-\contentsline {section}{\numberline {3.2}Hypoelastic-Plastic Model}{27}
-\contentsline {section}{\numberline {3.3}Material Point Method}{30}
-\contentsline {subsection}{\numberline {3.3.1}MPM Algorithm Overview}{32}
-\contentsline {subsection}{\numberline {3.3.2}MPM Formulation and Discretization}{33}
-\contentsline {chapter}{\numberline {A}Tables}{37}
-\contentsline {chapter}{\numberline {B}Figures}{39}
+\contentsline {section}{\numberline {3.2}Hypoelastic-Plastic Model}{30}
+\contentsline {section}{\numberline {3.3}Material Point Method}{33}
+\contentsline {subsection}{\numberline {3.3.1}MPM Algorithm Overview}{34}
+\contentsline {subsection}{\numberline {3.3.2}MPM Formulation and Discretization}{35}
+\contentsline {subsection}{\numberline {3.3.3}Relevant Notes on MPM}{40}
+\contentsline {chapter}{\numberline {4}Hybridization}{43}
+\contentsline {section}{\numberline {4.1}Hybridization Overview}{43}
+\contentsline {section}{\numberline {4.2}Reconciliation Zone Splitting}{45}
+\contentsline {section}{\numberline {4.3}Coupling Constraints}{47}
+\contentsline {subsection}{\numberline {4.3.1}Hybrid Coupling Discretization}{48}
+\contentsline {subsection}{\numberline {4.3.2}Nodal Coupling}{49}
+\contentsline {section}{\numberline {4.4}Domain Decomposition}{50}
+\contentsline {subsection}{\numberline {4.4.1}Oracle}{50}
+\contentsline {subsection}{\numberline {4.4.2}Homogenization and Enrichment}{52}
+\contentsline {subsection}{\numberline {4.4.3}Layered Hybridization}{54}
+\contentsline {section}{\numberline {4.5}Summary of Hybrid Algorithm}{54}
+\contentsline {chapter}{\numberline {5}Enrichment}{59}
+\contentsline {section}{\numberline {5.1}Volume Change and Mass Conservation}{60}
+\contentsline {subsection}{\numberline {5.1.1}Mass Ledger}{62}
+\contentsline {subsection}{\numberline {5.1.2}Mass Ledger Implementation}{64}
+\contentsline {section}{\numberline {5.2}Packing Schemes}{65}
+\contentsline {section}{\numberline {5.3}Hypoelastic Pressure Update}{66}
+\contentsline {chapter}{\numberline {A}Tables}{67}
+\contentsline {chapter}{\numberline {B}Figures}{69}

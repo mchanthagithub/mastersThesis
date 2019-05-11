@@ -8,11 +8,26 @@ Scott~G. Bardenhagen and Edward~M. Kober.
 \newblock {\em Computer Modeling in Engineering and Sciences}, 5(6):477--496,
   2004.
 
+\bibitem{Bergou:2007:TTDTS}
+Mikl{\'{o}}s Bergou, Saurabh Mathur, Max Wardetzky, and Eitan Grinspun.
+\newblock {T}{R}{A}{C}{K}{S}: {T}oward directable thin shells.
+\newblock {\em SIGGRAPH (ACM Transactions on Graphics)}, 26(3):50, Jul 2007.
+
+\bibitem{Beverloo:1961:Flow}
+Wim~A. Beverloo, H.~A. Leniger, and J.~Van~de Velde.
+\newblock The flow of granular solids through orifices.
+\newblock {\em Chemical Engineering Science}, 15(3):260--269, 1961.
+
 \bibitem{Bouchaud:1994}
 Jean-Philippe Bouchaud, Michael~E. Cates, Jagadeeshan~Ravi Prakash, and Sam~F.
   Edwards.
 \newblock A model for the dynamics of sandpile surfaces.
 \newblock {\em Journal de Physique I}, 4(10):1383--1410, 1994.
+
+\bibitem{Christoffersen:1981:Micromechanical}
+Jes Christoffersen, Morteza~Monte Mehrabadi, and Sia Nemat-Nasser.
+\newblock A micromechanical description of granular material behavior.
+\newblock {\em Journal of applied mechanics}, 48(2):339--344, 1981.
 
 \bibitem{Cundall:1979}
 Peter~A. Cundall and Otto D.~L. Strack.
@@ -29,6 +44,11 @@ Hachmi~Ben Dhia.
 \newblock Multiscale mechanical problems: the arlequin method.
 \newblock {\em Comptes Rendus de l'Academie des Sciences Series IIB Mechanics
   Physics Astronomy}, 12(326):899--904, 1998.
+
+\bibitem{Dijksman:2010:Granular}
+Joshua~A Dijksman and Martin van Hecke.
+\newblock Granular flows in split-bottom geometries.
+\newblock {\em Soft Matter}, 6(13):2901--2907, 2010.
 
 \bibitem{Dunatunga:2015:Continuum}
 Sachith Dunatunga and Ken Kamrin.
@@ -78,6 +98,17 @@ Ken Kamrin and Georg Koval.
   of flowing granular media.
 \newblock {\em Computational Particle Mechanics}, 1(2):169--176, 2014.
 
+\bibitem{Koval:2009:Annular}
+Georg Koval, Jean-No{\"e}l Roux, Alain Corfdir, and Fran{\c{c}}ois Chevoir.
+\newblock Annular shear of cohesionless granular materials: From the inertial
+  to quasistatic regime.
+\newblock {\em Physical Review E}, 79(2):021306, 2009.
+
+\bibitem{Lanczos:2012}
+Cornelius Lanczos.
+\newblock {\em The variational principles of mechanics}.
+\newblock 2012.
+
 \bibitem{McCarthy:1998}
 Joseph~J. McCarthy and Julio~M. Ottino.
 \newblock Particle dynamics simulation: a hybrid technique applied to granular
@@ -96,6 +127,11 @@ Kevin~W. Munns.
 \newblock Gaseous particulate interaction in a 3-phase granular simulation.
 \newblock Master's thesis, Brigham Young University, 2015.
 
+\bibitem{Pouliquen:1999:Scaling}
+Olivier Pouliquen.
+\newblock Scaling laws in granular flows down rough inclined planes.
+\newblock {\em Physics of Fluids (1994-present)}, 11(3):542--548, 1999.
+
 \bibitem{Richard:2005:Slow}
 Patrick Richard, Mario Nicodemi, Renaud Delannay, Philippe Ribi{\`e}re, and
   Daniel Bideau.
@@ -113,11 +149,21 @@ Andrew Schofield and Peter Wroth.
 \newblock {\em Critical State Soil Mechanics}.
 \newblock McGraw-Hill, London, 1968.
 
+\bibitem{Sheldon:2010:Granular}
+Hannah~G. Sheldon and Douglas~J. Durian.
+\newblock Granular discharge and clogging for tilted hoppers.
+\newblock {\em Granular Matter}, 12(6):579--585, 2010.
+
 \bibitem{Shimokawa:2007}
 Tomotsugu Shimokawa, Toshiyasu Kinari, and S~Shintaku.
 \newblock Interaction mechanism between edge dislocations and asymmetrical tilt
   grain boundaries investigated via quasicontinuum simulations.
 \newblock {\em Physical Review B}, 75(14):144108, 2007.
+
+\bibitem{Simo:1998}
+Juan~C. Simo and Thomas J.~R. Hughes.
+\newblock {\em Computational Inelasticity}.
+\newblock Springer, 1998.
 
 \bibitem{Smith:2001}
 Gregory~S. Smith, Ellad~B. Tadmor, Noam Bernstein, and Efthimios Kaxiras.
@@ -156,6 +202,12 @@ Beichuan Yan, Richard~A. Regueiro, and Stein Sture.
 \newblock Three-dimensional ellipsoidal discrete element modeling of granular
   materials and its coupling with finite element facets.
 \newblock {\em Engineering Computations}, 27(4):519--550, 2010.
+
+\bibitem{Yue:2015:Continuum}
+Yonghao Yue, Breannan Smith, Christopher Batty, Changxi Zheng, and Eitan
+  Grinspun.
+\newblock Continuum foam: A material point method for shear-dependent flows.
+\newblock {\em ACM Trans. Graph.}, 34(5):160:1--160:20, November 2015.
 
 \bibitem{Zhang:2005}
 Zhennan Zhang and Xiurun Ge.

@@ -7,6 +7,75 @@
 \chapter{Continuum Model}
 
 \section{Hyperleastic-Plastic Model} \label{hyperelastic_model}
+We model continuum granular regions as an elastoplastic material with a Drucker-Prager plastic yield criterion. The evolution of the system is governed by the conservation of momentum
+\begin{align}
+\rho \frac{D \bm{v}}{D t} &= \nabla \cdot \sigma + \rho \bm{f}_{ext} ,
+\end{align}
+and the conservation of mass
+\begin{align}
+\frac{D \rho}{D t} + \rho \nabla \cdot \bm{v} = 0 ,
+\end{align}
+where $\sigma$ denotes the Cauchy stress tensor, $\frac{D \cdot}{D t}$ denotes the material derivative, and $\bm{f}_{ext}$ denotes any external body forces (e.g. gravity). We use a multiplicative decomposition of the deformation gradient $\boldsymbol{F} = \boldsymbol{F}^e \boldsymbol{F}^p$ where $\boldsymbol{F}^e$ and $\boldsymbol{F}^p$ denote the elastic and the plastic component of the deformation gradient, respectively. We denote the left Cauchy-Green strain by $\boldsymbol{b} = \boldsymbol{F} \boldsymbol{F}^T$.
+
+Under small strains, the material behaves elastically. We employ a simple strain energy density to model the elastic behavior. In 2D the strain energy and Kirchhoff stress are given by
+\begin{align}
+W &= \frac{\kappa}{2} \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} \mu ( Tr[ \bar{\bm{b}}^e ] - 2 ) , \\
+\tau &= \frac{\kappa}{2} \left( J^2 - 1 \right) \bm{I} + \mu dev[\bar{\bm{b}}^e] ,
+\end{align}
+where $\bar{\bm{b}}^e = det\left( \bm{b}^e \right)^{-1/2} \bm{b}^e$ is the volume preserving elastic left Cauchy-Green strain and $J = det\left( \bm{F} \right)$. In 3D, the strain energy density becomes $W = \frac{1}{2} \kappa \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} \mu ( Tr[ \bar{\bm{b}}^e ] - 3 )$ while $\bar{\bm{b}}^e = det\left( \bm{b}^e \right)^{-1/3} \bm{b}^e$. $\kappa$ and $\mu$ are the bulk and shear moduli respectively of the material.
+
+To allow the granular medium to separate, we consider the medium to be one-sided in the following sense: the granular medium can resist compression, but not extension. We model this effect with a free-flow mode, similar to Dunatunga et al. \cite{Dunatunga:2015:Continuum}. When we detect that the material is in extension, indicated by $det[\bm{b}^e] > 1$, we project the strain to $det[\bm{b}^e] = 1$ by assigning $\bm{b}^e \leftarrow det\left( \bm{b}^e \right)^{-1/2} \bm{b}^e$ ($\bm{b}^e \leftarrow det\left( \bm{b}^e \right)^{-1/3} \bm{b}^e$ in 3D). The net result is zero pressure when the material is under extension.
+
+We model plastic flow with the Drucker-Prager yield condition
+\begin{align}
+\Phi = s - \alpha p \leq 0,
+\end{align}
+where $s = \| dev[\tau] \|_F$ is the magnitude of the shear stress (recall that $dev[\bm{X}] = \bm{X} - \frac{1}{2} Tr[\bm{X}] \bm{I}$), $p = -\frac{1}{2}Tr[\tau]$ is the pressure ($dev[\bm{X}] = \bm{X} - \frac{1}{3} Tr[\bm{X}] \bm{I}$ and $p = -\frac{1}{3}Tr[\tau]$ in 3D), and $\alpha$ controls the angle of repose. It often proves useful to express the yield in terms of strain, in which case we find that $\Phi = \mu \|  dev[ \bar{\bm{b}}^e ] \|_F + \alpha \frac{\kappa}{2} \left( J^2 - 1 \right)$. The Drucker-Prager yield criterion corresponds intuitively with the notion of Coulomb friction in the discrete setting; the shear stress (continuum analog of force in the tangential plane) is capped at the magnitude of the pressure (continuum analog of the normal force) scaled by a constant $\alpha$ (continuum analog of $\mu$). When $\Phi \leq 0$, the material behaves elastically. When $\Phi > 0$, however, the material sustains plastic shape change. Crucially, a Drucker-Prager treatment of yield allows us to tune the angle of repose of a pile to match that of a discrete element simulation.
+
+We model the granular medium as perfectly plastic: all excess yield is immediately converted into plastic deformation. We discretize the elastoplastic update rule for the strain $\dot{\bm{b}}^e = \nabla \bm{v} \bm{b}^e + \bm{b}^e \nabla \bm{v}^T + \mathcal{L}_{\bm{v}} \bm{b}^e$ with the return mapping method \cite{Simo:1998}. The result is a predictor-corrector style update for the strain. We first update $\bm{b}^{e}$ through $\dot{\bm{b}}^e = \nabla \bm{v} \bm{b}^e + \bm{b}^e \nabla \bm{v}^T$, ignoring any plastic flow. This predicted strain can now violate the yield condition. To remove yield excess from $\bm{b}^{e,*}$, where $*$ denotes some violating state, we impose two constraints on the plastic flow to project the material to a violation-free state. First, the plastic granular flow should conserve volume, and the projected strain $det[\bm{b}^{e,p}]$ should satisfy $det[\bm{b}^{e,p}] = det[\bm{b}^{e,*}]$. Second, to satisfy the yield condition, we seek $\Phi\left( \tau\left( \bm{b}^{e,p} \right) \right) = 0$. We consider the flow to be in the direction of the shear and we decompose the projected strain as $\bm{b}^{e,p} = \lambda_1 \bm{I} + \lambda_2 dev[det[\bm{b}^{e,*}]]$.
+
+Expanding the constraint $\Phi\left( \tau\left( \bm{b}^{e,p} \right) \right) = 0$, we find:
+\begin{align}
+\begin{aligned}
+  %\Phi\left( \tau \left( \bm{b}^{e,p} \right) \right) &= \| dev[ \tau\left( \bm{b}^{e,p} \right) ] \|_F + \frac{\alpha}{2} \Tr[ \tau\left( \bm{b}^{e,p} \right) ] \\
+  %                                                            &= \mu \| dev[\bm{b}^{e,p}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
+  %                                                            &= \mu \lambda_2 \| dev[\bm{b}^{e,*}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ).
+  \Phi\left( \tau \left( \bm{b}^{e,p} \right) \right) &= \mu \| dev[\bm{b}^{e,p}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
+                                                              &= \mu \lambda_2 \| dev[\bm{b}^{e,*}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ).
+\end{aligned}
+\end{align}
+Equating to $0$ and solving for $\lambda_2$, we conclude that:
+\begin{align}
+  \lambda_2 = - \left(\alpha \frac{\kappa}{2} ( J^2 - 1 )\right) / \left( \mu \| dev[\bm{b}^{e,*}] \|_F \right).
+\end{align}
+Similarly, if we expand $det[\bm{b}^{e,p}]$ we find 
+\begin{align}
+\begin{aligned}
+  %det[\bm{b}^{e,p}] &= det[ \lambda_1 \bm{I} + \lambda_2 dev[\boldsymbol{b}^{e,*}] ] \\
+  %                           &= \lambda_1^2 det[ \bm{I} + \frac{\lambda_2}{\lambda_1} dev[\bm{b}^{e,*}] ].
+  det[\bm{b}^{e,p}] = det[ \lambda_1 \bm{I} + \lambda_2 dev[\bm{b}^{e,*}] ].
+\end{aligned}
+\end{align}
+In 2D, recalling that $det[\bm{I} + \bm{A}] = 1 + det[\bm{A}] + Tr[\bm{A}]$, we have
+$det[\bm{I} + dev[\bm{A}]] = 1 + det[dev[\bm{A}]]$. Then, we arrive at
+\begin{align}
+\begin{aligned}
+  det[\bm{b}^{e,p}] &= \lambda_1^2 det[ \bm{I} + \frac{\lambda_2}{\lambda_1} dev[\bm{b}^{e,*}] ] \\
+                             &= \lambda_1^2 \left( 1 + \frac{\lambda_2^2}{\lambda_1^2} det[ dev[\bm{b}^{e,*}] ] \right) \\
+                             &= \lambda_1^2 + \lambda_2^2 det[ dev[\bm{b}^{e,*}] ].
+\end{aligned}
+\end{align}
+Equating to $det[\bm{b}^{e,*}]$ and solving for $\lambda_1$ we find:
+\begin{align}
+  \lambda_1 = \sqrt{det[\bm{b}^{e,*}] - \lambda_2^2 det[ dev[\bm{b}^{e,*}]]}.
+\end{align}
+In 3D, recalling that $det[\bm{I} + \bm{A}] = 1 + det[\bm{A}] + Tr[\bm{A}] + \frac{1}{2}Tr[\bm{A}]^2 - \frac{1}{2}Tr[\bm{A}^2]$, we have $det[\bm{I} + dev[\bm{A}]] = 1 + det[dev[\bm{A}]]-\frac{1}{2}\|dev[\bm{A}] \|^2_F$. Then, we arrive at
+\begin{align}
+  \label{eq:lambda13d}
+  \lambda^3_1 + \lambda^3_2 det[dev[\bm{b}^{e,*}]] - \frac{\lambda_1 \lambda^2_2}{2} \|dev[\bm{b}^{e,*}]\|^2_F - det[\bm{b}^{e,*}] = 0.
+\end{align}
+We employ Cardano's method to analytically solve \eqref{eq:lambda13d} and obtain $\lambda_1$.
+With $\lambda_1$ and $\lambda_2$ in hand, we are able to easily project $\bm{b}^{e,*}$ and enable the plastic flow.
 
 \section{Hypoelastic-Plastic Model} \label{hypoelastic_model}
 In general, hypoelastic models differ from hyperelastic models in that the stress is not obtained from a gradient of a strain energy density function with respect to deformation. The specific hypoelastic granular continuum model used in this study was developed by Dunatunga and Kamrin \cite{Dunatunga:2015:Continuum}. To start one again begins with momentum balance and mass balance
@@ -132,9 +201,39 @@ where h is the element length. The gradient is then defined as
 \end{equation}
 The second class of basis functions used are known as GIMP (Generalized Interpolation Material Point) basis functions. GIMP basis functions take into account a finite size for the points (instead of a delta function classically used), and integrate the bases across this point domain. This extended support for the GIMP basis functions result in smoother grid crossings and higher order approximations. First order GIMP basis functions (resulting in 2nd order field approximations) were used, with details being found in \cite{Bardenhagen:2004}.
 
-The product of these basis functions in additional directions in 2D and 3D then form the basis in those dimensions.
+The product of these basis functions in additional directions in 2D and 3D then form the basis in those dimensions. Note that from now on, all basis function values are taken for the point locations at time $n$, and so for brevity the superscript $n$ is not included for the basis functions $S_{ip}$ and gradients $\nabla S_{ip}$.
 
-Note that from now on, all basis function values are taken for the point locations at time $n$, and so for brevity the superscript $n$ is not included for the basis functions $S_{ip}$ and gradients $\nabla S_{ip}$. To begin, the point masses and momenta are projected onto the nodes via the operations previously described. 
+\begin{algorithm}
+  \caption{${\tt Overall \_ MPM \_ Algorithm}$}
+  \begin{algorithmic}[1]
+  \State ${\tt projectPointMasses}$
+  \State ${\tt projectPointMomentum}$
+  \If{$\tt Hypoelastic Model$}
+  	\State ${\tt updateVolume}$
+	\State ${\tt computeHypoelasticCauchyStress}$
+  \ElsIf{$\tt HyperelasticModel$}
+  	\State ${\tt updateVolumetricStrain}$
+	\State ${\tt computeHyperelasticCauchyStress}$ 
+  \EndIf
+  \State ${\tt projectForces}$ 
+  \State ${\tt updateNodalMomentum}$
+  \State ${\tt resolveNodalPlaneCollision}$
+  \State ${\tt updateNodalVelocityAndAcceleration}$
+  \State ${\tt updatePointVelocityGradient}$
+  \If{$\tt Hyperelastic Model$}
+  	\State ${\tt elasticPrediction}$
+	\State ${\tt plasticCorrection}$
+  \EndIf
+  \State ${\tt updatePointVelocities}$
+  \State ${\tt updatePointPositions}$
+  \State ${\tt resolvePointPlaneCollision}$
+  \State ${\tt clearGridData}$
+  \end{algorithmic}
+  \label{alg:MPM_algorithm}
+\end{algorithm}
+
+
+To begin, the point masses and momenta are projected onto the nodes via the operations previously described. 
 \begin{equation}
 {m_i}^n=\sum_pS_{ip}{m_p}^n,\ ({{\bm{mv}}_i})^n=\sum_pS_{ip}({{\bm{mv}}_p})^n\label{mass_and_mom_projection}
 \end{equation}
@@ -192,6 +291,19 @@ A strategy that is used to obtain some middle ground between the two strategies 
 \end{equation}
 where $\alpha$ is a parameter used to tune how much one wants a PIC vs a FLIP update. A large $\alpha$ value is often used, as better angular momentum conservation is usually desired over better numerical stability, though a small portion of PIC velocity still helps with stability. In this study, $\alpha$ was set to between 0.95 and 1.0 for all simulations. 
 
-Finally, the points are advected. 
+The points are then advected via
+\begin{equation}
+\bm{x}^{n+1}_p=\bm{x}^n_p+\Delta t\sum_{i}S_{ip}\bm{v}^{n+1}_i
+\end{equation}
+Another collision check is conducted on the advected position of the points. This collision check is very similar to the nodal check, wherein all of the points are looped over, a check for collision against any rigid planes is done, and the normal relative velocity is set to 0 for sliding planes and the entire velocity is set to 0 for sticky planes. Finally, the nodal quantities on the grid are all set to 0, effectively resetting the grid state.
 
-As alluded to with the "FEM-like solve", MPM can be interpreted as a finite element method, with a single point 
+\subsection{Relevant Notes on MPM}
+As alluded to with the "FEM-like solve", MPM can be interpreted as a finite element method with a single point quadrature integration rule, where the quadrature points are the MPM points. Both start from a weak form formulation and are discretized into points/elements, with interpolation conducted under some basis. However in MPM, there is no strict notion of connectivity. Instead, communication of points is done through the projection of the point quantities to the nodes.
+
+In the original MPM formulation described by Sulsky, the extent of the points are described via $\delta(x)$ functions, and so only project to the grid nodes of the element that the point is currently in. If two points project to the same grid node, then connectivity is in effect established between the points. This then implies that if two points start out "connected", or are at most in directly adjacent cells, and then become separated by a completely empty element, they lose connectivity, completely separating the two points. While this can be useful in some applications to capture fracture, such as in the modeling of snow breakage in graphics usage \textcolor{red}{FINDREFERENCE}, it should be stated that this in fact numerical error. While schemes that integrate a point across a finite extent, such as GIMP, ameliorate this problem somewhat, this is not a complete fix. Thus while MPM avoids having grid cell inversions and other issues inherent in a completely lagrangian mesh, a sort of numerical fracture becomes the byproduct.
+
+Numerical fracture is not the only issue that can arise however. In a somewhat less catastrophic error, the fact that the MPM points are effectively quadrature points, and they are allowed to advect from cell to cell, means that integration errors can occur. For example, a simulation can begin with the same number of MPM points per cell for all cells representing the body, exactly integrating those elements. Over time however, the volumes that the MPM points represent deform and change in size, and the points themselves move. This can mean that if at a certain timestep, a cell contains much fewer points than the simulation started with, that portion of the body can be under-integrated. On the other hand, a cell may have a large concentration of points, with the volumes that the points represent actually overlapping; over-integration of that portion of the domain then results.
+
+Techniques exist to address these points. To better track the deformation of the volume that the MPM point represents in order to help with over and under integration, the previously mentioned GIMP as well as the Convected Particle Domain Interpolation (CPDI) technique can be used. CPDI, as its name implies, convects and keeps track of the representation of the MPM point volume, so that the area over which one integrates changes with MPM deformation \textcolor{red}{FINDREFERENCE}.
+
+Resampling can also help to avoid over or under integration, keeping the MPM point concentration similar to what the simulation started with. A resampling algorithm was developed by Yue et al in the context of using MPM for foam modeling, where very large deformations occur that can result in under integration \cite{Yue:2015:Continuum}. This technique, called Avoid a Void, is used in the current study both for the MPM simulations as well as the basis for a component of hybridization later discussed. 
