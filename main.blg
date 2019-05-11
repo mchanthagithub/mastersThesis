@@ -8,8 +8,6 @@ A level-1 auxiliary file: chap02_dem.aux
 A level-1 auxiliary file: chap03_continuum.aux
 A level-1 auxiliary file: chap04_hybridization.aux
 A level-1 auxiliary file: chap06_enrichment.aux
-A level-1 auxiliary file: appa.aux
-A level-1 auxiliary file: appb.aux
 A level-1 auxiliary file: biblio.aux
 The style file: plain.bst
 Database file #1: main.bib
@@ -17,7 +15,7 @@ Warning--empty publisher in Lanczos:2012
 Warning--empty journal in Smith:2005
 You've used 40 entries,
             2118 wiz_defined-function locations,
-            803 strings with 11291 characters,
+            801 strings with 11275 characters,
 and the built_in function-call counts, 13198 in all, are:
 = -- 1308
 > -- 615

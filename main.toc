@@ -24,11 +24,14 @@
 \contentsline {subsection}{\numberline {4.4.2}Homogenization and Enrichment}{52}
 \contentsline {subsection}{\numberline {4.4.3}Layered Hybridization}{54}
 \contentsline {section}{\numberline {4.5}Summary of Hybrid Algorithm}{54}
-\contentsline {chapter}{\numberline {5}Enrichment}{59}
+\contentsline {chapter}{\numberline {5}Enrichment and Homogenization Improvements}{59}
 \contentsline {section}{\numberline {5.1}Volume Change and Mass Conservation}{60}
 \contentsline {subsection}{\numberline {5.1.1}Mass Ledger}{62}
 \contentsline {subsection}{\numberline {5.1.2}Mass Ledger Implementation}{64}
 \contentsline {section}{\numberline {5.2}Packing Schemes}{65}
-\contentsline {section}{\numberline {5.3}Hypoelastic Pressure Update}{66}
-\contentsline {chapter}{\numberline {A}Tables}{67}
-\contentsline {chapter}{\numberline {B}Figures}{69}
+\contentsline {subsection}{\numberline {5.2.1}Random Packing}{66}
+\contentsline {subsection}{\numberline {5.2.2}Grid Packing}{67}
+\contentsline {subsection}{\numberline {5.2.3}Circle Sweep}{69}
+\contentsline {subsection}{\numberline {5.2.4}Two Point Tangent}{70}
+\contentsline {subsection}{\numberline {5.2.5}Packing Scheme Results}{70}
+\contentsline {section}{\numberline {5.3}Hypoelastic Pressure Update}{70}
