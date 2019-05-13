@@ -8,10 +8,10 @@
 \contentsline {section}{\numberline {2.2}DEM Algorithm}{25}
 \contentsline {chapter}{\numberline {3}Continuum Model}{29}
 \contentsline {section}{\numberline {3.1}Hyperleastic-Plastic Model}{29}
-\contentsline {section}{\numberline {3.2}Hypoelastic-Plastic Model}{32}
-\contentsline {section}{\numberline {3.3}Material Point Method}{35}
-\contentsline {subsection}{\numberline {3.3.1}MPM Algorithm Overview}{36}
-\contentsline {subsection}{\numberline {3.3.2}MPM Formulation and Discretization}{37}
+\contentsline {section}{\numberline {3.2}Hypoelastic-Plastic Model}{33}
+\contentsline {section}{\numberline {3.3}Material Point Method}{36}
+\contentsline {subsection}{\numberline {3.3.1}MPM Algorithm Overview}{37}
+\contentsline {subsection}{\numberline {3.3.2}MPM Formulation and Discretization}{38}
 \contentsline {subsection}{\numberline {3.3.3}Relevant Notes on MPM}{42}
 \contentsline {chapter}{\numberline {4}Hybridization}{45}
 \contentsline {section}{\numberline {4.1}Hybridization Overview}{45}

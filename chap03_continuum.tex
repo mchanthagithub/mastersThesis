@@ -4,8 +4,9 @@
 %% You can process specific files by typing their names in at the 
 %% \files=
 %% prompt when you run the file main.tex through LaTeX.
+\def\b_p{\bm{B}^{e,p}}
 \chapter{Continuum Model}
-We use two continuum models in this study. The first, a hyperelastic formulation, is the model used for all of the simulations shown in the Results section. The second, a hypoelastic formulation, is used to extend the hybrid technique for geometries like inclined chute flow.
+We use two continuum models in this study. The first, a hyperelastic formulation, is the model used for all of the simulations shown in the Results section. The second, a hypoelastic formulation, is used to extend the hybrid technique for geometries like inclined chute flow. The notation used mostly follows that of Gurtin, Fried and Anand \cite{Gurtin10}. Bold face Greek and Latin characters are tensors and vectors (differentiated by context), non-bold face Greek and Latin characters are scalers, the trace of a tensor $\bm{A}$ is $tr\bm{A}$, and the deviator, or trace-less part of a tensor is denoted by a subscript 0, such that $\bm{A}_0=\bm{A}-\frac{1}{dim}tr{\bm{A}}\bm{I}$, where $dim$ is the spatial dimension of the domain being considered.
 
 \section{Hyperleastic-Plastic Model} \label{hyperelastic_model}
 To begin the discussion of the hyperelastic model, the evolution of the system is governed by the conservation of momentum
@@ -16,68 +17,78 @@ and the conservation of mass
 \begin{align}
 \frac{D \rho}{D t} + \rho \nabla \cdot \bm{v} = 0 ,
 \end{align}
-where $\sigma$ denotes the Cauchy stress tensor, $\frac{D \cdot}{D t}$ denotes the material derivative, and $\bm{f}_{ext}$ denotes any external body forces (e.g. gravity). A multiplicative decomposition of the deformation gradient $\boldsymbol{F} = \boldsymbol{F}^e \boldsymbol{F}^p$ is used, where $\boldsymbol{F}^e$ and $\boldsymbol{F}^p$ denote the elastic and the plastic component of the deformation gradient, respectively. The left Cauchy-Green strain is defined as $\boldsymbol{b} = \boldsymbol{F} \boldsymbol{F}^T$.
+where $\sigma$ is the Cauchy stress tensor, $\frac{D}{D t}$ is the material derivative, and $\bm{f}_{ext}$ denotes any external body forces, like gravity. 
 
-A hyperelastic model is one in which the stress is derived as some function of a strain energy density.
-Under small strains, we desire to have the material behave elastically. In 2D the strain energy density function we use to achieve this and the resulting Kirchhoff stress from this function are given by
+In order to fully close the model, one must further define the kinematics and the constitutive law of the system. In regards to the kinematics, we make use of the classic large deformation kinematics governed by $\bm{F}$, the deformation gradient, defined as
+\begin{equation}
+\bm{F}=\partial\bm{x}/\partial\bm{X}
+\end{equation}
+where $\bm{x}$ is the coordinate space of a deformed body and $\bm{X}$ is the coordinate space of the reference body. Furthermore, with the use of plasticity in our constitutive law, we take the Kroner, or multiplicative, decomposition of the deformation gradient, $\bm{F}=\bm{F}^e\bm{F}^p$. $\bm{F}^e$ is the elastic, and $\bm{F}^p$ is the plastic component of the deformation gradient. Again connecting to the constitutive law, we define and make use of $\bm{B}$, the left Cauchy-Green strain tensor defined as $\bm{B}=\bm{F}\bm{F}^T$. 
+
+Being a hyperleastic model, the constitutive law is derived from a strain energy density function.
+Under small strains, we desire to have the material behave elastically. In 2D the strain energy density function we use to achieve this is:
+\begin{equation}
+W = \frac{\kappa}{2} \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} G ( Tr[ \bar{\bm{B}}^e ] - 2 )
+\end{equation}
+and in 3D is:
+\begin{equation}
+W = \frac{1}{2} \kappa \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} G ( Tr[ \bar{\bm{B}}^e ] - 3 )
+\end{equation}
+where $\bar{\bm{B}}^e = det\left( \bm{B}^e \right)^{-1/{dim}} \bm{B}^e$ is the isovolumetric component of the elastic left Cauchy-Green strain, $J = det\left( \bm{F} \right)$, and $dim$ is the spatial dimension (2 for 2D and 3 for 3D). The resulting Kirchoff stress is:
+\begin{equation}
+\tau = \frac{\kappa}{2} \left( J^2 - 1 \right)\bm{I} + G dev[\bar{\bm{b}}^e] \label{kirchoff_stress_hyper}
+\end{equation}
+where $\kappa$ and $G$ are the bulk and shear moduli respectively of the material.
+
+One of the key properties of a granular media is that like a solid it can resist compression, but under tension it changes phases, acts like a fluid, and cannot resist extension. Therefore to allow the granular medium to separate with no resistance, we consider a "no-tension" rule. We model this effect with a free-flow mode, similar to Dunatunga et al. \cite{Dunatunga:2015:Continuum}. If $det[\bm{B}^e]>1$, the material is in extension. When this occurs, the deformation of the material is projected into the isovolumetric space where $det[\bm{B}^e]=1$, by multiplying by the inverse of $J^2$, or $\bm{B}^e=det\left( \bm{B}^e \right)^{-1/{dim}} \bm{B}^e$. With no elastic volumetric strain under this projection in tension, the pressure drops to 0.
+
+In order to incorporate plasticity, we must define a yield condition and a plastic flow rate. For the yield condition we take a simple Drucker-Prager model defined as
 \begin{align}
-W &= \frac{\kappa}{2} \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} \mu ( Tr[ \bar{\bm{b}}^e ] - 2 ) , \\
-\tau &= \frac{\kappa}{2} \left( J^2 - 1 \right) \bm{I} + \mu dev[\bar{\bm{b}}^e] ,
+\Phi = \bar{\tau} - \mu p \leq 0,
 \end{align}
-where $\bar{\bm{b}}^e = det\left( \bm{b}^e \right)^{-1/2} \bm{b}^e$ is the volume preserving elastic left Cauchy-Green strain and $J = det\left( \bm{F} \right)$. In 3D, the strain energy density becomes $W = \frac{1}{2} \kappa \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} \mu ( Tr[ \bar{\bm{b}}^e ] - 3 )$ while $\bar{\bm{b}}^e = det\left( \bm{b}^e \right)^{-1/3} \bm{b}^e$. $\kappa$ and $\mu$ are the bulk and shear moduli respectively of the material.
+where $\mu$ is the internal friction coefficient, $\bar{\tau}$ is the equivalent shear stress and p is the pressure defined by
+\begin{equation}
+\bar{\tau}=\sqrt{\frac{1}{2}(\bm{\sigma_0}:\bm{\sigma_0})}\label{tau_bar}
+\end{equation}
+\begin{equation}
+p=-\frac{1}{3}\bm{\sigma}\label{pressure_stress}
+\end{equation}
+Substituting in the elastic constitutive law (\ref{kirchoff_stress_hyper}), the yield condition can also be expressed as
+\begin{equation}
+\Phi = G \|  dev[ \bar{\bm{b}}^e ] \|_F + \mu \frac{\kappa}{2} \left( J^2 - 1 \right) \label{yield_hyper_strain}
+\end{equation}
+When $\Phi \leq 0$, the material behaves elastically and no plastic evolution occurs, while when $\Phi > 0$, the material plastically flows. The Drucker-Prager yield criterion looks very similar in form to Coulomb friction, and this is not a coincidence. An analogy can be drawn between the two, such that when the yield function is less than 0, the shear stress (or tangential force) is not enough to overcome the pressure scaled by the internal friction coefficient (normal force and friction coefficient) and the material deforms elastically (does not slip). When the yield criterion is met, then yield, or slip occurs. Much like how the friction coefficient can be used to control the incline angle at which a block at rest will start slipping, the internal friction coefficient $\mu$ is a tuning parameter that controls how easily the material yields, which macroscopically determines behavior like the repose angle of a pile of collapsed grains.
 
-To allow the granular medium to separate, we consider a "no-tension" rule: the granular medium can resist compression, but not extension. We model this effect with a free-flow mode, similar to Dunatunga et al. \cite{Dunatunga:2015:Continuum}. When we detect that the material is in extension, indicated by $det[\bm{b}^e] > 1$, we project the strain to $det[\bm{b}^e] = 1$ by assigning $\bm{b}^e \leftarrow det\left( \bm{b}^e \right)^{-1/2} \bm{b}^e$ ($\bm{b}^e \leftarrow det\left( \bm{b}^e \right)^{-1/3} \bm{b}^e$ in 3D). The net result is zero pressure when the material is under extension.
+To complete the system definition we require a plastic flow rule. We choose to ignore any sort of plastic softening or hardening effects to keep the flow rule as simple as possible, and so we model the granular continuum as perfectly plastic. We also assume isochoric plastic flow. One advantage of this perfect plasticity approach is that we do not have to track plastic strains, which in a granular medium can be very large. This would result in numerical issues, as $\bm{F}^p$ can become very large in comparison to $\bm{F}^e$. Thus, we only track the evolution of the elastic strain measure of choice, $\bm{B}^e$ through the evolution rule
+\begin{equation}
+\dot{\bm{B}}^e = \nabla \bm{v} \bm{B}^e + \bm{B}^e \nabla \bm{v}^T + \mathcal{L}_{\bm{v}} \bm{B}^e
+\end{equation}
+We take into account the yield condition by taking a predictor-corrector style of approach and follow the return mapping method of Simo \cite{Simo:1998}. First the strains and stresses are assumed to be purely elastic and we update $\bm{B}^e$ via
+\begin{equation}
+\dot{\bm{B}}^e = \nabla \bm{v} \bm{B}^e + \bm{B}^e \nabla \bm{v}^T
+\end{equation}
+The new predicted $\bm{B}^e$, which we denote as $\bm{B}^{e,*}$, is then used to calculate a new stress and pressure $\bar{\tau}^*$, and $p^*$ respectively. If $\Phi \leq 0$ then the system is not plastically yielding, and so the predictor $*$ quantities are taken as the final, end-step quantities. If however, $\Phi > 0$ then the yield criterion is violated.
 
-We model plastic flow with the Drucker-Prager yield condition
-\begin{align}
-\Phi = s - \alpha p \leq 0,
-\end{align}
-where $s = \| dev[\tau] \|_F$ is the magnitude of the shear stress (recall that $dev[\bm{X}] = \bm{X} - \frac{1}{2} Tr[\bm{X}] \bm{I}$), $p = -\frac{1}{2}Tr[\tau]$ is the pressure ($dev[\bm{X}] = \bm{X} - \frac{1}{3} Tr[\bm{X}] \bm{I}$ and $p = -\frac{1}{3}Tr[\tau]$ in 3D), and $\alpha$ controls the angle of repose. It often proves useful to express the yield in terms of strain, in which case we find that $\Phi = \mu \|  dev[ \bar{\bm{b}}^e ] \|_F + \alpha \frac{\kappa}{2} \left( J^2 - 1 \right)$. The Drucker-Prager yield criterion corresponds intuitively with the notion of Coulomb friction in the discrete setting; the shear stress (continuum analog of force in the tangential plane) is capped at the magnitude of the pressure (continuum analog of the normal force) scaled by a constant $\alpha$ (continuum analog of $\mu$). When $\Phi \leq 0$, the material behaves elastically. When $\Phi > 0$, however, the material deforms plastically. Crucially, a Drucker-Prager yield criterion allows us to tune the angle of repose of a pile to match that of a discrete element simulation.
-
-We model the granular medium as perfectly plastic: all excess yield is immediately converted into plastic deformation. We discretize the elastoplastic update rule for the strain $\dot{\bm{b}}^e = \nabla \bm{v} \bm{b}^e + \bm{b}^e \nabla \bm{v}^T + \mathcal{L}_{\bm{v}} \bm{b}^e$ with the return mapping method \cite{Simo:1998}. The result is a predictor-corrector style update for the strain. We first update $\bm{b}^{e}$ through $\dot{\bm{b}}^e = \nabla \bm{v} \bm{b}^e + \bm{b}^e \nabla \bm{v}^T$, ignoring any plastic flow. This predicted strain can now violate the yield condition. To remove yield excess from $\bm{b}^{e,*}$, where $*$ denotes some violating state, we impose two constraints on the plastic flow to project the material to a violation-free state. First, the plastic granular flow should conserve volume, and the projected strain $det[\bm{b}^{e,p}]$ should satisfy $det[\bm{b}^{e,p}] = det[\bm{b}^{e,*}]$. Second, to satisfy the yield condition, we seek $\Phi\left( \tau\left( \bm{b}^{e,p} \right) \right) = 0$. We consider the flow to be in the direction of the shear and we decompose the projected strain as $\bm{b}^{e,p} = \lambda_1 \bm{I} + \lambda_2 dev[det[\bm{b}^{e,*}]]$.
-
-Expanding the constraint $\Phi\left( \tau\left( \bm{b}^{e,p} \right) \right) = 0$, we find:
+To return the material to a valid state, we keep in mind the isochoric plastic flow requirement as well as the fact that final accepted state, which we denote as $\b_p$ must satisfy the yield condition, such that $\Phi{\b_p}$. We also assume that plastic flow is codirectional with the shear stress. With these assumptions in place, the admissible strain is decomposed into
+\begin{equation}
+\bm{B}^{e,p}=\lambda_1\bm{I}+\lambda_2 dev[det[\bm{B}^{e,*}]] \label{be_split}
+\end{equation}
+The goal is to solve for $\lambda_1$ and $\lambda_2$ that satisfies the constraints. We therefore substitute (\ref{be_split}) into (\ref{yield_hyper_strain}) to obtain:
 \begin{align}
 \begin{aligned}
-  %\Phi\left( \tau \left( \bm{b}^{e,p} \right) \right) &= \| dev[ \tau\left( \bm{b}^{e,p} \right) ] \|_F + \frac{\alpha}{2} \Tr[ \tau\left( \bm{b}^{e,p} \right) ] \\
-  %                                                            &= \mu \| dev[\bm{b}^{e,p}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
-  %                                                            &= \mu \lambda_2 \| dev[\bm{b}^{e,*}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ).
-  \Phi\left( \tau \left( \bm{b}^{e,p} \right) \right) &= \mu \| dev[\bm{b}^{e,p}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
-                                                              &= \mu \lambda_2 \| dev[\bm{b}^{e,*}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ).
+  \Phi\left( \tau \left( \bm{B}^{e,p} \right) \right) &= \mu \| dev[\bm{B}^{e,p}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
+                                                             &= \mu \lambda_2 \| dev[\bm{B}^{e,*}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
+&= 0
 \end{aligned}
 \end{align}
-Equating to $0$ and solving for $\lambda_2$, we conclude that:
-\begin{align}
-  \lambda_2 = - \left(\alpha \frac{\kappa}{2} ( J^2 - 1 )\right) / \left( \mu \| dev[\bm{b}^{e,*}] \|_F \right).
-\end{align}
-Similarly, if we expand $det[\bm{b}^{e,p}]$ we find 
-\begin{align}
-\begin{aligned}
-  %det[\bm{b}^{e,p}] &= det[ \lambda_1 \bm{I} + \lambda_2 dev[\boldsymbol{b}^{e,*}] ] \\
-  %                           &= \lambda_1^2 det[ \bm{I} + \frac{\lambda_2}{\lambda_1} dev[\bm{b}^{e,*}] ].
-  det[\bm{b}^{e,p}] = det[ \lambda_1 \bm{I} + \lambda_2 dev[\bm{b}^{e,*}] ].
-\end{aligned}
-\end{align}
-In 2D, recalling that $det[\bm{I} + \bm{A}] = 1 + det[\bm{A}] + Tr[\bm{A}]$, we have
-$det[\bm{I} + dev[\bm{A}]] = 1 + det[dev[\bm{A}]]$. Then, we arrive at
-\begin{align}
-\begin{aligned}
-  det[\bm{b}^{e,p}] &= \lambda_1^2 det[ \bm{I} + \frac{\lambda_2}{\lambda_1} dev[\bm{b}^{e,*}] ] \\
-                             &= \lambda_1^2 \left( 1 + \frac{\lambda_2^2}{\lambda_1^2} det[ dev[\bm{b}^{e,*}] ] \right) \\
-                             &= \lambda_1^2 + \lambda_2^2 det[ dev[\bm{b}^{e,*}] ].
-\end{aligned}
-\end{align}
-Equating to $det[\bm{b}^{e,*}]$ and solving for $\lambda_1$ we find:
-\begin{align}
-  \lambda_1 = \sqrt{det[\bm{b}^{e,*}] - \lambda_2^2 det[ dev[\bm{b}^{e,*}]]}.
-\end{align}
-In 3D, recalling that $det[\bm{I} + \bm{A}] = 1 + det[\bm{A}] + Tr[\bm{A}] + \frac{1}{2}Tr[\bm{A}]^2 - \frac{1}{2}Tr[\bm{A}^2]$, we have $det[\bm{I} + dev[\bm{A}]] = 1 + det[dev[\bm{A}]]-\frac{1}{2}\|dev[\bm{A}] \|^2_F$. Then, we arrive at
-\begin{align}
-  \label{eq:lambda13d}
-  \lambda^3_1 + \lambda^3_2 det[dev[\bm{b}^{e,*}]] - \frac{\lambda_1 \lambda^2_2}{2} \|dev[\bm{b}^{e,*}]\|^2_F - det[\bm{b}^{e,*}] = 0.
-\end{align}
-We employ Cardano's method to analytically solve \eqref{eq:lambda13d} and obtain $\lambda_1$.
-With $\lambda_1$ and $\lambda_2$ in hand, we are able to easily project $\bm{b}^{e,*}$ and enable the plastic flow.
+We use the expansions of the determinants such that in 2D, $det[\bm{I} + \bm{A}] = 1 + det[\bm{A}] + Tr[\bm{A}]$ and in 3D, $det[\bm{I} + \bm{A}] = 1 + det[\bm{A}] + Tr[\bm{A}] + \frac{1}{2}Tr[\bm{A}]^2 - \frac{1}{2}Tr[\bm{A}^2]$, to, after some mathematical manipulation arrive at a system of equations for $\lambda_1$ and $\lambda_2$:
+\begin{equation}
+\lambda_1 = \sqrt{det[\bm{B}^{e,*}] - \lambda_2^2 det[ dev[\bm{B}^{e,*}]]}
+\end{equation}
+\begin{equation}
+\lambda^3_1 + \lambda^3_2 det[dev[\bm{B}^{e,*}]] - \frac{\lambda_1 \lambda^2_2}{2} \|dev[\bm{B}^{e,*}]\|^2_F - det[\bm{B}^{e,*}] = 0
+\end{equation}
+Solving for $\lambda_1$ and $\lambda_2$ yields the admissible strain state $\b_p$ at the end of the step.
 
 \section{Hypoelastic-Plastic Model} \label{hypoelastic_model}
 In general, hypoelastic models differ from hyperelastic models in that the stress is not obtained from a gradient of a strain energy density function with respect to deformation. The specific hypoelastic granular continuum model we use was developed by Dunatunga and Kamrin \cite{Dunatunga:2015:Continuum}. To start one again begins with momentum balance and mass balance
@@ -123,17 +134,11 @@ where $G$ is the shear modulus (or second Lam\'e constant) and $\lambda$ is the 
 \end{equation}
 In other words, if the density of the granular material falls below a certain level, the continuum represents a region of grains that is very loosely packed and has no contacts, and thus cannot support stress. In the physical sense, the grains in this region have entered a gaseous regime (though with no pressure from collisions with the boundary).
 
-The yield condition is very similar in form to a Drucker-Prager yield condition, i.e.
+The yield condition is very similar in form to the  Drucker-Prager yield condition used in the hyperelastic update, i.e.
 \begin{equation}
 \bar{\tau} \leq \mu p \label{yield_condition}
 \end{equation}
-where $\bar{\tau}$ is the equivalent shear stress and p is the pressure, defined by
-\begin{equation}
-\bar{\tau}=\sqrt{\frac{1}{2}(\bm{\sigma_0}:\bm{\sigma_0})}\label{tau_bar}
-\end{equation}
-\begin{equation}
-p=-\frac{1}{3}\bm{\sigma}\label{pressure_stress}
-\end{equation}
+where $\bar{\tau}$ is the equivalent shear stress and p is the pressure, again defined as in (\ref{tau_bar}) and (\ref{pressure_stress}) respectively.
 A key difference between the previously explained hyperelastic model and the current hypoelastic model is that the hypoelastic model used by Dunatunga, and subsequently used here, is the introduction of the $\mu(I)$ rheology proposed by Jop et al \cite{Jop:2006:Constitutive}. The $\mu(I)$ rheology proposes a characteristic nondimensional number $I$, defined as
 \begin{equation}
 I=\dot{\bar{\gamma}}^p\frac{\sqrt{d^2\rho_s}}{\sqrt{p}} \label{inertial_number}
@@ -177,7 +182,7 @@ MPM was developed in the mid 1990s by Sulsky et al and has enjoyed much use and 
     \label{MPM_diagram}
 \end{figure}
 
-In MPM, a continuum body is first discretized via Lagrangian markers, known as MPM points. Quantities of interest, like mass, momentum, stress, and any internal variables, are held on these points. It should be noted that there is no explicit notion of connectivity stored on the points between pairs or groups of points, and so no nearest-neighbor search must be conducted, like in SPH or many other particle methods. A temporary (with an emphasis on the "temporary", as the introduction of a mesh may seem contradictory to MPM being classified a mesh-free method) background grid is then introduced as a "computational scratch-pad" . The aforementioned quantities of interest are then projected onto the background grid with a chosen set of basis functions. As a note, while there is no strict requirement on the discretization of the background grid, often a simple Cartesian grid is chosen for convenience. With these quantities now having a nodal representation on the grid, a finite element-like update is conducted. The updated nodal quantities are then projected back onto the MPM points, so that the points are now in an updated state. The background grid is then destroyed, so that no accumulation of strain occurs. With new point quantities, the points are then advected, completing a timestep of MPM.
+Figure \ref{MPM_diagram} gives a pictorial overview of a step of the MPM algorithm. In MPM, a continuum body is first discretized (the light red body) via Lagrangian markers (red squares), known as MPM points, as shown in the first two components of Figure \ref{MPM_diagram}. Quantities of interest, like mass, momentum, stress, and any internal variables, are held on these points. It should be noted that there is no explicit notion of connectivity stored on the points between pairs or groups of points, and so no nearest-neighbor search must be conducted, like in SPH or many other particle methods. A temporary (with an emphasis on the "temporary", as the introduction of a mesh may seem contradictory to MPM being classified a mesh-free method) background grid is then introduced as a "computational scratch-pad" . The aforementioned quantities of interest are then projected onto the background grid with a chosen set of basis functions. As a note, while there is no strict requirement on the discretization of the background grid, often a simple Cartesian grid is chosen for convenience. With these quantities now having a nodal representation on the grid (orange circles at the grid nodes), a finite element-like update is conducted. The updated nodal quantities are then projected back onto the MPM points, so that the points are now in an updated state. The background grid is then destroyed, so that no accumulation of strain occurs. With new point quantities, the points are then advected from their old positions (dark red shadows) to their new positions (red markers), completing a timestep of MPM.
 
 \subsection{MPM Formulation and Discretization}
 As shown schematically in the previous section, at the beginning of a timestep $n$, each MPM point $p$ has stored on it its position ${\bm{x}_p}^n$, velocity ${\bm{v}_p}^n$, mass ${m_p}^n$, velocity gradient ${\bm{L}_p}^n$, Cauchy stress ${\bm{\sigma}_p}^n$, volume ${V_p}^n$, and for the hyperelastic case, ${{\bm{B}_p}^e}^n$ and ${J_p}^n$. The grid projection of any point quantity $\bm{\phi}_p$ onto a node i is done via the operation

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2018.8.27)  13 MAY 2019 03:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2018.8.27)  13 MAY 2019 18:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -840,14 +840,11 @@ Underfull \vbox (badness 5331) has occurred while \output is active []
 
 ]
 Chapter 3.
-[29]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [30]
+[29] [30]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [31]
-Underfull \vbox (badness 5607) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [32]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -856,37 +853,31 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [34]
-[35]
-<figs/mpm_scheme_compress_shear_less_pts.pdf, id=174, 1361.3031pt x 677.2163pt>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [35]
+[36]
+<figs/mpm_scheme_compress_shear_less_pts.pdf, id=177, 1361.3031pt x 677.2163pt>
 File: figs/mpm_scheme_compress_shear_less_pts.pdf Graphic file (type pdf)
 <use figs/mpm_scheme_compress_shear_less_pts.pdf>
 Package pdftex.def Info: figs/mpm_scheme_compress_shear_less_pts.pdf used on in
-put line 175.
+put line 180.
 (pdftex.def)             Requested size: 433.62pt x 215.71129pt.
- [36]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [37 <./figs/mpm_scheme_compress_shear_less_pts.pdf>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [38]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [39]
+ [37 <./figs/mpm_scheme_compress_shear_less_pts.pdf>] [38] [39]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [40]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [41]
-[42]) [43]
+[42])
+Underfull \vbox (badness 1281) has occurred while \output is active []
+
+ [43]
+[44]
 \openout2 = `chap04_hybridization.aux'.
 
- (./chap04_hybridization.tex [44
-
-
-
-]
+ (./chap04_hybridization.tex
 Chapter 4.
 <figs/hybrid_example.pdf, id=1206, 144.95418pt x 101.32355pt>
 File: figs/hybrid_example.pdf Graphic file (type pdf)
@@ -894,7 +885,11 @@ File: figs/hybrid_example.pdf Graphic file (type pdf)
 <use figs/hybrid_example.pdf>
 Package pdftex.def Info: figs/hybrid_example.pdf used on input line 14.
 (pdftex.def)             Requested size: 346.89731pt x 242.50891pt.
- [45]
+ [45
+
+
+
+]
 Underfull \vbox (badness 1024) has occurred while \output is active []
 
  [46 <./figs/hybrid_example.pdf>] <figs/blurred_mass.pdf, id=1566, 582.175pt x 
@@ -1236,7 +1231,7 @@ Package pdftex.def Info: figs/hourglass_whole.jpg used on input line 146.
 
 
 ]
-[88])) [89] (./main.aux (./cover.aux) (./contents.aux)
+[88] [89])) [90] (./main.aux (./cover.aux) (./contents.aux)
 (./chap01_introduction.aux) (./chap02_dem.aux) (./chap03_continuum.aux)
 (./chap04_hybridization.aux) (./chap05_results.aux) (./chap06_enrichment.aux)
 (./biblio.aux))
@@ -1248,10 +1243,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 15357 strings out of 494902
- 297791 string characters out of 6179891
- 328000 words of memory out of 5000000
- 18297 multiletter control sequences out of 15000+600000
+ 15360 strings out of 494902
+ 297840 string characters out of 6179891
+ 328034 words of memory out of 5000000
+ 18300 multiletter control sequences out of 15000+600000
  29946 words of font info for 83 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  44i,25n,51p,10375b,601s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1286,10 +1281,10 @@ sr/share/texmf/fonts/type1/public/cm-super/sfrm0900.pfb></usr/share/texmf/fonts
 /type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-sup
 er/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></us
 r/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
-Output written on main.pdf (89 pages, 36513015 bytes).
+Output written on main.pdf (90 pages, 36514443 bytes).
 PDF statistics:
- 2244 PDF objects out of 2487 (max. 8388607)
- 1238 compressed objects within 13 object streams
+ 2247 PDF objects out of 2487 (max. 8388607)
+ 1240 compressed objects within 13 object streams
  0 named destinations out of 1000 (max. 500000)
  150 words of extra memory for PDF output out of 10000 (max. 10000000)
 
