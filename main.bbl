@@ -2,6 +2,11 @@
   \newcommand{\singleletter}[1]{#1} \newcommand{\switchargs}[2]{#2#1}
 \begin{thebibliography}{10}
 
+\bibitem{Balmforth:2005}
+Neil~J. Balmforth and Richard~R. Kerswell.
+\newblock Granular collapse in two dimensions.
+\newblock {\em Journal of Fluid Mechanics}, 538:399 -- 428, Sep 2005.
+
 \bibitem{Bardenhagen:2004}
 Scott~G. Bardenhagen and Edward~M. Kober.
 \newblock The generalized interpolation material point method.
@@ -104,10 +109,26 @@ Georg Koval, Jean-No{\"e}l Roux, Alain Corfdir, and Fran{\c{c}}ois Chevoir.
   to quasistatic regime.
 \newblock {\em Physical Review E}, 79(2):021306, 2009.
 
+\bibitem{Lagree:2011}
+Pierre-Yves Lagr\'ee, Lydie Staron, and St\'ephane Popinet.
+\newblock {The granular column collapse as a continuum: {V}alidity of a
+  two-dimensional {Navier-Stokes} model with a $\mu(I)$-rheology}.
+\newblock {\em Journal of Fluid Mechanics}, 686:378--408, November 2011.
+
 \bibitem{Lanczos:2012}
 Cornelius Lanczos.
 \newblock {\em The variational principles of mechanics}.
 \newblock 2012.
+
+\bibitem{Lube:2005}
+Gert Lube, Herbert~E. Huppert, R.~Stephen~J. Sparks, and Armin Freundt.
+\newblock Collapses of two-dimensional granular columns.
+\newblock {\em Phys. Rev. E}, 72, Oct 2005.
+
+\bibitem{Mast:2015}
+Carter~M. Mast, Pedro Arduino, Peter Mackenzie-Helnwein, and Gregory~R. Miller.
+\newblock Simulating granular column collapse using the material point method.
+\newblock {\em Acta Geotechnica}, 10(1):101--116, 2015.
 
 \bibitem{McCarthy:1998}
 Joseph~J. McCarthy and Julio~M. Ottino.
@@ -174,6 +195,12 @@ Gregory~S. Smith, Ellad~B. Tadmor, Noam Bernstein, and Efthimios Kaxiras.
 Russell Smith et~al.
 \newblock Open dynamics engine.
 \newblock 2005.
+
+\bibitem{Staron:2005}
+Lydie Staron and John~E. Hinch.
+\newblock Study of the collapse of granular columns using two-dimensional
+  discrete-grain simulation.
+\newblock {\em Journal of Fluid Mechanics}, 545:1--27, 2005.
 
 \bibitem{sullivan06}
 Daniel~E. Sullivan.

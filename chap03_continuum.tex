@@ -5,9 +5,10 @@
 %% \files=
 %% prompt when you run the file main.tex through LaTeX.
 \chapter{Continuum Model}
+We use two continuum models in this study. The first, a hyperelastic formulation, is the model used for all of the simulations shown in the Results section. The second, a hypoelastic formulation, is used to extend the hybrid technique for geometries like inclined chute flow.
 
 \section{Hyperleastic-Plastic Model} \label{hyperelastic_model}
-We model continuum granular regions as an elastoplastic material with a Drucker-Prager plastic yield criterion. The evolution of the system is governed by the conservation of momentum
+To begin the discussion of the hyperelastic model, the evolution of the system is governed by the conservation of momentum
 \begin{align}
 \rho \frac{D \bm{v}}{D t} &= \nabla \cdot \sigma + \rho \bm{f}_{ext} ,
 \end{align}
@@ -15,22 +16,23 @@ and the conservation of mass
 \begin{align}
 \frac{D \rho}{D t} + \rho \nabla \cdot \bm{v} = 0 ,
 \end{align}
-where $\sigma$ denotes the Cauchy stress tensor, $\frac{D \cdot}{D t}$ denotes the material derivative, and $\bm{f}_{ext}$ denotes any external body forces (e.g. gravity). We use a multiplicative decomposition of the deformation gradient $\boldsymbol{F} = \boldsymbol{F}^e \boldsymbol{F}^p$ where $\boldsymbol{F}^e$ and $\boldsymbol{F}^p$ denote the elastic and the plastic component of the deformation gradient, respectively. We denote the left Cauchy-Green strain by $\boldsymbol{b} = \boldsymbol{F} \boldsymbol{F}^T$.
+where $\sigma$ denotes the Cauchy stress tensor, $\frac{D \cdot}{D t}$ denotes the material derivative, and $\bm{f}_{ext}$ denotes any external body forces (e.g. gravity). A multiplicative decomposition of the deformation gradient $\boldsymbol{F} = \boldsymbol{F}^e \boldsymbol{F}^p$ is used, where $\boldsymbol{F}^e$ and $\boldsymbol{F}^p$ denote the elastic and the plastic component of the deformation gradient, respectively. The left Cauchy-Green strain is defined as $\boldsymbol{b} = \boldsymbol{F} \boldsymbol{F}^T$.
 
-Under small strains, the material behaves elastically. We employ a simple strain energy density to model the elastic behavior. In 2D the strain energy and Kirchhoff stress are given by
+A hyperelastic model is one in which the stress is derived as some function of a strain energy density.
+Under small strains, we desire to have the material behave elastically. In 2D the strain energy density function we use to achieve this and the resulting Kirchhoff stress from this function are given by
 \begin{align}
 W &= \frac{\kappa}{2} \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} \mu ( Tr[ \bar{\bm{b}}^e ] - 2 ) , \\
 \tau &= \frac{\kappa}{2} \left( J^2 - 1 \right) \bm{I} + \mu dev[\bar{\bm{b}}^e] ,
 \end{align}
 where $\bar{\bm{b}}^e = det\left( \bm{b}^e \right)^{-1/2} \bm{b}^e$ is the volume preserving elastic left Cauchy-Green strain and $J = det\left( \bm{F} \right)$. In 3D, the strain energy density becomes $W = \frac{1}{2} \kappa \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} \mu ( Tr[ \bar{\bm{b}}^e ] - 3 )$ while $\bar{\bm{b}}^e = det\left( \bm{b}^e \right)^{-1/3} \bm{b}^e$. $\kappa$ and $\mu$ are the bulk and shear moduli respectively of the material.
 
-To allow the granular medium to separate, we consider the medium to be one-sided in the following sense: the granular medium can resist compression, but not extension. We model this effect with a free-flow mode, similar to Dunatunga et al. \cite{Dunatunga:2015:Continuum}. When we detect that the material is in extension, indicated by $det[\bm{b}^e] > 1$, we project the strain to $det[\bm{b}^e] = 1$ by assigning $\bm{b}^e \leftarrow det\left( \bm{b}^e \right)^{-1/2} \bm{b}^e$ ($\bm{b}^e \leftarrow det\left( \bm{b}^e \right)^{-1/3} \bm{b}^e$ in 3D). The net result is zero pressure when the material is under extension.
+To allow the granular medium to separate, we consider a "no-tension" rule: the granular medium can resist compression, but not extension. We model this effect with a free-flow mode, similar to Dunatunga et al. \cite{Dunatunga:2015:Continuum}. When we detect that the material is in extension, indicated by $det[\bm{b}^e] > 1$, we project the strain to $det[\bm{b}^e] = 1$ by assigning $\bm{b}^e \leftarrow det\left( \bm{b}^e \right)^{-1/2} \bm{b}^e$ ($\bm{b}^e \leftarrow det\left( \bm{b}^e \right)^{-1/3} \bm{b}^e$ in 3D). The net result is zero pressure when the material is under extension.
 
 We model plastic flow with the Drucker-Prager yield condition
 \begin{align}
 \Phi = s - \alpha p \leq 0,
 \end{align}
-where $s = \| dev[\tau] \|_F$ is the magnitude of the shear stress (recall that $dev[\bm{X}] = \bm{X} - \frac{1}{2} Tr[\bm{X}] \bm{I}$), $p = -\frac{1}{2}Tr[\tau]$ is the pressure ($dev[\bm{X}] = \bm{X} - \frac{1}{3} Tr[\bm{X}] \bm{I}$ and $p = -\frac{1}{3}Tr[\tau]$ in 3D), and $\alpha$ controls the angle of repose. It often proves useful to express the yield in terms of strain, in which case we find that $\Phi = \mu \|  dev[ \bar{\bm{b}}^e ] \|_F + \alpha \frac{\kappa}{2} \left( J^2 - 1 \right)$. The Drucker-Prager yield criterion corresponds intuitively with the notion of Coulomb friction in the discrete setting; the shear stress (continuum analog of force in the tangential plane) is capped at the magnitude of the pressure (continuum analog of the normal force) scaled by a constant $\alpha$ (continuum analog of $\mu$). When $\Phi \leq 0$, the material behaves elastically. When $\Phi > 0$, however, the material sustains plastic shape change. Crucially, a Drucker-Prager treatment of yield allows us to tune the angle of repose of a pile to match that of a discrete element simulation.
+where $s = \| dev[\tau] \|_F$ is the magnitude of the shear stress (recall that $dev[\bm{X}] = \bm{X} - \frac{1}{2} Tr[\bm{X}] \bm{I}$), $p = -\frac{1}{2}Tr[\tau]$ is the pressure ($dev[\bm{X}] = \bm{X} - \frac{1}{3} Tr[\bm{X}] \bm{I}$ and $p = -\frac{1}{3}Tr[\tau]$ in 3D), and $\alpha$ controls the angle of repose. It often proves useful to express the yield in terms of strain, in which case we find that $\Phi = \mu \|  dev[ \bar{\bm{b}}^e ] \|_F + \alpha \frac{\kappa}{2} \left( J^2 - 1 \right)$. The Drucker-Prager yield criterion corresponds intuitively with the notion of Coulomb friction in the discrete setting; the shear stress (continuum analog of force in the tangential plane) is capped at the magnitude of the pressure (continuum analog of the normal force) scaled by a constant $\alpha$ (continuum analog of $\mu$). When $\Phi \leq 0$, the material behaves elastically. When $\Phi > 0$, however, the material deforms plastically. Crucially, a Drucker-Prager yield criterion allows us to tune the angle of repose of a pile to match that of a discrete element simulation.
 
 We model the granular medium as perfectly plastic: all excess yield is immediately converted into plastic deformation. We discretize the elastoplastic update rule for the strain $\dot{\bm{b}}^e = \nabla \bm{v} \bm{b}^e + \bm{b}^e \nabla \bm{v}^T + \mathcal{L}_{\bm{v}} \bm{b}^e$ with the return mapping method \cite{Simo:1998}. The result is a predictor-corrector style update for the strain. We first update $\bm{b}^{e}$ through $\dot{\bm{b}}^e = \nabla \bm{v} \bm{b}^e + \bm{b}^e \nabla \bm{v}^T$, ignoring any plastic flow. This predicted strain can now violate the yield condition. To remove yield excess from $\bm{b}^{e,*}$, where $*$ denotes some violating state, we impose two constraints on the plastic flow to project the material to a violation-free state. First, the plastic granular flow should conserve volume, and the projected strain $det[\bm{b}^{e,p}]$ should satisfy $det[\bm{b}^{e,p}] = det[\bm{b}^{e,*}]$. Second, to satisfy the yield condition, we seek $\Phi\left( \tau\left( \bm{b}^{e,p} \right) \right) = 0$. We consider the flow to be in the direction of the shear and we decompose the projected strain as $\bm{b}^{e,p} = \lambda_1 \bm{I} + \lambda_2 dev[det[\bm{b}^{e,*}]]$.
 
@@ -78,7 +80,7 @@ We employ Cardano's method to analytically solve \eqref{eq:lambda13d} and obtain
 With $\lambda_1$ and $\lambda_2$ in hand, we are able to easily project $\bm{b}^{e,*}$ and enable the plastic flow.
 
 \section{Hypoelastic-Plastic Model} \label{hypoelastic_model}
-In general, hypoelastic models differ from hyperelastic models in that the stress is not obtained from a gradient of a strain energy density function with respect to deformation. The specific hypoelastic granular continuum model used in this study was developed by Dunatunga and Kamrin \cite{Dunatunga:2015:Continuum}. To start one again begins with momentum balance and mass balance
+In general, hypoelastic models differ from hyperelastic models in that the stress is not obtained from a gradient of a strain energy density function with respect to deformation. The specific hypoelastic granular continuum model we use was developed by Dunatunga and Kamrin \cite{Dunatunga:2015:Continuum}. To start one again begins with momentum balance and mass balance
 \begin{equation}
 \rho\frac{D\bold{v}}{Dt} = \nabla\cdot\bm{\sigma} + \rho\bold{b} \label{mom_bal}
 \end{equation}
@@ -97,7 +99,7 @@ $\bold{L}$ can be decomposed into a symmetric part (known as the strain rate ten
 \bold{W}&=\frac{1}{2}(\bold{L}+\bold{L}^T) \label{W_def}
 \end{align}
 \end{subequations}
-In contrast to the hyperelastic model, the used hypoelastic model takes an additive split of the strain and strain rate-like terms into an elastic and plastic part. For example,
+In contrast to the previously described hyperelastic model, here we take additive split of the strain and strain rate-like terms into an elastic and plastic part. For example,
 $$\bold{L}=\bold{L}^e+\bold{L}^p$$
 The elastic and plastic spatial velocity gradients can then be decomposed into spin and strain rate tensors
 $$\bold{L}^e=\bold{D}^e+\bold{W}^e$$
@@ -144,7 +146,7 @@ which gives a measure of the inertia in a sheared granular system relative to th
 \end{cases}
 \label{mu_of_I}
 \end{equation}
-where $\mu_s$, $\mu_2$ and $I_0$ are material parameters. As suggested by \ref{mu_of_I}, $\mu_s$ is a static friction coefficient, or the value of friction in the limit that $I$ approaches 0. As $I$ approaches infinity $mu$ approaches $mu_2$. Though the existence of an asymptotic $\mu_2$ is still debated in literature, it serves as a good approximation for the levels of $I$ reached in the simulations run in this study. Thus the plastic yield condition utilized here is more exactly stated as
+where $\mu_s$, $\mu_2$ and $I_0$ are material parameters. As suggested by \ref{mu_of_I}, $\mu_s$ is a static friction coefficient, or the value of friction in the limit that $I$ approaches 0. As $I$ approaches infinity $\mu$ approaches $\mu_2$. Though the existence of an asymptotic $\mu_2$ is still debated in literature, it serves as a good approximation for the levels of $I$ reached in the simulations run in this study. Thus the plastic yield condition utilized here is more exactly stated as
 \begin{equation}
 \bar{\tau} \leq \mu(I) p \label{yield_condition_mu_of_I}
 \end{equation}
@@ -155,7 +157,7 @@ At plastic yielding, a flow rule must be defined to evolve the plastic strain. A
 \end{equation}
 where $\dot{\bar{\gamma}}^p$ is the equivalent plastic shear strain rate.
 
-As a final note, there is a desired behavior of a "no tension" rule, in that granular media can not support tensile stress states. While this is partly captured by the pressure dependence on the material density relative to a critical density expressed in \ref{pressure_state}, another check must be done. In the constitutive update to evolve the stress, if it is determined that the pressure of the material is negative (i.e. the material wants to contract in on itself because of volumetric tensile stresses), then the stress is set to 0. Exact implementation details of the stress update can be found in Dunatunga et al, with the relevant density and pressure checks of that update being most relevant for hybridization purposes. 
+As a final note, there is again the desired behavior of a "no tension" rule, in that granular media can not support tensile stress states. While this is partly captured by the pressure dependence on the material density relative to a critical density expressed in \ref{pressure_state}, another check must be done. In the constitutive update to evolve the stress, if it is determined that the pressure of the material is negative (i.e. the material wants to contract in on itself because of volumetric tensile stresses), then the stress is set to 0. Exact implementation details of the stress update can be found in Dunatunga et al, with the relevant density and pressure checks of that update being most relevant for hybridization purposes. 
 
 \section{Material Point Method}
 In order to discretize and solve the equations defined in the previous sections, an appropriate method must be chosen. Classically the finite element method has been the method of choice for problems involving solid mechanics. As stated before however, a singular granular system, i.e. flow in an hourglass, has that granular system existing in multiple states at once: a solid bottom pile, a flowing regime down the top of the pile and at the top flowing into the hourglass neck, and a gaseous regime as it exits the neck. Using a method like the finite element to track the deformation of the granular continuum would be nearly impossible, due to the large amounts of non-affine strain that accumulate in the system causing mesh inversions. Remeshing, or a method like the Arbitrary-Lagrangian-Eularian method, could at first glance help resolve this. However the amount of remeshing that needs to occur would incur both a computational penalty for the remeshing algorithm, but also an accuracy penalty due to the need to constantly interpolate quantities.
@@ -170,7 +172,7 @@ MPM was developed in the mid 1990s by Sulsky et al and has enjoyed much use and 
 
 \begin{figure}[htp] 
     \centering
-    \includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
+    \includegraphics[width=\textwidth]{figs/mpm_scheme_compress_shear_less_pts.pdf}
     \caption{Schematic of a single timestep in MPM.}
     \label{MPM_diagram}
 \end{figure}
