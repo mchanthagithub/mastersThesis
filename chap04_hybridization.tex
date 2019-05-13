@@ -1,0 +1,466 @@
+%% This is an example first chapter.  You should put chapter/appendix that you
+%% write into a separate file, and add a line \include{yourfilename} to
+%% main.tex, where `yourfilename.tex' is the name of the chapter/appendix file.
+%% You can process specific files by typing their names in at the 
+%% \files=
+%% prompt when you run the file main.tex through LaTeX.
+\newcommand{\pluseq}{\mathrel{{+}{=}}}
+\chapter{Hybridization}
+The previous two chapters described two very different modeling paradigms, both with their strengths and weaknesses. As mentioned in the introduction, the goal is to be able to utilize the strengths of both to offset their weaknesses in order to create a versatile method that can handle phenomena that span many magnitudes of length scales and all phases of granular matter. Namely, the goal is to utilize the accuracy of the discrete element method where it is needed, while in all other regions, using the continuum method to solve a simple continuum model with much fewer degrees of freedom than a full discrete simulation. The method to achieve this is subsequently explained.
+
+\section{Hybridization Overview}
+\begin{figure}[htp] 
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/hybrid_example.pdf}
+    \caption{Diagram of a hybrid simulation.}
+    \label{hybrid_diagram}
+\end{figure}
+
+Figure \ref{hybrid_diagram} gives a visual representation of a hybrid simulation of a collapsing pile of grains. On the exterior are discrete grains, modeled by DEM. On the interior is a region of continuum, utilizing MPM. A regime where both DEM and continuum overlap each other, what is deemed the "Reconciliation Zone" or "Hybrid Zone" (both are used interchangeably), then connects the two modeling regimes.
+
+From this schematic there are a couple of things of note. A single MPM simulation is used to solve for the pure continuum region, as well as the continuum portion of the hybrid zone. The continuum region has only a single piece of information that delineates the pure continuum from the hybrid continuum: a weight field $w_c(x)$ that has a value of 1 in the pure continuum and a value between 0 and 1 in the hybrid regime. Likewise, a single DEM simulation is used to advance the state of the discrete grains in the pure discrete region as well as the discrete portion of the hybrid zone. Again, a weight field $w_d(x)$ delineates the pure discrete and hybrid regimes, with a value of 1 in the pure discrete region and a value between 0 and 1 in the hybrid region.
+
+At a very high level the hybrid scheme can be described thusly. At the beginning of a hybrid timestep, the domain is decomposed into pure continuum, pure discrete, and hybrid regions. The determination of which region is represented with which model is conducted by what is termed the "oracle", which will be later explained. If the oracle determines that a region described by the continuum model needs greater accuracy, then a process called "enrichment" converts the continuum representation to a discrete representation. On the other hand, if the oracle determines that a discrete region no longer needs to be resolved to that level, then a process called "homogenization" converts that discrete representation into a continuum representation. A step of MPM for what regions are now continuum and a step of DEM for regions that are now discrete are then taken, with no communication between the two regimes other than the weightage split previously described, resulting in intermediary quantities of state. These steps will be referred to as "unconstrained" steps, as they are unconstrained of any coupling between the two distinct systems. A coupling step then acts to kinematically constrain the two partitioned systems in the hybrid zones. These updated quantities are communicated back to the DEM and MPM solvers, which results in the end of timestep quantities for the entire simulation.
+
+The hybrid scheme can be split into three main components. The first is the nature of the split of the continuum and discrete representations in the hybrid zone. The second is the coupling of those two split regions such that they end the step kinematically constrained. The third is the domain decomposition, and the processes of homogenization and enrichment. 
+
+\section{Reconciliation Zone Splitting}
+\begin{figure}[htp] 
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/blurred_mass.pdf}
+    \caption{Blurred Density: (Left) The reference domain $\Omega$ of an object with density $\rho(\bm{x})$. Mass density is colored in blue. (Right) A partition of unity of the density mediated by a weight function $w(\bm{x},t)$.}
+    \label{blurred_mass}
+\end{figure}
+
+In order to understand the hybrid zone split, a more general system is introduced. Suppose that we view a single system as if it were two separate systems. Let the mass density $\rho(\bm{x})$ be defined over
+the reference coordinates $\mathbf{x} \in \Omega$ of a body (Fig.~\ref{fig:blurred_mass}). We partition the density
+with a space-time dependent weight function $w(\bm{x},t) \in \left[0,1\right]$, ensuring that we recover the original density:
+\begin{align}
+  \rho\left(\mathbf{x}\right) = w\left(\mathbf{x},t\right) \rho\left(\mathbf{x}\right) + \left( 1 - w\left(\mathbf{x},t\right) \right) \rho\left(\mathbf{x}\right) \ .
+\end{align}
+If we treat the new partitions as separate systems with generalized coordinates
+$(\mathbf{q}_1,\mathbf{v}_1)$ and $(\mathbf{q}_2,\mathbf{v}_2)$, we can recover the kinematic description of the
+original system by requiring that $\mathbf{q}_1\left(\mathbf{x},t\right) = \mathbf{q}_2\left(\mathbf{x},t\right)$.
+
+With identical initial configurations $\mathbf{q}_1\left( x, t_0 \right) = \mathbf{q}_2\left( x, t_0 \right)$, we can
+equivalently enforce equal velocities via the constraint
+$\mathbf{c}\left(\mathbf{x},t\right) = \mathbf{v}_1\left(\mathbf{x},t\right) - \mathbf{v}_2\left(\mathbf{x},t\right) = \mathbf{0}$.
+Consistent with Fig. \ref{fig:hybrid_illustration}, our ultimate goal is to treat the discrete particles and the
+continuum as the two subsystems with a \emph{reconciliation} zone wherever $0<w<1$.
+
+We derive our governing equations for the hybrid coupling from Hamilton's Variational Principle \cite{Lanczos:2012}; for
+dissipative systems, the analogous derivation follows from the Lagrange d'Alembert Principle, but the end result for our
+purposes is the same. This is a didactic derivation, and we will later apply these coupling forces to systems with friction, which still satisfies force/momentum balance.
+
+Suppose kinetic $T$ and potential $U$ energies are given by
+\begin{align}
+\begin{aligned}
+T &= \frac{1}{2} \int_\Omega \rho w \bm{v}_1^T \bm{v}_1 dV + \frac{1}{2} \int_\Omega \rho (1-w) \bm{v}_2^T \bm{v}_2 dV, \\
+U &= \int_\Omega \rho w e[\bm{q}_1] dV + \int_\Omega \rho (1-w) e[\bm{q}_2] dV,
+\end{aligned}
+\end{align}
+for potential energy per mass $e$. Here and henceforth, we omit explicit parameters $\left(\mathbf{x},t\right)$ when the
+dependence is clear. In addition, we couple the two systems via the augmented constraint
+$C = \int_\Omega \bm{\lambda}^T (\bm{v}_1 - \bm{v}_2) \,dV$, where $\lambda\left(\mathbf{x},t\right)$ is a
+Lagrange multiplier field.
+
+The Lagrangian $L = T - U + C$ is then incorporated into the action functional $\int_t L \,dt$, and the calculus of
+variations yields the Euler-Lagrange equations
+\begin{align}
+\label{eq:coupling}
+%\left\{
+\begin{aligned}
+\int_\Omega w \rho \bm{a}_1 \,dV = - \int_\Omega w \underbrace{\rho \frac{\delta e}{\delta \bm{q}_1}}_{\frac{\text{Force}}{\text{Volume}}_1} \,dV - \underbrace{\int_\Omega \bm{\lambda}\, dV}_{\textrm{\scriptsize  coupling force}} , \\
+\int_\Omega (1-w) \rho \bm{a}_2 \,dV = - \int_\Omega (1-w) \underbrace{\rho \frac{\delta e}{\delta \bm{q}_2}}_{\frac{\text{Force}}{\text{Volume}}_2} \,dV + \underbrace{\int_\Omega \bm{\lambda}\, dV}_{\footnotesize\textrm{\scriptsize  coupling force}} ,
+\end{aligned}
+%\right.
+\end{align}
+which are subject to the coupling constraint $\bm{v}_1 = \bm{v}_2$. The coupling force, which acts equally and
+oppositely on the two systems to enforce the constraint, arises naturally from the calculus of variations, averting the
+formulation of ad-hoc communication models between the two systems.
+
+If we sum the two equations and substitute in the coupling constraint, we recover the original equations of motion for
+the entire simulation domain. The weight function naturally defines a partition of unity for the masses and the
+energies, with smaller weight values corresponding to a system having less influence in a given region. Outside the
+reconciliation zone, \eqref{eq:coupling} is simply the (usual) equations of motion for two independent systems.
+
+The Lagrange multiplier term operates as an external (constraint) force to ensure that the velocities of each system are
+equal. Under operator splitting, the above equations can be interpreted as first having two sets of (usual) decoupled
+equations of motion
+\begin{align}
+\begin{aligned}
+\rho \bm{a}_1 = - \rho \frac{\partial e}{\partial \bm{q}_1} , \\
+\rho \bm{a}_2 = - \rho \frac{\partial e}{\partial \bm{q}_2} ,
+\end{aligned}
+\end{align}
+that are scaled by the weights, with a subsequent correction from the equal and opposite constraint force to
+guarantee equal velocities.
+
+We now replace these two abstract systems with a discrete particle system and a continuum system (Fig.~\ref{fig:hybrid_illustration}). We require the stress in the continuum domain to be compatible with the homogenized frictional forces in the discrete domain. This homogenization is realizable through the so-called Christoffersen formula \cite{Christoffersen:1981:Micromechanical}, which relates the continuum stress to the discrete frictional contact forces via:
+\begin{align}
+\sigma_{ij} = \frac{1}{V} \sum_{\alpha \in contacts}^{N}{\frac{1}{2}(\boldsymbol{f}_i^\alpha \boldsymbol{d}_j^\alpha + \boldsymbol{f}_j^\alpha \boldsymbol{d}_i^\alpha)} , 
+\end{align}
+where $\sigma_{ij}$ is the (i,j) component of the stress tensor, $V$ is the volume 
+about which one is homogenizing the stress, $N$ is the number of contacts in 
+that volume, $\boldsymbol{f}_i^\alpha$ is the $i^{th}$ component of the contact 
+force vector at the $\alpha^{th}$ contact, and $\boldsymbol{d}_i^\alpha$ is the
+$i^{th}$ component of the vector connecting the centroids of the two grains in contact.
+
+\section{Coupling Constraints}
+Having accounted for the velocity (and possibly position) update from the equations of motion, we can interpret each
+system in terms of forces-per-volume and then, within a element of the hybrid domain, correct the velocities and positions to
+enforce coupling via (\ref{eq:coupling}) subject to the constraint $C$. This allows us to interpret the constraint
+$\bm{v}_1 = \bm{v}_2$ in an average or homogenized sense ~\cite{Bergou:2007:TTDTS}: in the reconciliation zone, 
+the velocity of every discrete particle is forced to agree with the interpolated velocity field of the continuum. Let $\lambda_k$
+represent the constraint force on the $k$th discrete particle. Given the reconciliation zone, $\Omega_R$, the $p$th
+material point moves as
+\begin{align}
+\begin{aligned}
+&\frac{d}{dt} \boldsymbol{q}_p = \bm{v}_p , \\
+&\frac{d}{dt} (w_p M_p \bm{v}_p) = \underbrace{\frac{d}{dt} (w_p M_p \bm{v}_p^*) \sum_{k \in \Omega_R} }_{\textrm{\scriptsize unconstrained step}} \hspace{6pt} \underbrace{- \sum_{k \in \Omega_R} \Gamma_{pk}\lambda_k}_{\textrm{\scriptsize constrained step}} ,
+\end{aligned}
+\end{align}
+while the $k$th discrete particle moves as
+\begin{align}
+\begin{aligned}
+&\frac{d}{dt} \boldsymbol{q}_k = \bm{v}_k , \\
+&\frac{d}{dt} ((1-w_k) M_k \bm{v}_k) = \underbrace{\frac{d}{dt} ((1-w_k) M_k \bm{v}_k^*)}_{\textrm{\scriptsize unconstrained step}} \underbrace{\hspace{20pt} + \boldsymbol{\lambda}_k  \hspace{20pt} {\frac{d}{dt}}}_{\textrm{\scriptsize constrained step}} ,
+\end{aligned}
+\end{align}
+where $\bm{v}_p^*$ ($v_k^*$) are the predictions from continuum (discrete) simulation before coupling forces are added, and
+$\Gamma_{pk}$ are material-point to discrete-particle interpolation coefficients.
+
+\subsection{Hybrid Coupling Discretization} \label{subsec:hybrid_coupling_discretization}
+
+We now present the discretized, hybrid coupling algorithm that follows from the previous discussion. 
+Note that while
+general, implicit equations of motion would require a non-linear Newton solve, with explicit equations of motion, the
+coupled solve can be reduced to a single linear solve with a predictor-corrector structure. See Appendix
+\ref{sec:appendix_predictor_corrector} for a full derivation. We further observe that MPM forces are defined on a
+background Eulerian grid, which provides a natural scratch-pad on which to compute the constraint forces. 
+%Concretely, we
+%begin a time step with a full predictor step of the discrete system, and a half-step of the continuum system to the
+%instant that material point properties are rasterized to the grid. 
+%begin a time step with a predictor step of the discrete and continuum systems to predict the velocities, without accounting for the advections.
+Concretely, a full hybrid time step begins by stepping the continuum and discrete systems in isolation, omitting the advection steps, to obtain the predicted momenta.
+In our implementation, we compute a predictor discrete step by taking a full step of the discrete system and discarding the position update. For the continuum system, we split the full MPM step into two stages, 
+where the predictor first stage steps the system to just the instant that material point properties are rasterized to the gird.
+In the DEM force computation, we weight each discrete spring force by $1-w$, evaluated at the corresponding contact point, and each body mass by $1-w$, evaluated at the center of mass. Likewise, in the MPM force computation, we weight the stress and mass of each material point by $w$, evaluated at the point location. We next assemble and solve a linear system to
+constrain the velocities of the discrete and continuum simulations in the reconciliation zone:
+\begin{align}
+\begin{bmatrix}
+    W_c M_c & 0 & \Gamma_c \\
+    0 & W_d M_d & -\Gamma_d \\
+    \Gamma_c^T & -\Gamma_d^T & 0
+\end{bmatrix}
+\begin{bmatrix}
+    \bm{v}_c^{n+1} \\
+    \bm{v}_d^{n+1} \\
+    \lambda
+\end{bmatrix}
+=
+\begin{bmatrix}
+    W_c \left( M_c \bm{v}^n_c + h \bm{f}^n_c \right) \\
+    W_d \left( M_d \bm{v}^n_d + h \bm{f}^n_d \right) \\
+    0
+\end{bmatrix} , \label{eq:coupled_system}
+\end{align}
+where $W_c$ and $W_d$ are diagonal matrices that contain the mass weights for the continuum and discrete systems, $M_c$
+and $M_d$ are the mass matrices, $\bm{v}_c$ and $\bm{v}_d$ are the velocities, and $\bm{f}_c$ and $\bm{f}_d$ are explicit forces
+from the continuum and discrete systems. 
+$M_c \bm{v}^n_c + h \bm{f}^n_c$ and $M_d \bm{v}^n_d + h \bm{f}^n_d$ are the predicted momenta of the continuum and discrete systems, respectively, and solving the linear system gives the corrected continuum and discrete velocities $\bm{v}_c^{n+1}$ and $\bm{v}_d^{n+1}$.
+$\Gamma_d$ and $\Gamma_c$ are defined such that
+$\Gamma_d^T \bm{v}_d - \Gamma_c^T \bm{v}_c$ produces the residual relative velocity of discrete bodies within the background
+velocity field defined by the material point grid. Under this definition, $\Gamma_d$ reduces to the identity matrix,
+while each column of $\Gamma_c$ contains the weights that recover each discrete body's center of mass from the MPM
+grid's basis functions. We compute $\Gamma_c$ using the positions of the discrete bodies and material points at the beginning of the step. Note that we can restrict the size of this system to only the degrees of freedom in the
+reconciliation zone. 
+After solving the linear system, 
+we update the discrete velocities and advect the discrete bodies along the corrected velocities,
+concluding the discrete step,
+and we compute the latter stage
+of the material point step using the new, constrained velocities, concluding the
+continuum step. This concludes a full hybrid time step, the details of which are summarized in Alg. \ref{alg:hybridstep}.
+
+\subsection{Nodal Coupling}
+While this method to compute coupling forces indeed works, a further speedup is possible by defining a second background
+grid that is co-located with the background MPM grid. The velocities of the discrete bodies can be projected to this
+second grid as if they were material points. The constraint matrices $\Gamma_d$ and $\Gamma_c$ now reduce to the
+identity, and the system in \eqref{eq:coupled_system} can be solved in closed form \eqref{eq:inexpensive_coupling}, giving the system of equations:
+\begin{align}
+W_c M_c \bm{v}_c^{n+1} + \lambda &= W_c M_c \bm{v}^*_c , \label{eq:sys_a} \\
+W_d M_d \bm{v}_d^{n+1} - \lambda &= W_d M_d \bm{v}^*_d , \label{eq:sys_b} \\
+\bm{v}_c^{n+1} &= \bm{v}_d^{n+1} . \label{eq:sys_c}
+\end{align}
+Substituting $\bm{v}_c^{n+1}$ for $\bm{v}_d^{n+1}$ in Eq. \eqref{eq:sys_a}, adding Eq. \eqref{eq:sys_a} and Eq. \eqref{eq:sys_b},
+and solving for $\bm{v}_d^{n+1}$, we find that:
+\begin{align}
+\label{eq:inexpensive_coupling}
+\bm{v}_c^{n+1} = \bm{v}_d^{n+1} = \left( W_c M_c + W_d M_d \right)^{-1} \left( W_c M_c \bm{v}_c^* + W_d M_d \bm{v}_d^* \right) .
+\end{align}
+For diagonal mass matrices, each degree of freedom can be solved for independently, and the formula reduces to an
+inelastic impact between two particles in one dimension.
+
+Crucially, the solution at each grid
+node is independent of the other grid nodes, and takes the simple form of an inelastic collision between two particles
+with masses and velocities equal to those of the grid node (Alg. \ref{alg:hybrid_constraint_solve}). This method to compute hybridization forces is simple, robust, and
+trivially parallelized. After solving this system, the discrete grid-based velocities are mapped back to the discrete
+bodies in the same manner as MPM points. We always employ this grid vs. grid hybridization technique, and never directly solve the linear system \eqref{eq:coupled_system}.
+
+\section{Domain Decomposition}
+
+\subsection{Oracle}
+
+\begin{figure}[htp] 
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/hybrid_zone_update.pdf}
+    \caption{Initialization of a hybrid simulation: (A) We begin with a collection of DEM grains. (B) We next locate a level
+    set corresponding to a given low density, here denoted as a black line. (C) Across the domain, we compute
+    the distance to the density threshold, indicated by lines in lighter shades of red as the distance increases.
+    (D) We select a user-tunable distance to the density level-set that serves as the center of the hybrid
+    ``reconciliation" zone. We denote this critical distance as a solid black line. (E) We extend the hybrid zone
+    along the distance field by a given half-width in each direction, indicated by dotted lines. This hybrid
+    reconciliation zone between the dotted lines defines a zone where the DEM system will be coupled to the
+    continuum system. We homogenize the velocity and stress for use in step (G). (F) We delete all discrete grains that fall within the inner boundary of the reconciliation zone.
+    (G) We run the "avoid-a-void" algorithm of Yue et al. \cite{Yue:2015:Continuum} from the outer boundary in to populate the region with material points. The material point states are determined using the homogenized velocity and stress computed in step (E).}
+    \label{hybrid_initialization}
+\end{figure}
+Critical to our hybridization method is an oracle that is able to flag regions of the simulation domain as safe for a
+continuum treatment. Regions are unfit for a continuum treatment when one of any number of conditions are satisfied.
+First, in regions of low pressure, grains are more likely to separate from the material bulk and undergo ballistic
+motion. Second, high strain rate gradients suggest that the granular flow varies too rapidly to be safely represented as
+a homogenized continuum \cite{Dijksman:2010:Granular,Kamrin:2010,Koval:2009:Annular}. Finally, in thin flows,
+grain-level dynamics can dominate, leading to finite size effects (e.g., clogging) not captured by local continuum models
+\cite{Beverloo:1961:Flow,Midi:2004:Dense,Pouliquen:1999:Scaling,Sheldon:2010:Granular}. We have found that the packing
+fraction serves as an effective signal for these sources of fundamentally discrete behavior. The emphasis on packing fraction
+is further motivated by the fact that graphical fidelity should be retained on the exterior of granular systems of interest, as it is this
+low packing fraction exterior that is seen by an observer.
+
+Our oracle begins by computing the packing fraction of the discrete particle system on a uniform background grid. Note
+that only discrete grains are considered when computing the packing fraction, as continuum and hybrid regions are, by
+ansatz, considered sufficiently dense. From this implicit representation, we extract an isocontour corresponding to a
+critical, threshold packing fraction $\Phi_\rho$ (Fig.~\ref{fig:hybrid:hybrid_initialization} (B)). We next compute the distance $\Phi_d(\bm{x})$ to this threshold isocontour on a second, uniform grid (C), and define an isocontour corresponding to a user specified distance $\phi_0$ as the centerline of the reconciliation zone (D). We label a zone as hybrid if the distance from the centerline is within a given half-width $r_h$, i.e. $\phi_0 - r_h \leq \Phi_d(\bm{x}) \leq \phi_0 + r_h$. Similary, we label a zone as continuum if $\Phi_d(\bm{x}) > \phi_0 - r_h$ and a zone as discrete if $\Phi_d(\bm{x}) < \phi_0 + r_h$ (Alg. \ref{alg:identify_hybrid_zones}).
+%See Figure \ref{fig:hybrid:hybrid_initialization} for an example of initializing a
+%hybrid simulation from purely discrete initial conditions.
+
+\subsection{Homogenization and Enrichment}
+\label{sec:enrichment}
+After updating the boundary between simulation domains, we are faced with four possible transition scenarios: a
+previously hybrid zone is now purely discrete, a previously hybrid zone is now purely continuum, a previously discrete
+zone is now hybrid, or a previously continuum zone is now hybrid. Note that after initialization, we do not permit
+direct transitions from continuum to discrete regions or vice versa. The transition away from a hybrid representation is
+quite simple. For a hybrid region transitioning to a purely discrete region, we simply delete all material points in the
+region. Similarly, for a hybrid region transitioning to a purely continuum region, we delete all discrete grains in the
+region. The transition to a hybrid representation is more involved, however. A region that previously contained only
+material points will require the insertion of discrete grains. Likewise, a previously discrete region will require the
+insertion of new material points. See Alg. \ref{alg:update_hybrid_zones}.
+
+The problem of adding samples to a dynamic simulation was addressed in the context of the material point method with the
+recently proposed avoid-a-void algorithm \cite{Yue:2015:Continuum}. The avoid-a-void method applies Poisson disc
+sampling to maintain approximately constant material point distributions and to prevent the formation of non-physical
+voids within a simulated material. This technique is perfectly suited to our needs, where we need to insert material
+points or discrete grains in regions of high material density recently labeled as hybrid. 
+
+
+For discrete grains, the new
+position is determined by the Poisson disc sampling procedure, while we draw the radius of new grains from the same
+normal distribution used to generate the initial grain radii. The initial velocity of new discrete grains is computed by
+averaging the velocity of surrounding discrete grains and material points within a radius of $6$ (mean) grain diameters, with an exponential
+falloff (Alg. \ref{alg:create_discrete_grain}). This window width is slightly above the minimal size that recovers
+continuum-like quantities in a ``granular volume element'' \cite{Rycroft:2009}. These nearest neighbor queries are
+accelerated with a uniform background grid. 
+
+We first determine the positions of new material points with Poisson disc sampling. Next, we compute the velocity,
+(normalized) strain, and deformation gradient magnitude of new points with \textit{homogenization}.
+We utilize a regular grid to rasterize the velocity of discrete grains; after rasterizing each discrete grain's mass and
+momentum to the grid (using the same rasterization procedure as MPM), we divide the rasterized momentum by the rasterized
+mass to determine each grid node's velocity. Likewise, we estimate the \textit{homogenized} stress at grid nodes using
+a modification of the Christoffersen formula \cite{Christoffersen:1981:Micromechanical} that yields smooth stress 
+fields via the MPM shape functions, as described in Alg. \ref{alg:homogenize_stress}.
+After computing the homogenized velocities and stresses at nodes, we use the MPM shape functions to evaluate
+the velocity and stress at the newly generated material point positions. Finally, we convert the interpolated stress to
+strain: from the definition of the Kirchhoff stress, we can relate the Cauchy stress and the strain via
+$\bm{\sigma} = \frac{\kappa}{2} \frac{\left( J^2 - 1 \right)}{J} \boldsymbol{I} + \frac{\mu}{J} dev[\bar{\boldsymbol{b}}^e]$.
+By taking the trace of both sides, we obtain $Tr[ \bm{\sigma} ] = \frac{3 \kappa}{2} \frac{\left( J^2 - 1 \right)}{J}$ (in 3D)
+and solve for $J$. Next, by taking the deviator of both sides, we obtain $dev[\bar{\boldsymbol{b}}^e] = \frac{J}{\mu} dev[\bm{\sigma}]$.
+Finally, $\bar{\boldsymbol{b}}^e$ is given in the form $\bar{\boldsymbol{b}}^e = dev[\bar{\boldsymbol{b}}^e] + t \boldsymbol{I}$,
+and we solve for $t$ with $det[\bar{\boldsymbol{b}}^e] = 1$.
+
+We emphasize the importance of syncing the stress and strain during homogenization to
+preserve volume. Previously, we initialized new continuum elements to a stress-free state.
+This stress-free initialization caused the material to gain volume if the discrete grains were between a gaseous
+and liquid state while separating, however.
+
+\subsection{Layered Hybridization}
+\label{sec:layered_3D}
+We often found it beneficial to only use the discrete treatment for the topmost visible portion of a granular assembly. If the boundary treatment (at the side walls and floor) with the continuum elements is physically valid, and if the continuum elements are invisible from the outside, this \textit{layered hybridization} approach yields additional speed improvements. We apply this approach to the bunny toss, excavator, bunny drill, and tire examples in Section~\ref{sec:results}.
+
+\begin{algorithm}
+\caption{${\tt Identify \_ Hybrid \_ Zones}$}
+\begin{algorithmic}[1]
+\State $\Phi_{\rho} \gets {\tt Discrete \_ Packing \_ Fraction \_ Isocontours}\left(\boldsymbol{q}_d\right)$
+\State $\Phi_{d} \gets {\tt Distance \_ to \_ Density \_ Isocontours}\left(\Phi_{\rho}\right)$
+\State ${\tt continuum \_ zone}\left( \mathbf{x} \right) \gets \Phi_{d}\left( \mathbf{x} \right) > \phi_0 - r_h$
+\State ${\tt discrete \_ zone}\left( \mathbf{x} \right) \gets \Phi_{d}\left( \mathbf{x} \right) < \phi_0 + r_h$
+\State ${\tt hybrid \_ zone}\left( \mathbf{x} \right) \gets \phi_0 - r_h \leq \Phi_{d}\left( \mathbf{x} \right) \leq \phi_0 + r_h$
+\end{algorithmic} \label{alg:identify_hybrid_zones}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{${\tt Update \_ Hybrid \_ Zones}$}
+\begin{algorithmic}[1]
+\State ${\tt Homogenize \_ Velocity \_ and \_ Stress}\left( {\tt hybrid \_ zone} \right)$ 
+\State ${\tt Discrete \_ Avoid \_ a \_ Void}\left( {\tt hybrid \_ zone} \right)$ 
+\State ${\tt Continuum \_ Avoid \_ a \_ Void}\left( {\tt hybrid \_ zone} \right)$ 
+\State ${\tt Delete \_ Discrete \_ Grains}\left( {\tt continuum \_ zone} \right)$ 
+\State ${\tt Delete \_ Continuum \_ Particles}\left( {\tt discrete \_ zone} \right)$ 
+\end{algorithmic} \label{alg:update_hybrid_zones}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{${\tt Update \_ Hybrid \_ State}$}
+\begin{algorithmic}[1]
+\State ${\tt Identify \_ Hybrid \_ Zones}$
+\State ${\tt Update \_ Hybrid \_ Zones}$
+\end{algorithmic} \label{alg:update_hybrid_state}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{${\tt Create \_ Discrete \_ Grain}$}
+\begin{algorithmic}[1]
+\State $\mathbf{x} \gets {\tt Position \_ from \_ Avoid \_ a \_ Void}$
+\State $r \gets N\left( r_{mean}, r_{sigma} \right)$ \Comment{Normally distributed radii}
+\State $m \gets \frac{4}{3} \pi r ^ 3$
+\State $\mathbf{v} \gets 0$
+\State $W \gets 0$
+\For{$i=0 \dots N_d$} \Comment{Iterate over discrete grains}
+  \If{$\left| \mathbf{x}_i - \mathbf{x} \right| < 12 \ r_{mean}$}
+    \State $w \gets e^{ \left| \mathbf{x}_i - \mathbf{x} \right|^2 / 2 r_{mean}^2}$
+    \State $\mathbf{v} \gets \mathbf{v} + w \ \mathbf{v}_i$
+    \State $W \gets W + w$
+  \EndIf
+\EndFor
+\For{$i=0 \dots N_c$} \Comment{Iterate over material points}
+  \If{$\left| \mathbf{x}_i - \mathbf{x} \right| < 12 \ r_{mean}$}
+    \State $w \gets e^{ \left| \mathbf{x}_i - \mathbf{x} \right|^2 / 2 r_{mean}^2}$
+    \State $\mathbf{v} \gets \mathbf{v} + w \ \mathbf{v}_i$
+    \State $W \gets W + w$
+  \EndIf
+\EndFor
+\State $\mathbf{v} \gets \mathbf{v} / W$
+\end{algorithmic} \label{alg:create_discrete_grain}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{${\tt Homogenize \_ Velocity \_ and \_ Stress}$}
+\begin{algorithmic}[1]
+\For{each ${\tt body} \in {\tt Discrete \_ Grains}$}
+  \For{${\tt node} \in {\tt Stencil(body)}$}
+    \State $w \leftarrow {\tt Weight(body, node)}$
+    \State ${\tt node.m } \pluseq w \cdot {\tt body.m }$
+    \State ${\tt node.momentum} \pluseq w \cdot {\tt body.m } \cdot {\tt body.}\bm{v}$
+  \EndFor    
+\EndFor
+\For{${\tt node} \in {\tt Grid \_ Nodes}$}
+  \If{${\tt node.m} > 0$}
+    \State ${\tt homogenized \_ velocity} \leftarrow {\tt node.momentum} /  {\tt node.m}$
+  \EndIf
+\EndFor
+\For{each ${\tt c} \in {\tt collisions}$}
+  \For{${\tt node} \in {\tt Stencil(c)}$}
+    \State $w \leftarrow {\tt Weight(c, node)}$
+    \State $\boldsymbol{f}_c \leftarrow {\tt c}.{\tt collision \_ force}$ \Comment{Normal and friction forces}
+    \State $\boldsymbol{r}_c \leftarrow {\tt c}.{\tt arm \_ vector}$
+    \State $\bm{\sigma}_c \leftarrow \frac{1}{2} \left( \boldsymbol{f}_c  \boldsymbol{r}_c^T + \boldsymbol{r}_c \boldsymbol{f}_c^T \right)$
+    \State ${\tt homogenized \_ stress } \pluseq w \cdot \bm{\sigma} / {\tt cell \_ volume}$
+  \EndFor
+\EndFor
+\end{algorithmic} \label{alg:homogenize_stress}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{${\tt Discrete \_ Avoid \_ a \_ Void}$}
+\begin{algorithmic}[1]
+  \For {${\tt cell} \in {\tt Hybrid \_ Zone}$}
+    \For {$i=0 \dots {\tt Max \_ Iters}$}
+      \State ${\tt Create \_ Discrete \_ Grain}()$
+    \EndFor
+  \EndFor
+\end{algorithmic} \label{alg:discrete_avoid_a_void}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{${\tt Create \_ Continuum \_ Particle]}$}
+\begin{algorithmic}[1]
+\State $\mathbf{x} \gets {\tt Position \_ from \_ Avoid \_ a \_ Void}$
+\end{algorithmic} \label{alg:create_continuum_particle}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{${\tt Reassign \_ Hybrid \_ Continuum \_ Properties}$}
+\begin{algorithmic}[1]
+  \For {${\tt point} \in {\tt Cell}$}
+    \State ${\tt point.m} \leftarrow {\tt mpm \_ mass \_ per \_ cell} / ({\tt \#points} \in {\tt Cell}) $
+    \State ${\tt point.vol} \leftarrow {\tt cell \_ volume} / ({\tt \#points} \in {\tt Cell}) $
+    \State ${\tt point.}\boldsymbol{v} \leftarrow {\tt homogenized \_ velocity} ({\tt point.}\boldsymbol{x}) $
+    \State $\boldsymbol{\sigma} \leftarrow {\tt homogenized \_ stress} ({\tt point.}\boldsymbol{x})$ 
+    \State ${\tt point.strain} \leftarrow {\tt convert \_ stress \_ to \_ strain} (\boldsymbol{\sigma}) $
+  \EndFor
+\end{algorithmic} \label{alg:determine_properties_for_hybrid_continuum_particles}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{${\tt Determine \_ New \_ Inner \_ Continuum \_ Properties}$}
+\begin{algorithmic}[1]
+  \For {${\tt newly \_ sampled \_ point} \in {\tt Cell}$}
+    \State ${\tt point.m} \leftarrow {\tt gather \_ mass \_ of \_ extant \_ nghbr \_ pnts} $
+    \State ${\tt point.vol} \leftarrow {\tt gather \_ vol \_ of \_ extant \_ nghbr \_ pnts} $
+    \State ${\tt point.}\boldsymbol{v} \leftarrow {\tt interp \_ vel \_ of \_ extant \_ nghbr \_ pnts} $
+    \State ${\tt point.strain} \leftarrow {\tt interp \_ strn \_ of \_ extant \_ nghbr \_ pnts} $
+  \EndFor
+\end{algorithmic} \label{alg:determine_properties_for_new_inner_continuum_particles}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{${\tt Continuum \_ Avoid \_ a \_ Void}$}
+\begin{algorithmic}[1]
+  \For {${\tt cell} \in {\tt Hybrid \_ Zone}$}
+    \For {$i=0 \dots {\tt Max \_ Iters}$}
+      \State ${\tt Create \_ Continuum \_ Particle}()$
+    \EndFor
+    \State ${\tt Reassign \_ Hybrid \_ Continuum \_ Properties}$
+  \EndFor
+  \For {${\tt cell} \in {\tt Continuum \_ Zone}$}
+    \For {$i=0 \dots {\tt Max \_ Iters}$}
+      \State ${\tt Create \_ Continuum \_ Particle}()$
+    \EndFor
+    \State ${\tt Determine \_ New \_ Inner \_ Continuum \_ Properties}$ 
+  \EndFor
+\end{algorithmic} \label{alg:continuum_avoid_a_void}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{${\tt Delete \_ Discrete \_ Grains}$}
+  \begin{algorithmic}[1]
+  \For{${\tt body} \in {\tt Discrete \_ Grains}$}
+    \If{${\tt body} \in {\tt Continuum \_ Zone}$}
+      \State ${\tt delete} \left({\tt body}\right)$  
+    \EndIf
+  \EndFor
+  \end{algorithmic}
+  \label{alg:delete_discrete_grains}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{${\tt Delete \_ Continuum \_ Particles}$}
+  \begin{algorithmic}[1]
+  \For{${\tt point} \in {\tt Material \_ Points}$}
+    \If{${\tt point} \in {\tt Discrete \_ Zone}$}
+      \State ${\tt delete} \left({\tt point}\right)$  
+    \EndIf
+  \EndFor
+  \end{algorithmic}
+  \label{alg:delete_continuum_particles}
+\end{algorithm}
+
+\section{Summary of Hybrid Algorithm}
