@@ -39,10 +39,29 @@ Peter~A. Cundall and Otto D.~L. Strack.
 \newblock A discrete numerical model for granular assemblies.
 \newblock {\em G\'eotechnique}, 29(1):47--65, 1979.
 
+\bibitem{Cruz:2008}
+Frederiic da~Cruz, Sacha Emam, Michael Prochnow, Jean-Noel Roux, and Francois
+  Chevoir.
+\newblock Rheophysics of dense granular materials: Discrete simulation of plane
+  shear flows.
+\newblock {\em Physical Review E - Statistical, Nonlinear, and Soft Matter
+  Physics}, 77(2), 2005.
+
 \bibitem{Dafalias:2004:Sand}
 Yannis~F. Dafalias, Achilleas~G. Papadimitriou, and Xiang~S. Li.
 \newblock Sand plasticity model accounting for inherent fabric anisotropy.
 \newblock {\em Journal of Engineering Mechanics}, 130(11):1319--1333, 2004.
+
+\bibitem{Daniels:2017}
+Karen~E. Daniels, Jonathan~E. Kollmer, and James~G. Puckett.
+\newblock Photoelastic force measurements in granular materials.
+\newblock {\em Review of Scientific Instruments}, 88(5):051808, 2017.
+
+\bibitem{Coulomb}
+Charles-Augustin de~Coulomb.
+\newblock {\em Essai sur une application des règles des maximis et minimis à
+  quelques problèmes de statique relatifs à l'architecture}.
+\newblock {1773}.
 
 \bibitem{Dhia:1998}
 Hachmi~Ben Dhia.
@@ -61,10 +80,28 @@ Sachith Dunatunga and Ken Kamrin.
   many phases.
 \newblock {\em Journal of Fluid Mechanics}, 779:483--513, 2015.
 
+\bibitem{Gingold:1977}
+R.A. Gingold and J.J. Monaghan.
+\newblock Smoothed particle hydrodynamics: Theory and application to
+  non-spherical stars.
+\newblock {\em Mon. Not. R. Astr. Soc.}, 181:375--389, 1977.
+
 \bibitem{Midi:2004:Dense}
 {Groupement de Recherche Milieux Divis{\'e}s (GDR MiDi)}.
 \newblock On dense granular flows.
 \newblock {\em The European Physical Journal E}, 14(4):341--365, 2004.
+
+\bibitem{Hertz:1881}
+Heinrich Hertz.
+\newblock Ueber die beruhrung fester elastischer korper.
+\newblock {\em Journal Fur Die Reine Und Angewandte Mathematik}, 92:156--171,
+  1881.
+
+\bibitem{Howell:1999}
+Daniel Howell, R.P. Behringer, and Christian Veje.
+\newblock Stress fluctations in a 2d granular couette experiment: A continuous
+  transition.
+\newblock {\em Phys. Rev. Lett.}, (5):5241, 1999.
 
 \bibitem{Hsu:2010}
 Shu-Wei Hsu and John Keyser.
@@ -92,6 +129,11 @@ Ken Kamrin and Georg Koval.
   of flowing granular media.
 \newblock {\em Computational Particle Mechanics}, 1(2):169--176, 2014.
 
+\bibitem{Kim:2013}
+Felix~H. Kim, Dayakar Penumadu, Jens Gregor, Nikolay Kardjilov, and Ingo Manke.
+\newblock High-resolution neutron and x-ray imaging of granular materials.
+\newblock {\em J. Geotech. Geoenvinron. Eng.}, 139(5):715--723, 2013.
+
 \bibitem{Koval:2009:Annular}
 Georg Koval, Jean-No{\"e}l Roux, Alain Corfdir, and Fran{\c{c}}ois Chevoir.
 \newblock Annular shear of cohesionless granular materials: From the inertial
@@ -108,6 +150,12 @@ Pierre-Yves Lagr\'ee, Lydie Staron, and St\'ephane Popinet.
 Cornelius Lanczos.
 \newblock {\em The variational principles of mechanics}.
 \newblock 2012.
+
+\bibitem{Liu:1995}
+Wing~Kam Liu, Sukky Jun, and Yi~Fei Zhang.
+\newblock Reproducing kernel particle methods.
+\newblock {\em International Journal for Numerical Methods in Fluids},
+  20:1081--1106, 1995.
 
 \bibitem{Lube:2005}
 Gert Lube, Herbert~E. Huppert, R.~Stephen~J. Sparks, and Armin Freundt.
@@ -135,17 +183,36 @@ Olivier Pouliquen.
 \newblock Scaling laws in granular flows down rough inclined planes.
 \newblock {\em Physics of Fluids (1994-present)}, 11(3):542--548, 1999.
 
+\bibitem{Renzo:2004}
+Alberto~Di Renzo and Francesco~Paolo di~Maio.
+\newblock Comparison of contact-force models for the simulation of collisions
+  in dem-based granular flow codes.
+\newblock {\em Chemical Engineering Science}, 59(3):525--541, 2004.
+
 \bibitem{Richard:2005:Slow}
 Patrick Richard, Mario Nicodemi, Renaud Delannay, Philippe Ribi{\`e}re, and
   Daniel Bideau.
 \newblock Slow relaxation and compaction of granular systems.
 \newblock {\em Nature Materials.}, 4:121--128, 2005.
 
+\bibitem{Roscoe:1958}
+K.H. Roscoe, A.N. Schofield, and C.P. Wroth.
+\newblock On the yielding of soils.
+\newblock {\em Geotechnique}, 8(1):22--53, 1958.
+
 \bibitem{Rycroft:2009}
 Chris~H. Rycroft, Ken Kamrin, and Martin~Z. Bazant.
 \newblock Assessing continuum postulates in simulations of granular flow.
 \newblock {\em Journal of the Mechanics and Physics of Solids}, 57(5):828--839,
   2009.
+
+\bibitem{Sadeghirad:2011}
+A.~Sadeghirad, R.M. Brannon, and J.~Burghardt.
+\newblock A convected particle domain interpolation technique to extend
+  applicability of the material point method for problems involving massive
+  deformations.
+\newblock {\em International Journal for Numerical Methods in Engineering},
+  86:1435--1456, 2011.
 
 \bibitem{Schofield:1968:Critical}
 Andrew Schofield and Peter Wroth.
@@ -168,6 +235,12 @@ Juan~C. Simo and Thomas J.~R. Hughes.
 \newblock {\em Computational Inelasticity}.
 \newblock Springer, 1998.
 
+\bibitem{Smith:2012}
+Breannan Smith, Danny~M. Kaufman, Etienne Vouga, Rasmus Tamstorf, and Eitan
+  Grinspun.
+\newblock Reflections on simultaneous impact.
+\newblock {\em ACM Trans. Graph.}, 31(4):106:1--106:12, July 2012.
+
 \bibitem{Smith:2001}
 Gregory~S. Smith, Ellad~B. Tadmor, Noam Bernstein, and Efthimios Kaxiras.
 \newblock Multiscale simulations of silicon nanoindentation.
@@ -183,6 +256,12 @@ Lydie Staron and John~E. Hinch.
 \newblock Study of the collapse of granular columns using two-dimensional
   discrete-grain simulation.
 \newblock {\em Journal of Fluid Mechanics}, 545:1--27, 2005.
+
+\bibitem{Stomakhin:2013:MPM}
+Alexey Stomakhin, Craig Schroeder, Lawrence Chai, Joseph Teran, and Andrew
+  Selle.
+\newblock A material point method for snow simulation.
+\newblock {\em ACM Trans. Graph.}, 32(4):102:1--102:10, July 2013.
 
 \bibitem{sullivan06}
 Daniel~E. Sullivan.
@@ -203,6 +282,12 @@ Ellad~B. Tadmor, Rob Phillips, and Michael Ortiz.
 \bibitem{Laconchita}
 USGS.
 \newblock 1995 la conchita landslide, 1995.
+
+\bibitem{Wang:2010}
+Fang Wang, Boshen Fu, Reza~A. Mirshams, William Cooper, Ranga Komanduri, and
+  Hongbing Lu.
+\newblock Mechanical properties measurement of sand grains by nanonindention.
+\newblock In {\em Proc. of the SEM Annual Conference}, 2010.
 
 \bibitem{Wellmann:2012}
 Christian Wellmann and Peter Wriggers.

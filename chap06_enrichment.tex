@@ -117,7 +117,8 @@ As Figure \ref{mass_time_random} shows, this is not enough. While increasing \te
 \end{figure}
 
 \subsection{Grid Packing}
-Enrichment can occur often, depending on the geometry of the problem. Because of this, speed is still a requirement of any practical packing scheme. Thus, while less informed greedy schemes may not provide adequete packing, they do potentially show a much larger speed advantage over other schemes. Packing in general is a problem that shows up in many contexts, and solutions do exist that show the ability to attain very high packing fractions that still avoid crystalline packings \textcolor{red}{FINDREFERENCE}. However these solutions are currently avoided, due to their computational expense. For example, some class of solutions solve a constrained minimization problem, maximizing packing fraction while constrained to limited or no overlaps. Introducing an optimization solve is potentially too slow for the current application. On the other hand there are a class of solutions that essentially inject grains at random in a system and substep a discrete element method to attain a viable configuration. Again, solving a sub discrete element problem with multiple timesteps needed to achieve an equilibrium state is too expensive.
+Enrichment can occur often, depending on the geometry of the problem. Because of this, speed is still a requirement of any practical packing scheme. Thus, while less informed greedy schemes may not provide adequete packing, they do potentially show a much larger speed advantage over other schemes. Packing in general is a problem that shows up in many contexts, and solutions do exist that show the ability to attain very high packing fractions that still avoid crystalline packings %\textcolor{red}{FINDREFERENCE}
+. However these solutions are currently avoided, due to their computational expense. For example, some class of solutions solve a constrained minimization problem, maximizing packing fraction while constrained to limited or no overlaps. Introducing an optimization solve is potentially too slow for the current application. On the other hand there are a class of solutions that essentially inject grains at random in a system and substep a discrete element method to attain a viable configuration. Again, solving a sub discrete element problem with multiple timesteps needed to achieve an equilibrium state is too expensive.
 
 \begin{figure}[htp] 
     \centering
@@ -161,5 +162,5 @@ In order to initialize the TPT scheme for a newly enriched element, a grain is i
 \subsection{Packing Scheme Results}
 
 
-\section{Hypoelastic Pressure Update}
+%\section{Hypoelastic Pressure Update}
 

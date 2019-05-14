@@ -12,7 +12,7 @@ $$\bold{\dot{q_d}}=\hat{\dot{\bold{q_d}}}(\bold{q_d},\bold{v_d},\bold{a_d})$$
 where $\hat{\dot{\bold{q_d}}}$ is a function that encapsulates configuration updates.
 
 \section{DEM Model} \label{DEM_Model}
-The construction of $\bold{f_d}$, and specifically the contact model that goes into $\bold{f_d}$, has been the source of much work. Popular contact models include Hertzian contact and linear spring-dashpot systems, the latter of which we use \textcolor{red}{FINDREFERENCE}. While Hertzian contact in theory accounts for a nonlinear penalty force with respect to penetration depth due to geometric considerations not present in the simple Hookean spring model, the simplicity of the Hookean spring model along with its acceptable accuracy from literature motivate the latter's use in the current study \textcolor{red}{FINDREFERENCE}. 
+The construction of $\bold{f_d}$, and specifically the contact model that goes into $\bold{f_d}$, has been the source of much work. Popular contact models include Hertzian contact and linear spring-dashpot systems, the latter of which we use \cite{Hertz:1881,Cundall:1979}. While Hertzian contact in theory accounts for a nonlinear penalty force with respect to penetration depth due to geometric considerations not present in the simple Hookean spring model, the simplicity of the Hookean spring model along with its acceptable accuracy from literature motivate the latter's use in the current study \cite{Renzo:2004}. 
 
 \begin{figure}[htp] 
     \centering
@@ -34,7 +34,7 @@ $$\gamma_n=\sqrt{mk_n}(-2\log{e})/\sqrt{2(\pi^2+\log{e}^2}$$
 where $m$ is the mean mass of a grain \cite{Kamrin:2014}. Note that the use of a "mean" mass is due to the fact that in all of the simulations conducted in this study, a slight polydispersity in granular radii is used with a single density for all particles, resulting in a mass distribution. This is done to better match real shape distributions in a granular system, and to avoid crystallization that commonly arises in monodisperse systems. The choice of $k_n$ and other material parameters is further explained for specific simulations later in the study, but in general is chosen to be as stiff as possible while still retaining a reasonable cost per time step, with a timestep usually on the order of $10^{-6}$ seconds.
 
 \section{DEM Algorithm}
-The DEM code used in this study was built completely in house, though is similar in general algorithmic structure to many DEM codes that exist, such as LAMMPS or LIGHTS \textcolor{red}{FINDREFERENCE}. Thus for transparency as well as necessity when later explaining the hybrid algorithm, the structure of the used DEM code is discussed.
+The DEM code used in this study was built completely in house, though is similar in general algorithmic structure to many DEM codes that exist, such as LAMMPS or LIGHTS. Thus for transparency as well as necessity when later explaining the hybrid algorithm, the structure of the used DEM code is discussed.
 
 \begin{algorithm}
   \caption{${\tt Overall \_ DEM \_ Algorithm}$}
@@ -63,4 +63,4 @@ The $Broad\_Phase\_Collision\_Detection$ creates an axis-aligned bounding box (A
 
 Though dry, cohesionless grains are the focus of the current work, it is noted that the DEM framework allows one to simply extend the model to cohesive grains. A new collision type can be defined that allows for tracking of grain interactions at a distance. As will be explained later, some initial work has in fact been done on this, by tracking liquid bridges that provide a source of cohesion, in order to extend the hybrid method for cohesive systems.
 
-As a final note, the DEM code is an extension and modification of the SCISIM code developed by Smith for contact dynamics \textcolor{red}{FINDREFERENCE}. In fact, as will be later discussed, that contact dynamics code was first used as the discrete method of choice for the hybrid project. However, the explicit penalty method was determined to better suit the needs of hybridization.
+As a final note, the DEM code is an extension and modification of the SCISIM code developed by Smith for contact dynamics \cite{Smith:2012}. In fact, as will be later discussed, that contact dynamics code was first used as the discrete method of choice for the hybrid project. However, the explicit penalty method was determined to better suit the needs of hybridization.

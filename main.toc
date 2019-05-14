@@ -19,11 +19,10 @@
 \contentsline {section}{\numberline {4.3}Coupling Constraints}{49}
 \contentsline {subsection}{\numberline {4.3.1}Hybrid Coupling Discretization}{50}
 \contentsline {subsection}{\numberline {4.3.2}Nodal Coupling}{51}
-\contentsline {section}{\numberline {4.4}Domain Decomposition}{52}
-\contentsline {subsection}{\numberline {4.4.1}Oracle}{52}
-\contentsline {subsection}{\numberline {4.4.2}Homogenization and Enrichment}{53}
+\contentsline {section}{\numberline {4.4}Domain Decomposition}{53}
+\contentsline {subsection}{\numberline {4.4.1}Oracle}{53}
+\contentsline {subsection}{\numberline {4.4.2}Homogenization and Enrichment}{54}
 \contentsline {subsection}{\numberline {4.4.3}Layered Hybridization}{55}
-\contentsline {section}{\numberline {4.5}Summary of Hybrid Algorithm}{55}
 \contentsline {chapter}{\numberline {5}Results}{59}
 \contentsline {section}{\numberline {5.1}Granular Column Collapse}{59}
 \contentsline {section}{\numberline {5.2}Silo Discharge}{62}
@@ -45,4 +44,3 @@
 \contentsline {subsection}{\numberline {6.2.3}Circle Sweep}{85}
 \contentsline {subsection}{\numberline {6.2.4}Two Point Tangent}{86}
 \contentsline {subsection}{\numberline {6.2.5}Packing Scheme Results}{86}
-\contentsline {section}{\numberline {6.3}Hypoelastic Pressure Update}{86}

@@ -123,10 +123,9 @@ while each column of $\Gamma_c$ contains the combination of weights, obtained fr
 With the corrected constrained velocities for both systems, we communicate this information back to the DEM and MPM algorithm. The discrete grains are advected according to the corrected velocity $v^{n+1}_d$, completing a discrete timestep. In the MPM simulation, we overwrite the * momentuma on the nodes obtained after the updateNodalMomentum step, and proceed with the rest of the MPM algorithm. With these separate systems evolved, the hybrid step is complete.
 
 \subsection{Nodal Coupling}
-While this method to compute coupling forces indeed works, a further speedup is possible by defining a second background
-grid that is co-located with the background MPM grid. The velocities of the discrete bodies can be projected to this
-second grid as if they were material points. The constraint matrices $\Gamma_d$ and $\Gamma_c$ now reduce to the
-identity, and the system in \eqref{eq:coupled_system} can be solved in closed form \eqref{eq:inexpensive_coupling}, giving the system of equations:
+When implemented, the coupling method presented works, and was used as a proof of concept on a number of toy problems. However, a linear system solve is usually a bottleneck in numerical methods, and this proved to be true here as well. Despite the fact that the linear solve is only on the relatively small hybrid portion of a simulation domain, the coupling matrix still proved to be large in absolute terms. The usual suite of solutions were tried, such as using iterative solvers and parallelizing the matrix solve, but ultimately the hybrid system solve time was constrained by this large matrix.
+
+To address this issue and greatly simplify the system, we move to coupling the discrete system in an element-averaged sense, similar to the continuum system. In essence, we treat the discrete grains like material points, and apply the projection operator defined by (\ref{projection_value}) to get nodal representations of the discrete mass and momentum on a grid that is colocated to the MPM grid. In the context of \ref{eq:coupled_system}, $\bm{Gamma}_c$ and $\bm{Gamma}_d$ both reduce to identity. We then constrain these nodal discrete and nodal continuum momenta. What results is a system of equations on each hybrid node:
 \begin{align}
 W_c M_c \bm{v}_c^{n+1} + \lambda &= W_c M_c \bm{v}^*_c , \label{eq:sys_a} \\
 W_d M_d \bm{v}_d^{n+1} - \lambda &= W_d M_d \bm{v}^*_d , \label{eq:sys_b} \\
@@ -138,14 +137,10 @@ and solving for $\bm{v}_d^{n+1}$, we find that:
 \label{eq:inexpensive_coupling}
 \bm{v}_c^{n+1} = \bm{v}_d^{n+1} = \left( W_c M_c + W_d M_d \right)^{-1} \left( W_c M_c \bm{v}_c^* + W_d M_d \bm{v}_d^* \right) .
 \end{align}
-For diagonal mass matrices, each degree of freedom can be solved for independently, and the formula reduces to an
-inelastic impact between two particles in one dimension.
+The constrained velocities can now be interpreted as an
+inelastic impact between two particles in one dimension at each hybrid grid node. An important quality of this approach is that the hybrid nodes uncouple, with the solution at each grid node being independent of the other grid nodes. Because only a single equation is being solved at each coupled node, this coupling method is very quick, and can also be trivially parallelized. We also avoid numerical issues such as having to solve an ill-conditioned matrix.
 
-Crucially, the solution at each grid
-node is independent of the other grid nodes, and takes the simple form of an inelastic collision between two particles
-with masses and velocities equal to those of the grid node (Alg. \ref{alg:hybrid_constraint_solve}). This method to compute hybridization forces is simple, robust, and
-trivially parallelized. After solving this system, the discrete grid-based velocities are mapped back to the discrete
-bodies in the same manner as MPM points. We always employ this grid vs. grid hybridization technique, and never directly solve the linear system \eqref{eq:coupled_system}.
+These new corrector momenta are treated in the same way as before in the MPM system, overwriting the * momenta values and the MPM algorithm is advanced as usual. For the discrete representation, the corrector nodal quantities are projected back to the discrete grains in the exact same way as the MPM, described in the updatePointVelocities step. This though carries with it the choice of a PIC or FLIP update, and we choose the $\alpha$ parameter to be the same as that for the MPM method. In practice, we always use this grid version of the coupling scheme because of its numerous advantages.
 
 \section{Domain Decomposition}
 
