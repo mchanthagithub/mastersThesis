@@ -66,17 +66,6 @@ Sachith Dunatunga and Ken Kamrin.
 \newblock On dense granular flows.
 \newblock {\em The European Physical Journal E}, 14(4):341--365, 2004.
 
-\bibitem{Holladay:2013}
-Seth~R. Holladay.
-\newblock {\em Optimized Simulation of Granular Materials}.
-\newblock PhD thesis, Brigham Young University, 2013.
-
-\bibitem{Holladay:2012}
-Seth~R. Holladay and Parris Egbert.
-\newblock Solid-state culled discrete element granular systems.
-\newblock In Carlos Andujar and Enrico Puppo, editors, {\em Eurographics 2012 -
-  Short Papers}. The Eurographics Association, 2012.
-
 \bibitem{Hsu:2010}
 Shu-Wei Hsu and John Keyser.
 \newblock Piles of objects.
@@ -136,22 +125,10 @@ Joseph~J. McCarthy and Julio~M. Ottino.
   mixing.
 \newblock {\em Powder Technology}, 97(2):91 -- 99, 1998.
 
-\bibitem{Mio:2009}
-Hiroshi Mio, Masatoshi Akashi, Atsuko Shimosaka, Yoshiyuki Shirakawa, Jusuke
-  Hidaka, and Shinroku Matsuzaki.
-\newblock Speed-up of computing time for numerical analysis of particle
-  charging process by using discrete element method.
-\newblock {\em Chemical Engineering Science}, 64(5):1019 -- 1026, 2009.
-
 \bibitem{Gurtin10}
 Lalit~Anand Mortin~Gurtin, Eliot~Fried.
 \newblock {\em The Mechanics and Thermodynamics of Continua}.
 \newblock Reading, Massachusetts, 12 2013.
-
-\bibitem{Munns:2015}
-Kevin~W. Munns.
-\newblock Gaseous particulate interaction in a 3-phase granular simulation.
-\newblock Master's thesis, Brigham Young University, 2015.
 
 \bibitem{Pouliquen:1999:Scaling}
 Olivier Pouliquen.
@@ -222,6 +199,10 @@ Deborah Sulsky, Zhen Chen, and Howard~L. Schreyer.
 Ellad~B. Tadmor, Rob Phillips, and Michael Ortiz.
 \newblock Mixed atomistic and continuum models of deformation in solids.
 \newblock {\em Langmuir}, 12(19):4529--4534, 1996.
+
+\bibitem{Laconchita}
+USGS.
+\newblock 1995 la conchita landslide, 1995.
 
 \bibitem{Wellmann:2012}
 Christian Wellmann and Peter Wriggers.

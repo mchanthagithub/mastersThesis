@@ -15,45 +15,45 @@ Database file #1: main.bib
 Warning--empty publisher in Lanczos:2012
 Warning--empty publisher in Gurtin10
 Warning--empty journal in Smith:2005
-You've used 46 entries,
+You've used 43 entries,
             2118 wiz_defined-function locations,
-            840 strings with 12264 characters,
-and the built_in function-call counts, 15135 in all, are:
-= -- 1500
-> -- 712
+            823 strings with 11647 characters,
+and the built_in function-call counts, 14130 in all, are:
+= -- 1402
+> -- 651
 < -- 0
-+ -- 289
-- -- 232
-* -- 1170
-:= -- 2579
-add.period$ -- 139
-call.type$ -- 46
-change.case$ -- 247
++ -- 266
+- -- 212
+* -- 1095
+:= -- 2391
+add.period$ -- 128
+call.type$ -- 43
+change.case$ -- 230
 chr.to.int$ -- 0
-cite$ -- 49
-duplicate$ -- 501
-empty$ -- 1171
-format.name$ -- 232
-if$ -- 3059
+cite$ -- 46
+duplicate$ -- 466
+empty$ -- 1105
+format.name$ -- 212
+if$ -- 2859
 int.to.chr$ -- 0
-int.to.str$ -- 46
-missing$ -- 47
-newline$ -- 234
-num.names$ -- 94
-pop$ -- 203
+int.to.str$ -- 43
+missing$ -- 45
+newline$ -- 218
+num.names$ -- 86
+pop$ -- 191
 preamble$ -- 2
-purify$ -- 206
+purify$ -- 191
 quote$ -- 0
-skip$ -- 334
+skip$ -- 315
 stack$ -- 0
-substring$ -- 1116
-swap$ -- 45
+substring$ -- 1068
+swap$ -- 42
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 176
+type$ -- 164
 warning$ -- 3
-while$ -- 154
-width$ -- 48
-write$ -- 501
+while$ -- 146
+width$ -- 45
+write$ -- 465
 (There were 3 warnings)

@@ -32,40 +32,25 @@ The hybrid scheme can be split into three main components. The first is the natu
     \label{blurred_mass}
 \end{figure}
 
-In order to understand the hybrid zone split, a more general system is introduced. Suppose that we view a single system as if it were two separate systems. Let the mass density $\rho(\bm{x})$ be defined over
-the reference coordinates $\mathbf{x} \in \Omega$ of a body (Fig.~\ref{fig:blurred_mass}). We partition the density
-with a space-time dependent weight function $w(\bm{x},t) \in \left[0,1\right]$, ensuring that we recover the original density:
-\begin{align}
-  \rho\left(\mathbf{x}\right) = w\left(\mathbf{x},t\right) \rho\left(\mathbf{x}\right) + \left( 1 - w\left(\mathbf{x},t\right) \right) \rho\left(\mathbf{x}\right) \ .
-\end{align}
-If we treat the new partitions as separate systems with generalized coordinates
-$(\mathbf{q}_1,\mathbf{v}_1)$ and $(\mathbf{q}_2,\mathbf{v}_2)$, we can recover the kinematic description of the
-original system by requiring that $\mathbf{q}_1\left(\mathbf{x},t\right) = \mathbf{q}_2\left(\mathbf{x},t\right)$.
+In order to understand the split of the system in the hybrid zone, we introduce a more general system. We start with a body defined over some domain $\Omega$, with a density field $\rho(\bm{x})$. In the hybrid scheme, the domain is decomposed into two different domains according to a weight function that is defined over time and space, $w(\bm{x},t)$ with a range between 0 and 1. The weight function $w$ allows us to decompose any field defined on the body into a linear combination of two separate fields. Taking the density as an example:
+\begin{equation}
+\rho(\bm{x})=w(\bm{x},t)\rho(\bm{x}) + (1-w(\bm{x},t))\rho(\bm{x})
+\end{equation}
+To further separate and define the subsystems, let $\bm{q}_1$ and $\bm{v}_1$ define the position and velocity respectively of the first system and $\bm{q}_2$ and $\bm{v}_2$ be the counterparts for the second system. If we impose the constraint that $\bm{q}_1=\bm{q}_2$, then, along with the weight field, we can recover the original system. If we further impose that the initial conditions of both systems are identical, such that $\bm{q}_1(t=0)=\bm{q}_2(t=0)$, then we can define the velocity constraint $\bm{c}(\bm{x},t)=\bm{v}_1(\bm{x},t)-\bm{v}_2(\bm{x},t)=0$.
 
-With identical initial configurations $\mathbf{q}_1\left( x, t_0 \right) = \mathbf{q}_2\left( x, t_0 \right)$, we can
-equivalently enforce equal velocities via the constraint
-$\mathbf{c}\left(\mathbf{x},t\right) = \mathbf{v}_1\left(\mathbf{x},t\right) - \mathbf{v}_2\left(\mathbf{x},t\right) = \mathbf{0}$.
-Consistent with Fig. \ref{fig:hybrid_illustration}, our ultimate goal is to treat the discrete particles and the
-continuum as the two subsystems with a \emph{reconciliation} zone wherever $0<w<1$.
-
-We derive our governing equations for the hybrid coupling from Hamilton's Variational Principle \cite{Lanczos:2012}; for
-dissipative systems, the analogous derivation follows from the Lagrange d'Alembert Principle, but the end result for our
-purposes is the same. This is a didactic derivation, and we will later apply these coupling forces to systems with friction, which still satisfies force/momentum balance.
-
-Suppose kinetic $T$ and potential $U$ energies are given by
+In order to derive the equations of motion for this decomposed system subject to the velocity constraint $\bm{c}(bm{x},t)$, we formulate the problem in the context of Lagrangian mechanics, using Hamilton's Variational Principle \cite{Lanczos:2012}. From this point one, the time and space dependence on the quantities of interest are excluded for brevity. We introduce the kinetic energy $T$ and potential energy $U$ of the decomposed system, defined as
 \begin{align}
 \begin{aligned}
 T &= \frac{1}{2} \int_\Omega \rho w \bm{v}_1^T \bm{v}_1 dV + \frac{1}{2} \int_\Omega \rho (1-w) \bm{v}_2^T \bm{v}_2 dV, \\
 U &= \int_\Omega \rho w e[\bm{q}_1] dV + \int_\Omega \rho (1-w) e[\bm{q}_2] dV,
 \end{aligned}
 \end{align}
-for potential energy per mass $e$. Here and henceforth, we omit explicit parameters $\left(\mathbf{x},t\right)$ when the
-dependence is clear. In addition, we couple the two systems via the augmented constraint
-$C = \int_\Omega \bm{\lambda}^T (\bm{v}_1 - \bm{v}_2) \,dV$, where $\lambda\left(\mathbf{x},t\right)$ is a
-Lagrange multiplier field.
-
-The Lagrangian $L = T - U + C$ is then incorporated into the action functional $\int_t L \,dt$, and the calculus of
-variations yields the Euler-Lagrange equations
+for potential energy per unit mass $e$. We then introduce the constraint $C$ defined by
+\begin{equation}
+C = \int_\Omega \bm{\lambda}^T (\bm{v}_1 - \bm{v}_2) \,dV
+\end{equation}
+where $\lambda\left(\mathbf{x},t\right)$ is a
+Lagrange multiplier field. With the Lagrangian $L=T-U+C$, we apply the calculus of variations to obtain the Euler-Lagrange equations for the decomposed system:
 \begin{align}
 \label{eq:coupling}
 %\left\{
@@ -75,28 +60,9 @@ variations yields the Euler-Lagrange equations
 \end{aligned}
 %\right.
 \end{align}
-which are subject to the coupling constraint $\bm{v}_1 = \bm{v}_2$. The coupling force, which acts equally and
-oppositely on the two systems to enforce the constraint, arises naturally from the calculus of variations, averting the
-formulation of ad-hoc communication models between the two systems.
+under the kinematic constraint that $\bm{v}_1=\bm{v}_2$. The Lagrange multiplier can conveniently be interpreted as a coupling force that acts equally and oppositely on both systems, in order to obtain a matching velocity field in both systems. Summing the equations for the two systems recovers the original system, displaying a partition of unity for the decomposition. 
 
-If we sum the two equations and substitute in the coupling constraint, we recover the original equations of motion for
-the entire simulation domain. The weight function naturally defines a partition of unity for the masses and the
-energies, with smaller weight values corresponding to a system having less influence in a given region. Outside the
-reconciliation zone, \eqref{eq:coupling} is simply the (usual) equations of motion for two independent systems.
-
-The Lagrange multiplier term operates as an external (constraint) force to ensure that the velocities of each system are
-equal. Under operator splitting, the above equations can be interpreted as first having two sets of (usual) decoupled
-equations of motion
-\begin{align}
-\begin{aligned}
-\rho \bm{a}_1 = - \rho \frac{\partial e}{\partial \bm{q}_1} , \\
-\rho \bm{a}_2 = - \rho \frac{\partial e}{\partial \bm{q}_2} ,
-\end{aligned}
-\end{align}
-that are scaled by the weights, with a subsequent correction from the equal and opposite constraint force to
-guarantee equal velocities.
-
-We now replace these two abstract systems with a discrete particle system and a continuum system (Fig.~\ref{fig:hybrid_illustration}). We require the stress in the continuum domain to be compatible with the homogenized frictional forces in the discrete domain. This homogenization is realizable through the so-called Christoffersen formula \cite{Christoffersen:1981:Micromechanical}, which relates the continuum stress to the discrete frictional contact forces via:
+We now replace these two abstract systems with a discrete particle system and a continuum system. We require the stress in the continuum domain to be compatible with the homogenized frictional forces in the discrete domain. This homogenization is realizable through the so-called Christoffersen formula \cite{Christoffersen:1981:Micromechanical}, which relates the continuum stress to the discrete frictional contact forces via:
 \begin{align}
 \sigma_{ij} = \frac{1}{V} \sum_{\alpha \in contacts}^{N}{\frac{1}{2}(\boldsymbol{f}_i^\alpha \boldsymbol{d}_j^\alpha + \boldsymbol{f}_j^\alpha \boldsymbol{d}_i^\alpha)} , 
 \end{align}
@@ -107,12 +73,7 @@ force vector at the $\alpha^{th}$ contact, and $\boldsymbol{d}_i^\alpha$ is the
 $i^{th}$ component of the vector connecting the centroids of the two grains in contact.
 
 \section{Coupling Constraints}
-Having accounted for the velocity (and possibly position) update from the equations of motion, we can interpret each
-system in terms of forces-per-volume and then, within a element of the hybrid domain, correct the velocities and positions to
-enforce coupling via (\ref{eq:coupling}) subject to the constraint $C$. This allows us to interpret the constraint
-$\bm{v}_1 = \bm{v}_2$ in an average or homogenized sense ~\cite{Bergou:2007:TTDTS}: in the reconciliation zone, 
-the velocity of every discrete particle is forced to agree with the interpolated velocity field of the continuum. Let $\lambda_k$
-represent the constraint force on the $k$th discrete particle. Given the reconciliation zone, $\Omega_R$, the $p$th
+With the integrated equations of motion derived from the Euler-Lagrange equations, we can derive the position and velocity updates for the separate continuum and discrete systems in the hybrid zone, where the Lagrange multiplier acts to correct the two system updates to kinematically agree with each other. The continuum nature of the continuum portion of the simulation allows us to define a velocity field everywhere in the pure continuum and hybrid portions of the domain. The kinematic constraint therefore enforces that at every discrete particle location, the discrete particle velocity is identical to the interpolated continuum velocity field at that location, enforcing the constraint in an averaged continuum sense \cite{Bergou:2007:TTDTS}. Letting the reconciliation zone be defined on a domain $\Omega_R$, and letting $\lambda_k$ represent the constraint force on the $k$th discrete particle, the $p$th
 material point moves as
 \begin{align}
 \begin{aligned}
@@ -127,26 +88,13 @@ while the $k$th discrete particle moves as
 &\frac{d}{dt} ((1-w_k) M_k \bm{v}_k) = \underbrace{\frac{d}{dt} ((1-w_k) M_k \bm{v}_k^*)}_{\textrm{\scriptsize unconstrained step}} \underbrace{\hspace{20pt} + \boldsymbol{\lambda}_k  \hspace{20pt} {\frac{d}{dt}}}_{\textrm{\scriptsize constrained step}} ,
 \end{aligned}
 \end{align}
-where $\bm{v}_p^*$ ($v_k^*$) are the predictions from continuum (discrete) simulation before coupling forces are added, and
-$\Gamma_{pk}$ are material-point to discrete-particle interpolation coefficients.
+where $\bm{v}_p^*$ and $v_k^*$ are the predictions from continuum and discrete simulations respectively before coupling forces are added, and
+$\Gamma_{pk}$ are material-point to discrete-particle interpolation coefficients, defined by the same basis functions used in the pure continuum region to interpolate the point properties to the grid.
 
 \subsection{Hybrid Coupling Discretization} \label{subsec:hybrid_coupling_discretization}
+The hybrid coupling algorithm in the context of the complete simulation routine is now discussed. In order to integrate in time, we choose an explicit scheme for all components: the discrete method, the continuum method, and the hybrid coupling. While the usual stability tradeoff is made in using an explicit scheme over an implicit scheme, we note that the simplification in the system of equations that results is, for now, worth the computational cost. The scheme can therefore be interpreted as a predictor-corrector scheme, where the DEM and MPM algorithms produce predictor quantities, and the hybrid coupling produces a corrector, applied at the end of the step. As an aside we also note that having consistent schemes across all simulations is important for coupling accuracy. Previous attempts were made to couple a contact dynamics method to the explicit MPM method used to advance the continuum. Because contact dynamics is implicit, the scheme produces a result that is consistent with the constraints defined only in the pure discrete system. Applying a corrector step to the the resulting quantities essentially throws away these constraint. Contact dynamics also assumes completely rigid particles, which does not match the finite elasticity of the constitutive law used for the continuum. The macroscopic phenomenological effects of these discrepancies was that discrete particles slowly drifted through static hybrid zones.
 
-We now present the discretized, hybrid coupling algorithm that follows from the previous discussion. 
-Note that while
-general, implicit equations of motion would require a non-linear Newton solve, with explicit equations of motion, the
-coupled solve can be reduced to a single linear solve with a predictor-corrector structure. See Appendix
-\ref{sec:appendix_predictor_corrector} for a full derivation. We further observe that MPM forces are defined on a
-background Eulerian grid, which provides a natural scratch-pad on which to compute the constraint forces. 
-%Concretely, we
-%begin a time step with a full predictor step of the discrete system, and a half-step of the continuum system to the
-%instant that material point properties are rasterized to the grid. 
-%begin a time step with a predictor step of the discrete and continuum systems to predict the velocities, without accounting for the advections.
-Concretely, a full hybrid time step begins by stepping the continuum and discrete systems in isolation, omitting the advection steps, to obtain the predicted momenta.
-In our implementation, we compute a predictor discrete step by taking a full step of the discrete system and discarding the position update. For the continuum system, we split the full MPM step into two stages, 
-where the predictor first stage steps the system to just the instant that material point properties are rasterized to the gird.
-In the DEM force computation, we weight each discrete spring force by $1-w$, evaluated at the corresponding contact point, and each body mass by $1-w$, evaluated at the center of mass. Likewise, in the MPM force computation, we weight the stress and mass of each material point by $w$, evaluated at the point location. We next assemble and solve a linear system to
-constrain the velocities of the discrete and continuum simulations in the reconciliation zone:
+Thus using the explicit schemes previously described, the hybrid coupling occurs as follows. First, an unconstrained step is taken by the discrete method, producing discrete predictor momentum $M_dv^*_d$ and forces $f^*_d$. The predictor position is discarded. An unconstrained MPM step is then taken up to and including the updateNodalMomentum step of Algorithm \ref{alg:MPM_algorithm}, resulting  resulting in continuum predictor momentum $M_cv^*_c$ and forces $f^*_c$ defined on the grid. The hybrid weight field in the hybrid zone $w$ is incorporated into the DEM by multiplying the spring constants $k_n$ and $k_t$ by $1-w$ and the mass of each particle by $1-w$, when solving for the forces on each grain at the $Force\_Update$ step of Algorithm \ref{alg:DEM_algorithm}. In the continuum, the stress and mass are weighted by $w$, which appear any time the mass or stresses are projected to and from the grid. The predictor quantities form the RHS of a system of equations for the corrected coupled system, which in matrix form is defined as:
 \begin{align}
 \begin{bmatrix}
     W_c M_c & 0 & \Gamma_c \\
@@ -160,27 +108,19 @@ constrain the velocities of the discrete and continuum simulations in the reconc
 \end{bmatrix}
 =
 \begin{bmatrix}
-    W_c \left( M_c \bm{v}^n_c + h \bm{f}^n_c \right) \\
-    W_d \left( M_d \bm{v}^n_d + h \bm{f}^n_d \right) \\
+    W_c \left( M_c \bm{v}^*_c + h \bm{f}^*_c \right) \\
+    W_d \left( M_d \bm{v}^*_d + h \bm{f}^*_d \right) \\
     0
-\end{bmatrix} , \label{eq:coupled_system}
+\end{bmatrix}
+\label{eq:coupled_system}
 \end{align}
-where $W_c$ and $W_d$ are diagonal matrices that contain the mass weights for the continuum and discrete systems, $M_c$
-and $M_d$ are the mass matrices, $\bm{v}_c$ and $\bm{v}_d$ are the velocities, and $\bm{f}_c$ and $\bm{f}_d$ are explicit forces
-from the continuum and discrete systems. 
-$M_c \bm{v}^n_c + h \bm{f}^n_c$ and $M_d \bm{v}^n_d + h \bm{f}^n_d$ are the predicted momenta of the continuum and discrete systems, respectively, and solving the linear system gives the corrected continuum and discrete velocities $\bm{v}_c^{n+1}$ and $\bm{v}_d^{n+1}$.
+where $W_c$ and $W_d$ are diagonal matrices that contain the mass weights for the continuum and discrete systems and $\bm{\lambda}$ are the Lagrange multipliers. Solving the linear system gives the corrected continuum and discrete velocities $\bm{v}_c^{n+1}$ and $\bm{v}_d^{n+1}$.
 $\Gamma_d$ and $\Gamma_c$ are defined such that
 $\Gamma_d^T \bm{v}_d - \Gamma_c^T \bm{v}_c$ produces the residual relative velocity of discrete bodies within the background
-velocity field defined by the material point grid. Under this definition, $\Gamma_d$ reduces to the identity matrix,
-while each column of $\Gamma_c$ contains the weights that recover each discrete body's center of mass from the MPM
-grid's basis functions. We compute $\Gamma_c$ using the positions of the discrete bodies and material points at the beginning of the step. Note that we can restrict the size of this system to only the degrees of freedom in the
-reconciliation zone. 
-After solving the linear system, 
-we update the discrete velocities and advect the discrete bodies along the corrected velocities,
-concluding the discrete step,
-and we compute the latter stage
-of the material point step using the new, constrained velocities, concluding the
-continuum step. This concludes a full hybrid time step, the details of which are summarized in Alg. \ref{alg:hybridstep}.
+velocity field defined by the material point grid. Thus $\Gamma_d$ is the identity matrix,
+while each column of $\Gamma_c$ contains the combination of weights, obtained from the MPM basis functions, that reconstruct a DEM grain's mass. We use as arguments for the basis functions $\bm{x}^n_p$ and $\bm{x}^n_d$, the positions of the material points and discrete bodies respectively at the beginning of the unconstratined steps.
+
+With the corrected constrained velocities for both systems, we communicate this information back to the DEM and MPM algorithm. The discrete grains are advected according to the corrected velocity $v^{n+1}_d$, completing a discrete timestep. In the MPM simulation, we overwrite the * momentuma on the nodes obtained after the updateNodalMomentum step, and proceed with the rest of the MPM algorithm. With these separate systems evolved, the hybrid step is complete.
 
 \subsection{Nodal Coupling}
 While this method to compute coupling forces indeed works, a further speedup is possible by defining a second background
@@ -462,5 +402,3 @@ We often found it beneficial to only use the discrete treatment for the topmost 
   \end{algorithmic}
   \label{alg:delete_continuum_particles}
 \end{algorithm}
-
-\section{Summary of Hybrid Algorithm}

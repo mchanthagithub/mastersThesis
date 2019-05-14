@@ -65,8 +65,8 @@ Thus despite the drawbacks of discrete element methods, they are still popular a
 \subsection{Continuum Models}
 \begin{figure}[htp] 
     \centering
-    \includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-    \caption{Aftermath of a landslide in La Conchita California.}
+    \includegraphics[width=0.4\textwidth]{figs/Laconchita1995landslide.jpg}
+    \caption{Aftermath of a landslide in La Conchita California \cite{Laconchita}.}
     \label{landslide}
 \end{figure}
 
@@ -81,27 +81,6 @@ The "liquid" flowing phase of granular materials has been much more difficult to
 All of the previously described models, while increasingly complex, still retain some simplicity in the sense that they are all local models. No length-scale is introduced, and thus no non-local effects are captured. This deficiency has been recently addressed by the work of Kamrin et al, who have proposed a non-local continuum model and thus introduce a notion of a length scale back into the continuum model \cite{Kamrin:2012:Nonlocal}. At first glance this seems provides a possible solution to the beginning stated problem of capturing length-scale effects while retaining the ability of efficient continuum equation solving methods. However, much additional work must be done to completely characterize these non-local models, and thus for now cannot be relied upon to have the fidelity of discrete methods which capture length-scale effects by their very nature.
 
 \subsection{Related Hybridization Work}
-Quasi-Continuum and Arlequin-type methods have been
-explored primarily for crystalline solids, to expedite otherwise lengthy atomistic simulations by hybridizing with a
-crystal plasticity continuum model in zones where atomistic refinement is not
-needed~\cite{Tadmor:1996,Smith:2001,Shimokawa:2007,Zhang:2005,Dhia:1998}. The idea of hybridizing discrete-particle and
-continuum approaches to simulate granular media is in its infancy, with only initial work done to show the validity of
-communicating mechanics between discrete grains and finite-element representations~\cite{Yan:2010}. Recent work has explored when
-continuum and discrete treatments are simultaneously accurate \cite{Rycroft:2009,Kamrin:2010,Kamrin:2014}, including an
-Arlequin-type method that couples statically-defined regions of a discrete element (DEM) simulation to the interior of a continuum
-FEM-based simulation to enrich stress fields around drill tips, for instance \cite{Wellmann:2012}. We build on and extend these ideas to
-target regimes in which enriched degrees of freedom are required at surfaces, and where the boundary between continuum
-and discrete regimes evolves dynamically.
+The hybridization of two different methods that are suited to two different length scales is an idea that has been explored before in other contexts. Specifically, in crystal plasticity, molecular dynamics simulations have been hybridized with continuum models to better inform the continuum models of the finer-scale kinematics occuring at slip planes \cite{Tadmor:1996,Smith:2001,Shimokawa:2007,Zhang:2005,Dhia:1998}. In granular media, discrete methods have been coupled with finite element methods, but in a manner that differs from what we propose here. In such methods, the output of discrete element simulations are used at the quadrature points of a finite element method to construct strain and stress fields; the classic finite element method is then used to advect the continuum mesh. Arlequin-type methods are used to decompose overlapped discrete and continuum domains, which we follow in this study. The validity of these types of methods has only recently been explored \cite{Yan:2010}, with some work being done on analyzing when continuum methods and discrete methods are both accurate \cite{Rycroft:2009,Kamrin:2010,Kamrin:2014}. The potential practical use of these types of methods is explored, for example, in a study by Wellmann that used discrete methods to enrich the stress field around drill tips \cite{Wellmann:2012}.
 
-In the granular physics and graphics literature, lower-level ideas have been tried where instead of implementing a
-general continuum model, the user imposes kinematic constraints to the particle motion in certain regions, often chosen
-based on experience with the problem at hand. The graphics literature has explored freezing rigid bodies that are
-sufficiently stationary~\cite{Smith:2005}. Similar techniques have been proposed to accelerate the generation of
-granular packings for industrial applications~\cite{Mio:2009}. In common granular setups such as rotating tumblers and
-growing sand piles, semi-empirical models can be used to guess zones of rigid material, and grains in these zones can be
-removed from the discrete update \cite{McCarthy:1998,Hsu:2010,Zhu:2010,Bouchaud:1994}. Holladay et al.\cite{Holladay:2012}
-carve out interior regions of granular materials moving at constant velocities and replace these groups of grains with
-meshes, but this method does not homogenize over rigidly rotating regions or over shear flows, and as the paper notes,
-can lead to volume loss. These ideas have been developed further in follow-up work ~\cite{Holladay:2013,Munns:2015}.
-These methods make no claims as to the accuracy of the techniques for science and engineering applications, and have not
-yet demonstrated stable granular flows.
+A major goal of the current technique is to speed up simulations while maintaining some measure of accuracy in zones that do not need to be well resolved. Techniques exist that aim to simply speed up discrete method simulations while ignoring the resolution of stresses and strains in zones that do not need to be simulated well; however, these techniques are useful in that they provide ideas on how to decompose the simulation into regions that need to be well resolved and those that do not. The graphics community in particular are interested in these techniques, as what occurs out of view of the audience does not need to be resolved. For example, in zones of granular media that are deemed sufficiently stationary, grains are frozen and are not used in the update of subsequent time steps \cite{Smith:2005}. These techniques are well suited to flows such as rotating drums and collapsing sand piles or growing sand piles, where the core of those geometries remain steady over time \cite{McCarthy:1998,Hsu:2010,Zhu:2010,Bouchaud:1994}. We aim to build upon the ideas used in these at times disparate fields to formulate a physically and mechanically consistent decomposition of a simulation into discrete and continuum regimes.
