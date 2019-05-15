@@ -5,4 +5,5 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {5.1}{\ignorespaces Simulation performance. Timings of our hybrid approach compared to a purely discrete approach for different scenarios. All reported costs have units of average seconds per time step. The hybrid cost includes both the cost of MPM time evolution and the coupling solves. We take a constant DEM time step of $dt=10^{-6}$ and a constant MPM time step of $dt=10^{-5}$. We gathered all performance statistics on an Intel 3.5 GHz Core i7-4770K with a single thread.\relax }}{60}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Mass ledger contributions.\relax }}{81}
+\contentsline {table}{\numberline {6.1}{\ignorespaces Mass ledger contributions.\relax }}{80}
+\addvspace {10\p@ }

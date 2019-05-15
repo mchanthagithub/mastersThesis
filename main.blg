@@ -9,6 +9,7 @@ A level-1 auxiliary file: chap03_continuum.aux
 A level-1 auxiliary file: chap04_hybridization.aux
 A level-1 auxiliary file: chap05_results.aux
 A level-1 auxiliary file: chap06_enrichment.aux
+A level-1 auxiliary file: chap07_conclusions.aux
 A level-1 auxiliary file: biblio.aux
 The style file: plain.bst
 Database file #1: main.bib
@@ -19,7 +20,7 @@ Warning--empty publisher in Gurtin10
 Warning--empty journal in Smith:2005
 You've used 57 entries,
             2118 wiz_defined-function locations,
-            918 strings with 14271 characters,
+            919 strings with 14293 characters,
 and the built_in function-call counts, 19111 in all, are:
 = -- 1870
 > -- 926

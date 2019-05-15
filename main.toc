@@ -1,28 +1,28 @@
-\contentsline {chapter}{\numberline {1}Introduction}{15}
-\contentsline {section}{\numberline {1.1}Granular Media Modeling}{16}
-\contentsline {subsection}{\numberline {1.1.1}Discrete Methods}{17}
-\contentsline {subsection}{\numberline {1.1.2}Continuum Models}{19}
-\contentsline {subsection}{\numberline {1.1.3}Related Hybridization Work}{21}
-\contentsline {chapter}{\numberline {2}Discrete Element Method}{23}
-\contentsline {section}{\numberline {2.1}DEM Model}{24}
-\contentsline {section}{\numberline {2.2}DEM Algorithm}{25}
-\contentsline {chapter}{\numberline {3}Continuum Model}{29}
-\contentsline {section}{\numberline {3.1}Hyperleastic-Plastic Model}{29}
-\contentsline {section}{\numberline {3.2}Hypoelastic-Plastic Model}{33}
-\contentsline {section}{\numberline {3.3}Material Point Method}{36}
-\contentsline {subsection}{\numberline {3.3.1}MPM Algorithm Overview}{37}
-\contentsline {subsection}{\numberline {3.3.2}MPM Formulation and Discretization}{38}
-\contentsline {subsection}{\numberline {3.3.3}Relevant Notes on MPM}{42}
-\contentsline {chapter}{\numberline {4}Hybridization}{45}
-\contentsline {section}{\numberline {4.1}Hybridization Overview}{45}
-\contentsline {section}{\numberline {4.2}Reconciliation Zone Splitting}{47}
-\contentsline {section}{\numberline {4.3}Coupling Constraints}{49}
-\contentsline {subsection}{\numberline {4.3.1}Hybrid Coupling Discretization}{50}
-\contentsline {subsection}{\numberline {4.3.2}Nodal Coupling}{51}
-\contentsline {section}{\numberline {4.4}Domain Decomposition}{53}
-\contentsline {subsection}{\numberline {4.4.1}Oracle}{53}
-\contentsline {subsection}{\numberline {4.4.2}Homogenization and Enrichment}{54}
-\contentsline {subsection}{\numberline {4.4.3}Optimized Zone Decomposition}{57}
+\contentsline {chapter}{\numberline {1}Introduction}{17}
+\contentsline {section}{\numberline {1.1}Granular Media Modeling}{18}
+\contentsline {subsection}{\numberline {1.1.1}Discrete Methods}{19}
+\contentsline {subsection}{\numberline {1.1.2}Continuum Models}{21}
+\contentsline {subsection}{\numberline {1.1.3}Related Hybridization Work}{23}
+\contentsline {chapter}{\numberline {2}Discrete Element Method}{25}
+\contentsline {section}{\numberline {2.1}DEM Model}{26}
+\contentsline {section}{\numberline {2.2}DEM Algorithm}{27}
+\contentsline {chapter}{\numberline {3}Continuum Model}{31}
+\contentsline {section}{\numberline {3.1}Hyperleastic-Plastic Model}{31}
+\contentsline {section}{\numberline {3.2}Hypoelastic-Plastic Model}{35}
+\contentsline {section}{\numberline {3.3}Material Point Method}{38}
+\contentsline {subsection}{\numberline {3.3.1}MPM Algorithm Overview}{39}
+\contentsline {subsection}{\numberline {3.3.2}MPM Formulation and Discretization}{40}
+\contentsline {subsection}{\numberline {3.3.3}Relevant Notes on MPM}{44}
+\contentsline {chapter}{\numberline {4}Hybridization}{47}
+\contentsline {section}{\numberline {4.1}Hybridization Overview}{47}
+\contentsline {section}{\numberline {4.2}Reconciliation Zone Splitting}{49}
+\contentsline {section}{\numberline {4.3}Coupling Constraints}{51}
+\contentsline {subsection}{\numberline {4.3.1}Hybrid Coupling Discretization}{52}
+\contentsline {subsection}{\numberline {4.3.2}Nodal Coupling}{53}
+\contentsline {section}{\numberline {4.4}Domain Decomposition}{55}
+\contentsline {subsection}{\numberline {4.4.1}Oracle}{55}
+\contentsline {subsection}{\numberline {4.4.2}Homogenization and Enrichment}{56}
+\contentsline {subsection}{\numberline {4.4.3}Optimized Zone Decomposition}{58}
 \contentsline {chapter}{\numberline {5}Results}{59}
 \contentsline {section}{\numberline {5.1}Granular Column Collapse}{59}
 \contentsline {section}{\numberline {5.2}Silo Discharge}{62}
@@ -39,8 +39,9 @@
 \contentsline {subsection}{\numberline {6.1.1}Mass Ledger}{78}
 \contentsline {subsection}{\numberline {6.1.2}Mass Ledger Implementation}{80}
 \contentsline {section}{\numberline {6.2}Packing Schemes}{81}
-\contentsline {subsection}{\numberline {6.2.1}Random Packing}{82}
-\contentsline {subsection}{\numberline {6.2.2}Grid Packing}{83}
-\contentsline {subsection}{\numberline {6.2.3}Circle Sweep}{85}
-\contentsline {subsection}{\numberline {6.2.4}Two Point Tangent}{86}
+\contentsline {subsection}{\numberline {6.2.1}Random Packing}{81}
+\contentsline {subsection}{\numberline {6.2.2}Grid Packing}{82}
+\contentsline {subsection}{\numberline {6.2.3}Circle Sweep}{83}
+\contentsline {subsection}{\numberline {6.2.4}Two Point Tangent}{85}
 \contentsline {subsection}{\numberline {6.2.5}Packing Scheme Results}{86}
+\contentsline {chapter}{\numberline {7}Conclusions and Future Work}{87}

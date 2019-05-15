@@ -1,0 +1,12 @@
+%% This is an example first chapter.  You should put chapter/appendix that you
+%% write into a separate file, and add a line \include{yourfilename} to
+%% main.tex, where `yourfilename.tex' is the name of the chapter/appendix file.
+%% You can process specific files by typing their names in at the 
+%% \files=
+%% prompt when you run the file main.tex through LaTeX.
+\chapter{Conclusions and Future Work}
+In this study we have presented a technique that is able to couple two different methods, the discrete element method and the material point method, that are suited for different length scales, via a hybrid zone. A coupling scheme is presented that decomposes the mass and stress of the hybrid domain into a weighted discrete mass and stress and a weighted continuum mass and stress. The constraint that forces the two different representations to be kinematically identical in the hybrid zone is also presented.
+
+We have additionally demonstrated methods to convert between the two representations that preserve mass (in a time-averaged sense) and momentum. The sum of all of this machinery is that the current method is able to obtain a significant speedup over the pure discrete method, while still solving for the mechanics occurring in the areas not represented by discrete grains. Qualitative and quantitative matches are seen between the hybrid method and experimental literature.
+
+The results obtained so far indicate that there is promise to this technique. However, there is still much left to explore and improve. For instance, the oracle is an area rife for improvement. Properties besides packing fraction, such as strain rate or strain rate gradients, could be used to identify phenomena like shear bands, and enrich those bands before they form in the continuum. As briefly alluded to, enrichment could capture stress fields via the initialization of force chains. Additional behavior, such as cohesion, could also be added. The application of the hybrid technique to other contexts could also be explored, such as bridging the multiscale gap between cells and tissue-level mechanics in biological systems. The potential is clear, and we will move forward in exploring these new ideas.

@@ -1,14 +1,14 @@
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1-1}{\ignorespaces Flowing hourglass displaying three distinct granular phases.\relax }}{17}
-\contentsline {figure}{\numberline {1-2}{\ignorespaces Aftermath of a landslide in La Conchita, California \cite {Laconchita}.\relax }}{20}
+\contentsline {figure}{\numberline {1-1}{\ignorespaces Flowing hourglass displaying three distinct granular phases.\relax }}{19}
+\contentsline {figure}{\numberline {1-2}{\ignorespaces Aftermath of a landslide in La Conchita, California \cite {Laconchita}.\relax }}{22}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2-1}{\ignorespaces Two disks in contact with relevant properties labeled for DEM.\relax }}{24}
+\contentsline {figure}{\numberline {2-1}{\ignorespaces Two disks in contact with relevant properties labeled for DEM.\relax }}{26}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3-1}{\ignorespaces Schematic of a single timestep in MPM.\relax }}{37}
+\contentsline {figure}{\numberline {3-1}{\ignorespaces Schematic of a single timestep in MPM.\relax }}{39}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4-1}{\ignorespaces Diagram of a hybrid simulation.\relax }}{46}
-\contentsline {figure}{\numberline {4-2}{\ignorespaces Blurred Density: (Left) The reference domain $\Omega $ of an object with density $\rho (\bm {x})$. Mass density is colored in blue. (Right) A partition of unity of the density mediated by a weight function $w(\bm {x},t)$.\relax }}{47}
-\contentsline {figure}{\numberline {4-3}{\ignorespaces Initialization of a hybrid simulation: (A) We begin with a collection of DEM grains. (B) We next locate a level set corresponding to a given low density, here denoted as a black line. (C) Across the domain, we compute the distance to the density threshold, indicated by lines in lighter shades of red as the distance increases. (D) We select a user-tunable distance to the density level-set that serves as the center of the hybrid ``reconciliation" zone. We denote this critical distance as a solid black line. (E) We extend the hybrid zone along the distance field by a given half-width in each direction, indicated by dotted lines. This hybrid reconciliation zone between the dotted lines defines a zone where the DEM system will be coupled to the continuum system. We homogenize the velocity and stress for use in step (G). (F) We delete all discrete grains that fall within the inner boundary of the reconciliation zone. (G) We run the "avoid-a-void" algorithm of Yue et al. \cite {Yue:2015:Continuum} from the outer boundary in to populate the region with material points. The material point states are determined using the homogenized velocity and stress computed in step (E).\relax }}{53}
+\contentsline {figure}{\numberline {4-1}{\ignorespaces Diagram of a hybrid simulation.\relax }}{48}
+\contentsline {figure}{\numberline {4-2}{\ignorespaces Blurred Density: (Left) The reference domain $\Omega $ of an object with density $\rho (\bm {x})$. Mass density is colored in blue. (Right) A partition of unity of the density mediated by a weight function $w(\bm {x},t)$.\relax }}{49}
+\contentsline {figure}{\numberline {4-3}{\ignorespaces Initialization of a hybrid simulation: (A) We begin with a collection of DEM grains. (B) We next locate a level set corresponding to a given low density, here denoted as a black line. (C) Across the domain, we compute the distance to the density threshold, indicated by lines in lighter shades of red as the distance increases. (D) We select a user-tunable distance to the density level-set that serves as the center of the hybrid ``reconciliation" zone. We denote this critical distance as a solid black line. (E) We extend the hybrid zone along the distance field by a given half-width in each direction, indicated by dotted lines. This hybrid reconciliation zone between the dotted lines defines a zone where the DEM system will be coupled to the continuum system. We homogenize the velocity and stress for use in step (G). (F) We delete all discrete grains that fall within the inner boundary of the reconciliation zone. (G) We run the "avoid-a-void" algorithm of Yue et al. \cite {Yue:2015:Continuum} from the outer boundary in to populate the region with material points. The material point states are determined using the homogenized velocity and stress computed in step (E).\relax }}{55}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {5-1}{\ignorespaces Granular column: A collapsing column simulated with DEM (top) and with our hybrid approach (bottom). Observe the nice agreement in the final profile with our hybrid approach and the purely DEM approach. \relax }}{59}
 \contentsline {figure}{\numberline {5-2}{\ignorespaces Runout of a 2D granular column: Nondimensionalized runout distance, $\delta d/d_i=(d_f-d_i) / d_i$, vs aspect ratio, $AR = h_i / d_i$. Like DEM, our hybrid technique captures the two distinct regimes that Lube \cite {Lube:2005} observed in experiments. We perform a linear fit in the low-$AR$ regime, and a power-law fit in the high-$AR$ regime.\relax }}{61}
@@ -27,12 +27,16 @@
 \contentsline {figure}{\numberline {5-15}{\ignorespaces Phase plots: Phase plots for $H = 0.0025$ (top left), $H = 0.00125$ (top right), $H = 0.00083$ (bottom left), and $H = 0.000625$ (bottom right). Red denotes regimes where our hybrid scheme is faster while blue denotes regimes where DEM is faster. \relax }}{71}
 \contentsline {figure}{\numberline {5-16}{\ignorespaces Periodic chute flow: We set a granular packing at an angle $\theta $ with periodic boundary conditions to simulate flow down a chute. \relax }}{73}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6-1}{\ignorespaces Mechanisms of deviations away from exact mass conservation.\relax }}{76}
-\contentsline {figure}{\numberline {6-2}{\ignorespaces Evolution of a hybrid flow down a chute showing mass loss.\relax }}{77}
-\contentsline {figure}{\numberline {6-3}{\ignorespaces Mass fluxes in a hybrid system and the construction of a ledger.\relax }}{79}
-\contentsline {figure}{\numberline {6-4}{\ignorespaces Discrete particle entering a pure continuum regime.\relax }}{80}
-\contentsline {figure}{\numberline {6-5}{\ignorespaces Mass over time for random packing.\relax }}{82}
-\contentsline {figure}{\numberline {6-6}{\ignorespaces Non-optimal grain placement leading to inability to reach target packing fraction.\relax }}{83}
-\contentsline {figure}{\numberline {6-7}{\ignorespaces Chute flow example zoomed into hybrid zone.\relax }}{84}
-\contentsline {figure}{\numberline {6-8}{\ignorespaces Grid enrichment scheme.\relax }}{84}
-\contentsline {figure}{\numberline {6-9}{\ignorespaces Circle sweep scheme.\relax }}{85}
+\contentsline {figure}{\numberline {6-1}{\ignorespaces Evolution of a hybrid flow down a chute showing mass loss. (a) Initial state. (b) After 0.5s of flow. (c) After 1s of flow.\relax }}{77}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{77}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{77}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{77}
+\contentsline {figure}{\numberline {6-2}{\ignorespaces Mass fluxes in a hybrid system.\relax }}{78}
+\contentsline {figure}{\numberline {6-3}{\ignorespaces Non-optimal enrichment. (a) Element that needs additional discrete grains. (b) Optimal packing that reaches desired packing fraction. (c) Actual sub-optimal placement of grain that prevents other grains (light blue) from being injected.\relax }}{82}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{82}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{82}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{82}
+\contentsline {figure}{\numberline {6-4}{\ignorespaces Grid enrichment scheme.\relax }}{83}
+\contentsline {figure}{\numberline {6-5}{\ignorespaces Circle sweep scheme. (a) Initialize with seed grain (light blue). (b) Sweep around seed grain. (c) Move to the next seed in the queue. (d) Sweep around new seed grain.\relax }}{84}
+\contentsline {figure}{\numberline {6-6}{\ignorespaces Two Point Tangent Scheme. (a) Initialize with seed grain (light blue) and partner grain (green). (b) Inject new points at locations that are tangent to seed grain and partner grain. (c) Move to the next partner grain in the queue. (d) Inject any possible grains between the seed and new partner grains.\relax }}{85}
+\addvspace {10\p@ }
