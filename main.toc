@@ -22,7 +22,7 @@
 \contentsline {section}{\numberline {4.4}Domain Decomposition}{53}
 \contentsline {subsection}{\numberline {4.4.1}Oracle}{53}
 \contentsline {subsection}{\numberline {4.4.2}Homogenization and Enrichment}{54}
-\contentsline {subsection}{\numberline {4.4.3}Layered Hybridization}{55}
+\contentsline {subsection}{\numberline {4.4.3}Optimized Zone Decomposition}{57}
 \contentsline {chapter}{\numberline {5}Results}{59}
 \contentsline {section}{\numberline {5.1}Granular Column Collapse}{59}
 \contentsline {section}{\numberline {5.2}Silo Discharge}{62}

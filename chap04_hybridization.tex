@@ -125,7 +125,7 @@ With the corrected constrained velocities for both systems, we communicate this 
 \subsection{Nodal Coupling}
 When implemented, the coupling method presented works, and was used as a proof of concept on a number of toy problems. However, a linear system solve is usually a bottleneck in numerical methods, and this proved to be true here as well. Despite the fact that the linear solve is only on the relatively small hybrid portion of a simulation domain, the coupling matrix still proved to be large in absolute terms. The usual suite of solutions were tried, such as using iterative solvers and parallelizing the matrix solve, but ultimately the hybrid system solve time was constrained by this large matrix.
 
-To address this issue and greatly simplify the system, we move to coupling the discrete system in an element-averaged sense, similar to the continuum system. In essence, we treat the discrete grains like material points, and apply the projection operator defined by (\ref{projection_value}) to get nodal representations of the discrete mass and momentum on a grid that is colocated to the MPM grid. In the context of \ref{eq:coupled_system}, $\bm{Gamma}_c$ and $\bm{Gamma}_d$ both reduce to identity. We then constrain these nodal discrete and nodal continuum momenta. What results is a system of equations on each hybrid node:
+To address this issue and greatly simplify the system, we move to coupling the discrete system in an element-averaged sense, similar to the continuum system. In essence, we treat the discrete grains like material points, and apply the projection operator defined by (\ref{projection_value}) to get nodal representations of the discrete mass and momentum on a grid that is colocated to the MPM grid. In the context of \ref{eq:coupled_system}, $\bm{\Gamma}_c$ and $\bm{\Gamma}_d$ both reduce to identity. We then constrain these nodal discrete and nodal continuum momenta. What results is a system of equations on each hybrid node:
 \begin{align}
 W_c M_c \bm{v}_c^{n+1} + \lambda &= W_c M_c \bm{v}^*_c , \label{eq:sys_a} \\
 W_d M_d \bm{v}_d^{n+1} - \lambda &= W_d M_d \bm{v}^*_d , \label{eq:sys_b} \\
@@ -160,240 +160,199 @@ These new corrector momenta are treated in the same way as before in the MPM sys
     (G) We run the "avoid-a-void" algorithm of Yue et al. \cite{Yue:2015:Continuum} from the outer boundary in to populate the region with material points. The material point states are determined using the homogenized velocity and stress computed in step (E).}
     \label{hybrid_initialization}
 \end{figure}
-Critical to our hybridization method is an oracle that is able to flag regions of the simulation domain as safe for a
-continuum treatment. Regions are unfit for a continuum treatment when one of any number of conditions are satisfied.
-First, in regions of low pressure, grains are more likely to separate from the material bulk and undergo ballistic
-motion. Second, high strain rate gradients suggest that the granular flow varies too rapidly to be safely represented as
-a homogenized continuum \cite{Dijksman:2010:Granular,Kamrin:2010,Koval:2009:Annular}. Finally, in thin flows,
-grain-level dynamics can dominate, leading to finite size effects (e.g., clogging) not captured by local continuum models
-\cite{Beverloo:1961:Flow,Midi:2004:Dense,Pouliquen:1999:Scaling,Sheldon:2010:Granular}. We have found that the packing
-fraction serves as an effective signal for these sources of fundamentally discrete behavior. The emphasis on packing fraction
-is further motivated by the fact that graphical fidelity should be retained on the exterior of granular systems of interest, as it is this
-low packing fraction exterior that is seen by an observer.
+Now that we have defined the coupling in the hybrid zone, we have fully defined the equations of motion in all regions of the domain and can integrate those regions in time and space. The next component of the hybrid algorithm then is determining how the entire domain is decomposed into those different regions. The mechanism that does this is deemed the "oracle"; given the current state of the simulation, the oracle tells us what regions are safe to be modeled via continuum and which regions need the higher resolution discrete model. The oracle itself opens up a deeper field of inquiry, as it essentially asks what properties in a granular flow are most important in capturing the different behaviors of that flow. 
 
-Our oracle begins by computing the packing fraction of the discrete particle system on a uniform background grid. Note
-that only discrete grains are considered when computing the packing fraction, as continuum and hybrid regions are, by
-ansatz, considered sufficiently dense. From this implicit representation, we extract an isocontour corresponding to a
-critical, threshold packing fraction $\Phi_\rho$ (Fig.~\ref{fig:hybrid:hybrid_initialization} (B)). We next compute the distance $\Phi_d(\bm{x})$ to this threshold isocontour on a second, uniform grid (C), and define an isocontour corresponding to a user specified distance $\phi_0$ as the centerline of the reconciliation zone (D). We label a zone as hybrid if the distance from the centerline is within a given half-width $r_h$, i.e. $\phi_0 - r_h \leq \Phi_d(\bm{x}) \leq \phi_0 + r_h$. Similary, we label a zone as continuum if $\Phi_d(\bm{x}) > \phi_0 - r_h$ and a zone as discrete if $\Phi_d(\bm{x}) < \phi_0 + r_h$ (Alg. \ref{alg:identify_hybrid_zones}).
-%See Figure \ref{fig:hybrid:hybrid_initialization} for an example of initializing a
-%hybrid simulation from purely discrete initial conditions.
+As a first pass, we consider a number of scenarios where simple continuum laws cannot accurately capture behaviors of interest. Grain-scale level behaviors, such as breaking off of individual grains from a pile, cannot be well captured by a continuum model. Geometries and flows where finite-size effects in general are important are difficult to capture, such as the jamming of a silo due to arch formation near the silo orifice \cite{Beverloo:1961:Flow,Midi:2004:Dense,Pouliquen:1999:Scaling,Sheldon:2010:Granular}. Areas with high-strain rates, resulting in very non-affine motion, are also difficult to capture in continuum \cite{Dijksman:2010:Granular,Kamrin:2010,Koval:2009:Annular}. Free surface flows, and the interaction of multiple granular bodies at their respective free surfaces, are also difficult to model with continuum models, with the possible need to define contact models.
+
+A convenient proxy that tends to delineate when these processes are or are not occurring is the granular packing fraction. For example, at the free surface of a granular body, the packing fraction goes to 0. Breakaway particles also have a low packing fraction, where a representative volume will only capture a few grains. Our current oracle therefore takes as its input measurements of the packing fraction.
+
+At the beginning of a hybrid update, the packing fraction of the pure discrete system is calculated via the use of a background grid. We take the grid divisions to be an integer multiple of the MPM and hybrid grids. Any elements in the packing fraction grid that are co-located with a hybrid or MPM zone defined on the hybrid grid are marked as having a packing fraction of 1. The elements corresponding to pure discrete zones are calculated via area or volume intersections of the grains with the grid element they are in. From this $\Phi$ field  we can construct an packing field isocontour corresponding to a user-adjustable critical packing, $\Phi_c$. $\phi_0$, another user-adjustable parameter, is the distance away from the $\Phi$ contour deemed safe for the continuum model. Finally, the reconciliation zone half-width, $r_h$, is used in conjunction with the other parameters to establish the zone types. Elements are hybrid if the distance of that element to the isocountour $\Phi_c$ is  
+$\phi_0 - r_h \leq \Phi_d(\bm{x}) \leq \phi_0 + r_h$. Zones are marked continuum if $\Phi_d(\bm{x}) > \phi_0 - r_h$ and discrete if $\Phi_d(\bm{x}) < \phi_0 + r_h$.
 
 \subsection{Homogenization and Enrichment}
 \label{sec:enrichment}
-After updating the boundary between simulation domains, we are faced with four possible transition scenarios: a
-previously hybrid zone is now purely discrete, a previously hybrid zone is now purely continuum, a previously discrete
-zone is now hybrid, or a previously continuum zone is now hybrid. Note that after initialization, we do not permit
-direct transitions from continuum to discrete regions or vice versa. The transition away from a hybrid representation is
-quite simple. For a hybrid region transitioning to a purely discrete region, we simply delete all material points in the
-region. Similarly, for a hybrid region transitioning to a purely continuum region, we delete all discrete grains in the
-region. The transition to a hybrid representation is more involved, however. A region that previously contained only
-material points will require the insertion of discrete grains. Likewise, a previously discrete region will require the
-insertion of new material points. See Alg. \ref{alg:update_hybrid_zones}.
+With the domain decomposition machinery defined, the final step in fully defining the hybrid scheme is to determine how to convert between the various representations. It should be noted that we do not allow conversions from pure discrete regions to pure continuum regions and vice versa, forcing them to transition through a hybrid regime. This results in a smoother transition in time between the two representations and also ensures that there is always a hybrid zone between pure discrete and pure continuum elements. If a simulation starts with only discrete grains, then we run the following scheme twice, first transitioning the interior to a hybrid representation, then again, converting the interior hybrid zones to continuum.
 
-The problem of adding samples to a dynamic simulation was addressed in the context of the material point method with the
-recently proposed avoid-a-void algorithm \cite{Yue:2015:Continuum}. The avoid-a-void method applies Poisson disc
-sampling to maintain approximately constant material point distributions and to prevent the formation of non-physical
-voids within a simulated material. This technique is perfectly suited to our needs, where we need to insert material
-points or discrete grains in regions of high material density recently labeled as hybrid. 
+We therefore must account for four different types of zone conversions: hybrid to discrete, hybrid to continuum, discrete to hybrid, and continuum to hybrid. For the hybrid to discrete conversion, any material points in the element are deleted and the discrete grains are kept unmodified (other than their weight function $w$). Similarly, in the hybrid to continuum conversion, any discrete grains are deleted and the continuum weights are changed but are otherwise left alone. The conversions to hybrid zones are a little more involved, as creation is more difficult than deletion. In going from discrete to hybrid, material points must be introduced in manner such that the now weighted discrete grains and new weighted material points sum to be consistent with the pure discrete system. The must occur for new grains in converting from continuum to hybrid zones. In order to introduce new points and grains to new hybrid zones, we utilize the "Avoid a Void" (AA) sampling algorithm developed by Yue et al in the context of improved MPM point sampling \cite{Yue:2015:Continuum}. AA utilizes Poisson-disk sampling to generate the location of new points in a random but spatially uniform manner, helping to ensure that the position of the MPM points (which are also the continuum quadrature points) are visually well distributed but also result in satisfactory integration.
 
+Therefore, to convert from discrete to hybrid zones, new MPM points are injected at locations determined from AA. To initialize the properties of the points, we homogenize the discrete grain properties. A new background grid is introduced, co-located with the hybrid grid. We utilize the MPM basis functions to project the mass and momentum of the discrete grains to the nodes of this grid, and obtain nodal velocities from those quantities. We then use the basis functions again to interpolate this grid velocity at the location of the new MPM points, and assign those velocities to those points. We also homogenize the stress of the discrete grains with the Christoffersen formula, and project those stresses to the nodes. Again we interpolate this field to get the MPM point stresses. We then determine the strain field by utilizing the constitutive law. For the hyperelastic model, we obtain $\bar{\bm{B}}^e$ by utilizing the fact that $dev[\bar{\boldsymbol{B}}^e] = \frac{J}{\mu} dev[\bm{\sigma}]$ and $\bar{\boldsymbol{B}}^e = dev[\bar{\boldsymbol{B}}^e] + t \boldsymbol{I}$,
+and we solve for $t$ with $det[\bar{\boldsymbol{b}}^e] = 1$. 
+%We emphasize the importance of syncing the stress and strain during homogenization to
+%preserve volume. Previously, we initialized new continuum elements to a stress-free state.
+%This stress-free initialization caused the material to gain volume if the discrete grains were between a gaseous and liquid state while separating, however.
 
-For discrete grains, the new
-position is determined by the Poisson disc sampling procedure, while we draw the radius of new grains from the same
-normal distribution used to generate the initial grain radii. The initial velocity of new discrete grains is computed by
-averaging the velocity of surrounding discrete grains and material points within a radius of $6$ (mean) grain diameters, with an exponential
-falloff (Alg. \ref{alg:create_discrete_grain}). This window width is slightly above the minimal size that recovers
-continuum-like quantities in a ``granular volume element'' \cite{Rycroft:2009}. These nearest neighbor queries are
-accelerated with a uniform background grid. 
+To introduce discrete grains, we introduce grains with a radius determined from a given distribution, and again pick new locations according to the AA algorithm. Here, there is the additional constraint that new grains must not overlap other grains. It should be noted that this is not entirely symmetric with the homogenization process; in homogenization we determine a continuum stress field from a discrete force network but in enrichment we do not establish a force network from a continuum stress field. This is because the latter is an ill-posed problem, and would require a possible optimization process to determine. We note that this is a future area of work, and justify the current lack of force network formation by the observation that in practice, the discrete grains quickly form appropriate contact networks in the hybrid zone and these transients do not seem to affect the overall dynamics of the problem at a noticeable level. The initial velocity of new discrete grains is computed by averaging the velocity of surrounding discrete grains and material points within a radius of $6$ (mean) grain diameters, with an exponential
+falloff. This window width is slightly above the minimal size that recovers
+continuum-like quantities in a "granular volume element" \cite{Rycroft:2009}.
 
-We first determine the positions of new material points with Poisson disc sampling. Next, we compute the velocity,
-(normalized) strain, and deformation gradient magnitude of new points with \textit{homogenization}.
-We utilize a regular grid to rasterize the velocity of discrete grains; after rasterizing each discrete grain's mass and
-momentum to the grid (using the same rasterization procedure as MPM), we divide the rasterized momentum by the rasterized
-mass to determine each grid node's velocity. Likewise, we estimate the \textit{homogenized} stress at grid nodes using
-a modification of the Christoffersen formula \cite{Christoffersen:1981:Micromechanical} that yields smooth stress 
-fields via the MPM shape functions, as described in Alg. \ref{alg:homogenize_stress}.
-After computing the homogenized velocities and stresses at nodes, we use the MPM shape functions to evaluate
-the velocity and stress at the newly generated material point positions. Finally, we convert the interpolated stress to
-strain: from the definition of the Kirchhoff stress, we can relate the Cauchy stress and the strain via
-$\bm{\sigma} = \frac{\kappa}{2} \frac{\left( J^2 - 1 \right)}{J} \boldsymbol{I} + \frac{\mu}{J} dev[\bar{\boldsymbol{b}}^e]$.
-By taking the trace of both sides, we obtain $Tr[ \bm{\sigma} ] = \frac{3 \kappa}{2} \frac{\left( J^2 - 1 \right)}{J}$ (in 3D)
-and solve for $J$. Next, by taking the deviator of both sides, we obtain $dev[\bar{\boldsymbol{b}}^e] = \frac{J}{\mu} dev[\bm{\sigma}]$.
-Finally, $\bar{\boldsymbol{b}}^e$ is given in the form $\bar{\boldsymbol{b}}^e = dev[\bar{\boldsymbol{b}}^e] + t \boldsymbol{I}$,
-and we solve for $t$ with $det[\bar{\boldsymbol{b}}^e] = 1$.
-
-We emphasize the importance of syncing the stress and strain during homogenization to
-preserve volume. Previously, we initialized new continuum elements to a stress-free state.
-This stress-free initialization caused the material to gain volume if the discrete grains were between a gaseous
-and liquid state while separating, however.
-
-\subsection{Layered Hybridization}
+\subsection{Optimized Zone Decomposition}
 \label{sec:layered_3D}
-We often found it beneficial to only use the discrete treatment for the topmost visible portion of a granular assembly. If the boundary treatment (at the side walls and floor) with the continuum elements is physically valid, and if the continuum elements are invisible from the outside, this \textit{layered hybridization} approach yields additional speed improvements. We apply this approach to the bunny toss, excavator, bunny drill, and tire examples in Section~\ref{sec:results}.
-
-\begin{algorithm}
-\caption{${\tt Identify \_ Hybrid \_ Zones}$}
-\begin{algorithmic}[1]
-\State $\Phi_{\rho} \gets {\tt Discrete \_ Packing \_ Fraction \_ Isocontours}\left(\boldsymbol{q}_d\right)$
-\State $\Phi_{d} \gets {\tt Distance \_ to \_ Density \_ Isocontours}\left(\Phi_{\rho}\right)$
-\State ${\tt continuum \_ zone}\left( \mathbf{x} \right) \gets \Phi_{d}\left( \mathbf{x} \right) > \phi_0 - r_h$
-\State ${\tt discrete \_ zone}\left( \mathbf{x} \right) \gets \Phi_{d}\left( \mathbf{x} \right) < \phi_0 + r_h$
-\State ${\tt hybrid \_ zone}\left( \mathbf{x} \right) \gets \phi_0 - r_h \leq \Phi_{d}\left( \mathbf{x} \right) \leq \phi_0 + r_h$
-\end{algorithmic} \label{alg:identify_hybrid_zones}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{${\tt Update \_ Hybrid \_ Zones}$}
-\begin{algorithmic}[1]
-\State ${\tt Homogenize \_ Velocity \_ and \_ Stress}\left( {\tt hybrid \_ zone} \right)$ 
-\State ${\tt Discrete \_ Avoid \_ a \_ Void}\left( {\tt hybrid \_ zone} \right)$ 
-\State ${\tt Continuum \_ Avoid \_ a \_ Void}\left( {\tt hybrid \_ zone} \right)$ 
-\State ${\tt Delete \_ Discrete \_ Grains}\left( {\tt continuum \_ zone} \right)$ 
-\State ${\tt Delete \_ Continuum \_ Particles}\left( {\tt discrete \_ zone} \right)$ 
-\end{algorithmic} \label{alg:update_hybrid_zones}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{${\tt Update \_ Hybrid \_ State}$}
-\begin{algorithmic}[1]
-\State ${\tt Identify \_ Hybrid \_ Zones}$
-\State ${\tt Update \_ Hybrid \_ Zones}$
-\end{algorithmic} \label{alg:update_hybrid_state}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{${\tt Create \_ Discrete \_ Grain}$}
-\begin{algorithmic}[1]
-\State $\mathbf{x} \gets {\tt Position \_ from \_ Avoid \_ a \_ Void}$
-\State $r \gets N\left( r_{mean}, r_{sigma} \right)$ \Comment{Normally distributed radii}
-\State $m \gets \frac{4}{3} \pi r ^ 3$
-\State $\mathbf{v} \gets 0$
-\State $W \gets 0$
-\For{$i=0 \dots N_d$} \Comment{Iterate over discrete grains}
-  \If{$\left| \mathbf{x}_i - \mathbf{x} \right| < 12 \ r_{mean}$}
-    \State $w \gets e^{ \left| \mathbf{x}_i - \mathbf{x} \right|^2 / 2 r_{mean}^2}$
-    \State $\mathbf{v} \gets \mathbf{v} + w \ \mathbf{v}_i$
-    \State $W \gets W + w$
-  \EndIf
-\EndFor
-\For{$i=0 \dots N_c$} \Comment{Iterate over material points}
-  \If{$\left| \mathbf{x}_i - \mathbf{x} \right| < 12 \ r_{mean}$}
-    \State $w \gets e^{ \left| \mathbf{x}_i - \mathbf{x} \right|^2 / 2 r_{mean}^2}$
-    \State $\mathbf{v} \gets \mathbf{v} + w \ \mathbf{v}_i$
-    \State $W \gets W + w$
-  \EndIf
-\EndFor
-\State $\mathbf{v} \gets \mathbf{v} / W$
-\end{algorithmic} \label{alg:create_discrete_grain}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{${\tt Homogenize \_ Velocity \_ and \_ Stress}$}
-\begin{algorithmic}[1]
-\For{each ${\tt body} \in {\tt Discrete \_ Grains}$}
-  \For{${\tt node} \in {\tt Stencil(body)}$}
-    \State $w \leftarrow {\tt Weight(body, node)}$
-    \State ${\tt node.m } \pluseq w \cdot {\tt body.m }$
-    \State ${\tt node.momentum} \pluseq w \cdot {\tt body.m } \cdot {\tt body.}\bm{v}$
-  \EndFor    
-\EndFor
-\For{${\tt node} \in {\tt Grid \_ Nodes}$}
-  \If{${\tt node.m} > 0$}
-    \State ${\tt homogenized \_ velocity} \leftarrow {\tt node.momentum} /  {\tt node.m}$
-  \EndIf
-\EndFor
-\For{each ${\tt c} \in {\tt collisions}$}
-  \For{${\tt node} \in {\tt Stencil(c)}$}
-    \State $w \leftarrow {\tt Weight(c, node)}$
-    \State $\boldsymbol{f}_c \leftarrow {\tt c}.{\tt collision \_ force}$ \Comment{Normal and friction forces}
-    \State $\boldsymbol{r}_c \leftarrow {\tt c}.{\tt arm \_ vector}$
-    \State $\bm{\sigma}_c \leftarrow \frac{1}{2} \left( \boldsymbol{f}_c  \boldsymbol{r}_c^T + \boldsymbol{r}_c \boldsymbol{f}_c^T \right)$
-    \State ${\tt homogenized \_ stress } \pluseq w \cdot \bm{\sigma} / {\tt cell \_ volume}$
-  \EndFor
-\EndFor
-\end{algorithmic} \label{alg:homogenize_stress}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{${\tt Discrete \_ Avoid \_ a \_ Void}$}
-\begin{algorithmic}[1]
-  \For {${\tt cell} \in {\tt Hybrid \_ Zone}$}
-    \For {$i=0 \dots {\tt Max \_ Iters}$}
-      \State ${\tt Create \_ Discrete \_ Grain}()$
-    \EndFor
-  \EndFor
-\end{algorithmic} \label{alg:discrete_avoid_a_void}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{${\tt Create \_ Continuum \_ Particle]}$}
-\begin{algorithmic}[1]
-\State $\mathbf{x} \gets {\tt Position \_ from \_ Avoid \_ a \_ Void}$
-\end{algorithmic} \label{alg:create_continuum_particle}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{${\tt Reassign \_ Hybrid \_ Continuum \_ Properties}$}
-\begin{algorithmic}[1]
-  \For {${\tt point} \in {\tt Cell}$}
-    \State ${\tt point.m} \leftarrow {\tt mpm \_ mass \_ per \_ cell} / ({\tt \#points} \in {\tt Cell}) $
-    \State ${\tt point.vol} \leftarrow {\tt cell \_ volume} / ({\tt \#points} \in {\tt Cell}) $
-    \State ${\tt point.}\boldsymbol{v} \leftarrow {\tt homogenized \_ velocity} ({\tt point.}\boldsymbol{x}) $
-    \State $\boldsymbol{\sigma} \leftarrow {\tt homogenized \_ stress} ({\tt point.}\boldsymbol{x})$ 
-    \State ${\tt point.strain} \leftarrow {\tt convert \_ stress \_ to \_ strain} (\boldsymbol{\sigma}) $
-  \EndFor
-\end{algorithmic} \label{alg:determine_properties_for_hybrid_continuum_particles}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{${\tt Determine \_ New \_ Inner \_ Continuum \_ Properties}$}
-\begin{algorithmic}[1]
-  \For {${\tt newly \_ sampled \_ point} \in {\tt Cell}$}
-    \State ${\tt point.m} \leftarrow {\tt gather \_ mass \_ of \_ extant \_ nghbr \_ pnts} $
-    \State ${\tt point.vol} \leftarrow {\tt gather \_ vol \_ of \_ extant \_ nghbr \_ pnts} $
-    \State ${\tt point.}\boldsymbol{v} \leftarrow {\tt interp \_ vel \_ of \_ extant \_ nghbr \_ pnts} $
-    \State ${\tt point.strain} \leftarrow {\tt interp \_ strn \_ of \_ extant \_ nghbr \_ pnts} $
-  \EndFor
-\end{algorithmic} \label{alg:determine_properties_for_new_inner_continuum_particles}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{${\tt Continuum \_ Avoid \_ a \_ Void}$}
-\begin{algorithmic}[1]
-  \For {${\tt cell} \in {\tt Hybrid \_ Zone}$}
-    \For {$i=0 \dots {\tt Max \_ Iters}$}
-      \State ${\tt Create \_ Continuum \_ Particle}()$
-    \EndFor
-    \State ${\tt Reassign \_ Hybrid \_ Continuum \_ Properties}$
-  \EndFor
-  \For {${\tt cell} \in {\tt Continuum \_ Zone}$}
-    \For {$i=0 \dots {\tt Max \_ Iters}$}
-      \State ${\tt Create \_ Continuum \_ Particle}()$
-    \EndFor
-    \State ${\tt Determine \_ New \_ Inner \_ Continuum \_ Properties}$ 
-  \EndFor
-\end{algorithmic} \label{alg:continuum_avoid_a_void}
-\end{algorithm}
-
-\begin{algorithm}
-  \caption{${\tt Delete \_ Discrete \_ Grains}$}
-  \begin{algorithmic}[1]
-  \For{${\tt body} \in {\tt Discrete \_ Grains}$}
-    \If{${\tt body} \in {\tt Continuum \_ Zone}$}
-      \State ${\tt delete} \left({\tt body}\right)$  
-    \EndIf
-  \EndFor
-  \end{algorithmic}
-  \label{alg:delete_discrete_grains}
-\end{algorithm}
-
-\begin{algorithm}
-  \caption{${\tt Delete \_ Continuum \_ Particles}$}
-  \begin{algorithmic}[1]
-  \For{${\tt point} \in {\tt Material \_ Points}$}
-    \If{${\tt point} \in {\tt Discrete \_ Zone}$}
-      \State ${\tt delete} \left({\tt point}\right)$  
-    \EndIf
-  \EndFor
-  \end{algorithmic}
-  \label{alg:delete_continuum_particles}
-\end{algorithm}
+The 3D generalization of Figure \ref{hybrid_initialization} can be visualized as a spheroid of discrete grains, with the interior volume replaced by continuum. Visually, one only sees the exterior grains. However in practice, one does not need even this many grains visible or needed as free surface. Take for example sand in a sandbox. The oracle in that situation would take away the material in the middle of the box, but leave the grains on the free surface and all sides touching the box. What is only really needed is the grains at the free surface, for any possible objects that fall into or interact with the sand. We therefore introduce a \textit{layered hybridization}, where only a single surface is discrete grains, and the rest of the surfaces and interior are all continuum. This results in a further reduction in the discrete grain count, pushing possible speedup gains higher. We apply this approach to the bunny toss, excavator, bunny drill, and tire examples in Chapter~\ref{sec:results}.
+%
+%\begin{algorithm}
+%\caption{${\tt Identify \_ Hybrid \_ Zones}$}
+%\begin{algorithmic}[1]
+%\State $\Phi_{\rho} \gets {\tt Discrete \_ Packing \_ Fraction \_ Isocontours}\left(\boldsymbol{q}_d\right)$
+%\State $\Phi_{d} \gets {\tt Distance \_ to \_ Density \_ Isocontours}\left(\Phi_{\rho}\right)$
+%\State ${\tt continuum \_ zone}\left( \mathbf{x} \right) \gets \Phi_{d}\left( \mathbf{x} \right) > \phi_0 - r_h$
+%\State ${\tt discrete \_ zone}\left( \mathbf{x} \right) \gets \Phi_{d}\left( \mathbf{x} \right) < \phi_0 + r_h$
+%\State ${\tt hybrid \_ zone}\left( \mathbf{x} \right) \gets \phi_0 - r_h \leq \Phi_{d}\left( \mathbf{x} \right) \leq \phi_0 + r_h$
+%\end{algorithmic} \label{alg:identify_hybrid_zones}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%\caption{${\tt Update \_ Hybrid \_ Zones}$}
+%\begin{algorithmic}[1]
+%\State ${\tt Homogenize \_ Velocity \_ and \_ Stress}\left( {\tt hybrid \_ zone} \right)$ 
+%\State ${\tt Discrete \_ Avoid \_ a \_ Void}\left( {\tt hybrid \_ zone} \right)$ 
+%\State ${\tt Continuum \_ Avoid \_ a \_ Void}\left( {\tt hybrid \_ zone} \right)$ 
+%\State ${\tt Delete \_ Discrete \_ Grains}\left( {\tt continuum \_ zone} \right)$ 
+%\State ${\tt Delete \_ Continuum \_ Particles}\left( {\tt discrete \_ zone} \right)$ 
+%\end{algorithmic} \label{alg:update_hybrid_zones}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%\caption{${\tt Update \_ Hybrid \_ State}$}
+%\begin{algorithmic}[1]
+%\State ${\tt Identify \_ Hybrid \_ Zones}$
+%\State ${\tt Update \_ Hybrid \_ Zones}$
+%\end{algorithmic} \label{alg:update_hybrid_state}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%\caption{${\tt Create \_ Discrete \_ Grain}$}
+%\begin{algorithmic}[1]
+%\State $\mathbf{x} \gets {\tt Position \_ from \_ Avoid \_ a \_ Void}$
+%\State $r \gets N\left( r_{mean}, r_{sigma} \right)$ \Comment{Normally distributed radii}
+%\State $m \gets \frac{4}{3} \pi r ^ 3$
+%\State $\mathbf{v} \gets 0$
+%\State $W \gets 0$
+%\For{$i=0 \dots N_d$} \Comment{Iterate over discrete grains}
+%  \If{$\left| \mathbf{x}_i - \mathbf{x} \right| < 12 \ r_{mean}$}
+%    \State $w \gets e^{ \left| \mathbf{x}_i - \mathbf{x} \right|^2 / 2 r_{mean}^2}$
+%    \State $\mathbf{v} \gets \mathbf{v} + w \ \mathbf{v}_i$
+%    \State $W \gets W + w$
+%  \EndIf
+%\EndFor
+%\For{$i=0 \dots N_c$} \Comment{Iterate over material points}
+%  \If{$\left| \mathbf{x}_i - \mathbf{x} \right| < 12 \ r_{mean}$}
+%    \State $w \gets e^{ \left| \mathbf{x}_i - \mathbf{x} \right|^2 / 2 r_{mean}^2}$
+%    \State $\mathbf{v} \gets \mathbf{v} + w \ \mathbf{v}_i$
+%    \State $W \gets W + w$
+%  \EndIf
+%\EndFor
+%\State $\mathbf{v} \gets \mathbf{v} / W$
+%\end{algorithmic} \label{alg:create_discrete_grain}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%\caption{${\tt Homogenize \_ Velocity \_ and \_ Stress}$}
+%\begin{algorithmic}[1]
+%\For{each ${\tt body} \in {\tt Discrete \_ Grains}$}
+%  \For{${\tt node} \in {\tt Stencil(body)}$}
+%    \State $w \leftarrow {\tt Weight(body, node)}$
+%    \State ${\tt node.m } \pluseq w \cdot {\tt body.m }$
+%    \State ${\tt node.momentum} \pluseq w \cdot {\tt body.m } \cdot {\tt body.}\bm{v}$
+%  \EndFor    
+%\EndFor
+%\For{${\tt node} \in {\tt Grid \_ Nodes}$}
+%  \If{${\tt node.m} > 0$}
+%    \State ${\tt homogenized \_ velocity} \leftarrow {\tt node.momentum} /  {\tt node.m}$
+%  \EndIf
+%\EndFor
+%\For{each ${\tt c} \in {\tt collisions}$}
+%  \For{${\tt node} \in {\tt Stencil(c)}$}
+%    \State $w \leftarrow {\tt Weight(c, node)}$
+%    \State $\boldsymbol{f}_c \leftarrow {\tt c}.{\tt collision \_ force}$ \Comment{Normal and friction forces}
+%    \State $\boldsymbol{r}_c \leftarrow {\tt c}.{\tt arm \_ vector}$
+%    \State $\bm{\sigma}_c \leftarrow \frac{1}{2} \left( \boldsymbol{f}_c  \boldsymbol{r}_c^T + \boldsymbol{r}_c \boldsymbol{f}_c^T \right)$
+%    \State ${\tt homogenized \_ stress } \pluseq w \cdot \bm{\sigma} / {\tt cell \_ volume}$
+%  \EndFor
+%\EndFor
+%\end{algorithmic} \label{alg:homogenize_stress}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%\caption{${\tt Discrete \_ Avoid \_ a \_ Void}$}
+%\begin{algorithmic}[1]
+%  \For {${\tt cell} \in {\tt Hybrid \_ Zone}$}
+%    \For {$i=0 \dots {\tt Max \_ Iters}$}
+%      \State ${\tt Create \_ Discrete \_ Grain}()$
+%    \EndFor
+%  \EndFor
+%\end{algorithmic} \label{alg:discrete_avoid_a_void}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%\caption{${\tt Create \_ Continuum \_ Particle]}$}
+%\begin{algorithmic}[1]
+%\State $\mathbf{x} \gets {\tt Position \_ from \_ Avoid \_ a \_ Void}$
+%\end{algorithmic} \label{alg:create_continuum_particle}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%\caption{${\tt Reassign \_ Hybrid \_ Continuum \_ Properties}$}
+%\begin{algorithmic}[1]
+%  \For {${\tt point} \in {\tt Cell}$}
+%    \State ${\tt point.m} \leftarrow {\tt mpm \_ mass \_ per \_ cell} / ({\tt \#points} \in {\tt Cell}) $
+%    \State ${\tt point.vol} \leftarrow {\tt cell \_ volume} / ({\tt \#points} \in {\tt Cell}) $
+%    \State ${\tt point.}\boldsymbol{v} \leftarrow {\tt homogenized \_ velocity} ({\tt point.}\boldsymbol{x}) $
+%    \State $\boldsymbol{\sigma} \leftarrow {\tt homogenized \_ stress} ({\tt point.}\boldsymbol{x})$ 
+%    \State ${\tt point.strain} \leftarrow {\tt convert \_ stress \_ to \_ strain} (\boldsymbol{\sigma}) $
+%  \EndFor
+%\end{algorithmic} \label{alg:determine_properties_for_hybrid_continuum_particles}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%\caption{${\tt Determine \_ New \_ Inner \_ Continuum \_ Properties}$}
+%\begin{algorithmic}[1]
+%  \For {${\tt newly \_ sampled \_ point} \in {\tt Cell}$}
+%    \State ${\tt point.m} \leftarrow {\tt gather \_ mass \_ of \_ extant \_ nghbr \_ pnts} $
+%    \State ${\tt point.vol} \leftarrow {\tt gather \_ vol \_ of \_ extant \_ nghbr \_ pnts} $
+%    \State ${\tt point.}\boldsymbol{v} \leftarrow {\tt interp \_ vel \_ of \_ extant \_ nghbr \_ pnts} $
+%    \State ${\tt point.strain} \leftarrow {\tt interp \_ strn \_ of \_ extant \_ nghbr \_ pnts} $
+%  \EndFor
+%\end{algorithmic} \label{alg:determine_properties_for_new_inner_continuum_particles}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%\caption{${\tt Continuum \_ Avoid \_ a \_ Void}$}
+%\begin{algorithmic}[1]
+%  \For {${\tt cell} \in {\tt Hybrid \_ Zone}$}
+%    \For {$i=0 \dots {\tt Max \_ Iters}$}
+%      \State ${\tt Create \_ Continuum \_ Particle}()$
+%    \EndFor
+%    \State ${\tt Reassign \_ Hybrid \_ Continuum \_ Properties}$
+%  \EndFor
+%  \For {${\tt cell} \in {\tt Continuum \_ Zone}$}
+%    \For {$i=0 \dots {\tt Max \_ Iters}$}
+%      \State ${\tt Create \_ Continuum \_ Particle}()$
+%    \EndFor
+%    \State ${\tt Determine \_ New \_ Inner \_ Continuum \_ Properties}$ 
+%  \EndFor
+%\end{algorithmic} \label{alg:continuum_avoid_a_void}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%  \caption{${\tt Delete \_ Discrete \_ Grains}$}
+%  \begin{algorithmic}[1]
+%  \For{${\tt body} \in {\tt Discrete \_ Grains}$}
+%    \If{${\tt body} \in {\tt Continuum \_ Zone}$}
+%      \State ${\tt delete} \left({\tt body}\right)$  
+%    \EndIf
+%  \EndFor
+%  \end{algorithmic}
+%  \label{alg:delete_discrete_grains}
+%\end{algorithm}
+%
+%\begin{algorithm}
+%  \caption{${\tt Delete \_ Continuum \_ Particles}$}
+%  \begin{algorithmic}[1]
+%  \For{${\tt point} \in {\tt Material \_ Points}$}
+%    \If{${\tt point} \in {\tt Discrete \_ Zone}$}
+%      \State ${\tt delete} \left({\tt point}\right)$  
+%    \EndIf
+%  \EndFor
+%  \end{algorithmic}
+%  \label{alg:delete_continuum_particles}
+%\end{algorithm}
