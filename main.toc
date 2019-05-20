@@ -44,4 +44,7 @@
 \contentsline {subsection}{\numberline {6.2.3}Circle Sweep}{83}
 \contentsline {subsection}{\numberline {6.2.4}Two Point Tangent}{85}
 \contentsline {subsection}{\numberline {6.2.5}Packing Scheme Results}{86}
-\contentsline {chapter}{\numberline {7}Conclusions and Future Work}{87}
+\contentsline {section}{\numberline {6.3}DEM to MPM Constitutive Response}{87}
+\contentsline {subsection}{\numberline {6.3.1}Pressure Update}{88}
+\contentsline {subsection}{\numberline {6.3.2}Mix PIC-FLIP Update}{89}
+\contentsline {chapter}{\numberline {7}Conclusions and Future Work}{93}

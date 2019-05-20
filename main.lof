@@ -39,4 +39,8 @@
 \contentsline {figure}{\numberline {6-4}{\ignorespaces Grid enrichment scheme.\relax }}{83}
 \contentsline {figure}{\numberline {6-5}{\ignorespaces Circle sweep scheme. (a) Initialize with seed grain (light blue). (b) Sweep around seed grain. (c) Move to the next seed in the queue. (d) Sweep around new seed grain.\relax }}{84}
 \contentsline {figure}{\numberline {6-6}{\ignorespaces Two Point Tangent Scheme. (a) Initialize with seed grain (light blue) and partner grain (green). (b) Inject new points at locations that are tangent to seed grain and partner grain. (c) Move to the next partner grain in the queue. (d) Inject any possible grains between the seed and new partner grains.\relax }}{85}
+\contentsline {figure}{\numberline {6-7}{\ignorespaces Comparison of Normalized Mass vs Time for different packing techniques.\relax }}{86}
+\contentsline {figure}{\numberline {6-8}{\ignorespaces DEM grain moving into continuum, and a need for a constitutive response.\relax }}{87}
+\contentsline {figure}{\numberline {6-9}{\ignorespaces Normalized Mass vs Time with pressure update for different values of $\beta $.\relax }}{89}
+\contentsline {figure}{\numberline {6-10}{\ignorespaces Normalized Mass vs Time with mixed PIC-FLIP update and pressure update for different values of $\beta $.\relax }}{91}
 \addvspace {10\p@ }

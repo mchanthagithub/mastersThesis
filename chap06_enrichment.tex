@@ -151,9 +151,74 @@ The circle sweep scheme represents an improvement over the grid scheme, but agai
 
 In order to initialize the TPT scheme for a newly enriched element, a grain is injected at random and added to the same \seed data structure as the circle sweep scheme. The angular region around the grain is again discretized and grain injections are attempted at these angles. The divergence point between TPT and the circle sweep scheme occurs when a valid grain is found and added to the \seed. Instead of continuing injection attempts at the other remaining possible angles, the scheme stops, and uses these two grains as the starting point of the scheme, with the first designated as the seed grain and the second as the partner grain. With these two tangent grains of radius $r_a$ and $r_b$, a new grain with radius $r_c$ can be injected that is tangent to both of the first two. Given the center points of the grains $a$ and $b$ and their radii, and the radius of the new grain $r_c$, an analytical formula can be derived for the two possible center points of the new grain $c$ that maintains tangency with $a$ and $b$. Injection attempts are then made at these two locations, and any valid attempts are added to the simulation and to the \seed. The partner grain then moves through the queue (without a dequeue operation), with any possible injection points between the seed and partner grains injected. Once the partner grain has gone through the entire queue, the seed grain is dequeued and moves to the next grain in the queue.
 
-
 \subsection{Packing Scheme Results}
 
+\begin{figure}[htp] 
+    \centering
+    \includegraphics[width=0.7\textwidth]{figs/compare_technique_m_v_t.pdf}
+    \caption{Comparison of Normalized Mass vs Time for different packing techniques.}
+    \label{packing_compare}
+\end{figure}
 
-%\section{Hypoelastic Pressure Update}
+Figure \ref{packing_compare} shows the normalized mass (mass of the DEM + MPM normalized by the initial total mass) over time for the different packing schemes, in the chute flow geometry shown in Figure \ref{chute_flow_old}. The random packing scheme performs worse than the others as expected. The grid scheme has periods of performing worse and better than the random packing scheme, but it is clear that it still loses mass at an unacceptable rate.
 
+As stated before, what is desired is a greedy scheme that places new grains in a manner that optimizes future possible grain placement opportunities. One path towards that is packing new grains as closely as possible to existing grains, leaving void space in the regions upstream of the existing grains. The circle sweep, which enforces at least one point of tangency, achieves this and is clearly more capable at preserving mass than the random and grid schemes. The two point tangent scheme, which enforces an even closer placement to the existing grain, achieves an even better conservation rate. In fact at first, it is able to exceed the required packing fraction, though eventually loses mass as well. It should be noted however that the mass loss rate is still slower than the circle sweep scheme.
+
+\section{DEM to MPM Constitutive Response}
+\begin{figure}[htp] 
+    \centering
+    \includegraphics[width=0.6\textwidth]{figs/compare_technique_m_v_t.pdf}
+    \caption{DEM grain moving into continuum, and a need for a constitutive response.}
+    \label{lack_of_response}
+\end{figure}
+
+The new packing schemes show promise, but are not enough to alleviate the mass loss. The reason for this can be explained in Figure \ref{lack_of_response}. When a DEM grain from a hybrid element moves into a continuum element (or from a discrete element to a hybrid element), the lost mass of that DEM grain is redistributed to the MPM points. However, this increase in mass must be accompanied by a corresponding increase in volume to ensure that the density of the material does not increase without bound. What this should mean is a volumetric expansion of the material, or equivalently a pressure increase to expand the material. In reference to the chute flow as seen in Figure \ref{chute_flow_old}, DEM that ends up moving into the pure continuum does not result in a corresponding continuum pressure, resulting in a lack of strength in the continuum. This lack of strength in the continuum further results in an unrealistic flux of DEM grains entering the continuum zone from the top, meaning that the packing schemes must keep up with continuum mass coming from fluxes from the left and top combined, which is not possible.
+
+We must thus take the pressure calculation in the continuum into account. The Jaummann constitutive update referenced in the explanation of the Hypoelastic-Plastic model takes its pressure as simply $-\frac{1}{3}tr(\bm{\sigma})$, which does not see the mass jump. The volume update also does not respond to the mass jump, only being a function of $L$. In a pure continuum simulation this does not pose a problem, as mass is kept constant for a given MPM point. However with the hybrid scheme and the introduction of homogenization, sudden jumps in mass occur regularly, which is an issue that must be tackled. 
+
+\subsection{Pressure Update}
+In the continuum constitutive update, we could replace the pressure calculation with an equation of state, like the one shown in Equation \ref{pressure_state}. However, this poses a problem. Because the homogenization process and the mass ledger only convert DEM mass to MPM mass when a DEM point crosses from one element type to a different element type, the mass jumps are step functions.
+
+To illustrate the severity of this issue, if in a given simulation the DEM grain number to MPM point number ratio is 10 to 5 in an average hybrid element, a hybrid DEM grain moving into a continuum element would result in a 5\% increase in density for the MPM points in that continuum element. This 0.05 ratio is then multiplied by the bulk modulus $K$, which is on the order of MPa to GPa, resulting in an extremely large pressure response. This rise in pressure occurs over a single timestep, resulting in the pressure impulse being tied to the timestep chosen for the simulation.
+
+There thus needs to be a way to introduce a constitutive response to the mass increase, but in a way that is smoothed over time to prevent large impulses in the system. A proposed mechanism to do this is to introduce a rate law for the pressure:
+\begin{equation}
+\dot P= \beta \left(Klog\left(\frac{\rho}{\rho_c}\right)-P\right)
+\label{pressure_update}
+\end{equation}
+$\beta$ is a term that controls the rate at which one reaches the desired pressure. In the limit that $\beta$ approaches infinity, we recover the instant pressure update previously described. The rate law allows us to smooth the pressure over time, with $\beta$ a tuning parameter that allows us to achieve a reasonable pressure response without introducing large pressure impulses. Numerically we solve (\ref{pressure_update}) with a simple forward euler integration.
+
+\begin{figure}[htp] 
+    \centering
+    \includegraphics[width=0.6\textwidth]{figs/beta_m_v_t_cropped.pdf}
+    \caption{Normalized Mass vs Time with pressure update for different values of $\beta$.}
+    \label{beta_m_v_t}
+\end{figure}
+
+Figure \ref{beta_m_v_t} shows the effects of different values of $\beta$ on mass conservation. The random scheme is shown for reference, and the rest of the simulations for all values of $\beta$ used the two point tangent packing scheme. $\beta=0$ corresponds to no pressure update and only the two point tangent scheme being active. As can be seen, introducing a pressure response, with the correct $\beta$ value, is enough to preserve mass. Thus, with the combined machinery of the mass ledger, more efficient packing schemes, and an update scheme for the pressure, we are able to conserve mass in a system that requires constant homogenization and enrichment.
+
+\subsection{Mix PIC-FLIP Update}
+While the pressure update is a necessary component to introduce a constitutive response to the mass transfer to the continuum, we can also work to sidestep the matter entirely. At first glance, it may seem counter to the hybrid constraint that DEM grains in the hybrid cells adjacent to the continuum cells to move into the continuum, when the MPM points in the hybrid cells do not. The reason for this is that the constraint is a cell-averaged one, resulting in the DEM homogenized element velocity being constrained to match the MPM homogenized element velocity. However, the DEM grains are able to move in ways that exist in the nullspace of the projection to and back from the grid. The velocity transfer back to the grains also uses a mostly FLIP update, matching the MPM grid-to-point velocity update; this means that the accelerations, and not the overall movement of the grains, are tied to the projection basis functions. Thus an individual grain moving downwards into the continuum region may be offset by the upwards movement of another grain, with the projected velocity field not noticing these movements. 
+
+To better constrain the DEM grains, we come back to the fact that we have a choice in how we derive the grain velocity from the grid. A complete PIC update is too dissipative and is thus not ideal, however it is clear that a complete or close-to-complete FLIP update allows for undesired individual grain movement, resulting in DEM grains entering the continuum. We thus choose to decompose the velocity update into a grain velocity component that is tangential to the hybrid level set, and a component that is normal to that level set:
+\begin{align}
+\bm{v}^{n+1}_d &= \bm{v}_n+\bm{v}_t\\
+\bm{v}_n &= \bm{v}^{n+1}_d \cdot \bm{e}_n \\
+\bm{v}_t &= \bm{v}^{n+1}_d \cdot \bm{e}_t
+\end{align}
+where $\bm{e}_t$ and $\bm{e}_n$ are the tangential and normal unit vectors with respect to the level set. To slow DEM movement into the hybrid zone caused by free DEM movement (as opposed to DEM movement into the continuum caused by bulk motion of the combined representations), we apply a PIC update in the normal direction and a FLIP update in the tangential direction, so that
+\begin{align}
+\bm{v}_n &= \bm{v}_{pic} \cdot \bm{e}_n \\
+\bm{v}_t &= \bm{v}_{flip} \cdot \bm{e}_t
+\end{align}
+
+\begin{figure}[htp] 
+    \centering
+    \includegraphics[width=0.6\textwidth]{figs/pic_flip_beta_m_v_t_cropped.pdf}
+    \caption{Normalized Mass vs Time with mixed PIC-FLIP update and pressure update for different values of $\beta$.}
+    \label{pic_flip_beta_m_v_t}
+\end{figure}
+
+Figure \ref{pic_flip_beta_m_v_t} displays the effects of the new mixed velocity update. With $\beta=0$, the mixed update greatly slows the number of DEM grains entering the continuum from the top, allowing for the packing scheme to equal the flux entering from the left of the simulation and the small flux from the top, as opposed to both the left and top of the continuum zone.  The lack of pressure update however does mean that there is a slow rate of mass loss, due to the inability to match the slow drip of DEM from the top of the continuum zone. The mixed formulation, along with $\beta=1$ is able to match the mass gain of the $\beta=3$ and pure FLIP update, showing that only a small pressure response is needed to combat the small flux of grains crossing into the top of the continuum zone.
+
+We therefore have another tool we can use to preserve mass. A combination of all of the previously discussed techniques leads to the ability to tackle a problems other than those that were discussed in the Results. Simulations with periodic domains, like the chute flow or annular shear flow, will especially benefit from these techniques. Work continues on tuning and optimizing these techniques, which will open the door to a wide range of geometries inaccessible with the simpler techniques used before.
