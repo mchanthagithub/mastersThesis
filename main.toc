@@ -26,14 +26,14 @@
 \contentsline {chapter}{\numberline {5}Results}{59}
 \contentsline {section}{\numberline {5.1}Granular Column Collapse}{59}
 \contentsline {section}{\numberline {5.2}Silo Discharge}{62}
-\contentsline {section}{\numberline {5.3}Penetrometer Insertion}{65}
-\contentsline {section}{\numberline {5.4}Bunny Toss}{67}
-\contentsline {section}{\numberline {5.5}Excavator}{67}
-\contentsline {section}{\numberline {5.6}Bunny Drill}{68}
+\contentsline {section}{\numberline {5.3}Penetrometer Insertion}{64}
+\contentsline {section}{\numberline {5.4}Bunny Toss}{65}
+\contentsline {section}{\numberline {5.5}Excavator}{66}
+\contentsline {section}{\numberline {5.6}Bunny Drill}{67}
 \contentsline {section}{\numberline {5.7}Tires on Gravel Road}{68}
 \contentsline {section}{\numberline {5.8}Spinning Drum}{69}
 \contentsline {section}{\numberline {5.9}Speedup Study}{70}
-\contentsline {section}{\numberline {5.10}Core Scaling}{73}
+\contentsline {section}{\numberline {5.10}Core Scaling}{72}
 \contentsline {chapter}{\numberline {6}Enrichment and Homogenization Improvements}{75}
 \contentsline {section}{\numberline {6.1}Volume Change and Mass Conservation}{76}
 \contentsline {subsection}{\numberline {6.1.1}Mass Ledger}{78}

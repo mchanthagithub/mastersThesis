@@ -307,6 +307,13 @@ Yonghao Yue, Breannan Smith, Christopher Batty, Changxi Zheng, and Eitan
 \newblock Continuum foam: A material point method for shear-dependent flows.
 \newblock {\em ACM Trans. Graph.}, 34(5):160:1--160:20, November 2015.
 
+\bibitem{HG:2018}
+Yonghao Yue, Breannan Smith, Peter~Yichen Chen, Maytee Chantharayukhonthorn,
+  Ken Kamrin, and Eitan Grinspun.
+\newblock Hybrid grains: Adaptive coupling of discrete and continuum
+  simulations of granular media.
+\newblock {\em ACM Trans. Graph.}, 37(6):283:1--283:19, November 2018.
+
 \bibitem{Zhang:2005}
 Zhennan Zhang and Xiurun Ge.
 \newblock A new quasi-continuum constitutive model for crack growth in an

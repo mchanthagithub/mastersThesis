@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2018.8.27)  20 MAY 2019 02:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2018.8.27)  20 MAY 2019 16:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -590,27 +590,29 @@ mappings.tex))) (/usr/share/texlive/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \WF@everypar=\toks26
 Package: wrapfig 2003/01/31  v 3.6
 )
-(./main.aux (./cover.aux) (./contents.aux) (./chap01_introduction.aux)
-(./chap02_dem.aux) (./chap03_continuum.aux) (./chap04_hybridization.aux)
-(./chap05_results.aux
+(/usr/share/texlive/texmf-dist/tex/latex/capt-of/capt-of.sty
+Package: capt-of 2009/12/29 v0.2 standard captions outside of floats
+) (./main.aux
+(./cover.aux) (./contents.aux) (./chap01_introduction.aux) (./chap02_dem.aux)
+(./chap03_continuum.aux) (./chap04_hybridization.aux) (./chap05_results.aux
 
 LaTeX Warning: Label `fig:hybrid:chute_flow' multiply defined.
 
 ) (./chap06_enrichment.aux) (./chap07_conclusions.aux) (./biblio.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -689,12 +691,12 @@ File: siunitx-abbreviations.cfg 2016/03/01 v2.6q siunitx: Abbreviated units
 )
 \c__siunitx_mathsf_int=\count180
 <<ot1.cmap>><<oml.cmap>><<oms.cmap>><<omx.cmap>>
-LaTeX Font Info:    Try loading font information for U+msa on input line 64.
+LaTeX Font Info:    Try loading font information for U+msa on input line 65.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 64.
+LaTeX Font Info:    Try loading font information for U+msb on input line 65.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -744,8 +746,6 @@ Overfull \hbox (5.99362pt too wide) in paragraph at lines 14--14
 ized runout dis-tance, $\OML/cmm/m/it/10.95 ^^Nd=d[] \OT1/cmr/m/n/10.95 = 
  []
 
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 18.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -779,27 +779,27 @@ Chapter 1.
 Underfull \vbox (badness 5077) has occurred while \output is active []
 
  [17]
-<figs/hourglass_whole.jpg, id=77, 602.25pt x 602.25pt>
-File: figs/hourglass_whole.jpg Graphic file (type jpg)
 
-<use figs/hourglass_whole.jpg>
-Package pdftex.def Info: figs/hourglass_whole.jpg used on input line 35.
-(pdftex.def)             Requested size: 173.44534pt x 173.44418pt.
- [18] [19 <./figs/hourglass_whole.jpg>]
+pdfTeX warning: pdflatex (file ./figs/grain_bouncing.pdf): PDF inclusion: found
+ PDF version <1.6>, but at most version <1.5> allowed
+<figs/grain_bouncing.pdf, id=77, 1439.44771pt x 708.68762pt>
+File: figs/grain_bouncing.pdf Graphic file (type pdf)
+
+<use figs/grain_bouncing.pdf>
+Package pdftex.def Info: figs/grain_bouncing.pdf used on input line 35.
+(pdftex.def)             Requested size: 173.44534pt x 85.38487pt.
+ [18] [19 <./figs/grain_bouncing.pdf>]
 Underfull \vbox (badness 1281) has occurred while \output is active []
 
  [20]
-<figs/Laconchita1995landslide.jpg, id=88, 248.93pt x 371.3875pt>
+<figs/Laconchita1995landslide.jpg, id=92, 248.93pt x 371.3875pt>
 File: figs/Laconchita1995landslide.jpg Graphic file (type jpg)
 
 <use figs/Laconchita1995landslide.jpg>
 Package pdftex.def Info: figs/Laconchita1995landslide.jpg used on input line 60
 .
 (pdftex.def)             Requested size: 173.44534pt x 258.77374pt.
- [21]
-Underfull \vbox (badness 1888) has occurred while \output is active []
-
- [22 <./figs/Laconchita1995landslide.jpg>]) [23] [24]
+ [21 <./figs/Laconchita1995landslide.jpg>] [22]) [23] [24]
 \openout2 = `chap02_dem.aux'.
 
  (./chap02_dem.tex
@@ -816,7 +816,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 ]
-<figs/dem_diagram.pdf, id=108, 307.90956pt x 306.52524pt>
+<figs/dem_diagram.pdf, id=112, 307.90956pt x 306.52524pt>
 File: figs/dem_diagram.pdf Graphic file (type pdf)
 
 <use figs/dem_diagram.pdf>
@@ -858,11 +858,11 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [37]
 [38]
-<figs/mpm_scheme_compress_shear_less_pts.pdf, id=184, 1361.3031pt x 677.2163pt>
+<figs/mpm_scheme_compress_shear_less_pts.pdf, id=188, 1361.3031pt x 677.2163pt>
 File: figs/mpm_scheme_compress_shear_less_pts.pdf Graphic file (type pdf)
 <use figs/mpm_scheme_compress_shear_less_pts.pdf>
 Package pdftex.def Info: figs/mpm_scheme_compress_shear_less_pts.pdf used on in
-put line 180.
+put line 181.
 (pdftex.def)             Requested size: 433.62pt x 215.71129pt.
  [39 <./figs/mpm_scheme_compress_shear_less_pts.pdf>] [40] [41]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -871,29 +871,25 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [43]
-[44])
-Underfull \vbox (badness 1281) has occurred while \output is active []
-
- [45]
-[46]
+[44]) [45]
 \openout2 = `chap04_hybridization.aux'.
 
- (./chap04_hybridization.tex
+ (./chap04_hybridization.tex [46
+
+
+
+]
 Chapter 4.
-<figs/hybrid_example.pdf, id=1212, 144.95418pt x 101.32355pt>
+<figs/hybrid_example.pdf, id=1216, 144.95418pt x 101.32355pt>
 File: figs/hybrid_example.pdf Graphic file (type pdf)
 
 <use figs/hybrid_example.pdf>
 Package pdftex.def Info: figs/hybrid_example.pdf used on input line 14.
 (pdftex.def)             Requested size: 346.89731pt x 242.50891pt.
- [47
-
-
-
-]
+ [47]
 Underfull \vbox (badness 1024) has occurred while \output is active []
 
- [48 <./figs/hybrid_example.pdf>] <figs/blurred_mass.pdf, id=1572, 582.175pt x 
+ [48 <./figs/hybrid_example.pdf>] <figs/blurred_mass.pdf, id=1576, 582.175pt x 
 174.6525pt>
 File: figs/blurred_mass.pdf Graphic file (type pdf)
 
@@ -919,7 +915,7 @@ Underfull \vbox (badness 4940) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [52]
-[53] <figs/hybrid_zone_update.pdf, id=1628, 5575.72098pt x 2101.431pt>
+[53] <figs/hybrid_zone_update.pdf, id=1632, 5575.72098pt x 2101.431pt>
 File: figs/hybrid_zone_update.pdf Graphic file (type pdf)
 
 <use figs/hybrid_zone_update.pdf>
@@ -945,193 +941,185 @@ Overfull \hbox (3.96227pt too wide) in paragraph at lines 6--24
 [][]
  []
 
-<figs/column_collapse.pdf, id=1681, 302.29839pt x 65.72014pt>
+[59
+
+
+
+] <figs/column_collapse.pdf, id=1688, 302.29839pt x 65.72014pt>
 File: figs/column_collapse.pdf Graphic file (type pdf)
 
 <use figs/column_collapse.pdf>
 Package pdftex.def Info: figs/column_collapse.pdf used on input line 48.
 (pdftex.def)             Requested size: 346.89731pt x 75.4191pt.
- [59
 
-
-
- <./figs/column_collapse.pdf>]
-<figs/runout_curve.pdf, id=1714, 368.66934pt x 292.39037pt>
+<figs/runout_curve.pdf, id=1689, 368.66934pt x 292.39037pt>
 File: figs/runout_curve.pdf Graphic file (type pdf)
 
 <use figs/runout_curve.pdf>
 Package pdftex.def Info: figs/runout_curve.pdf used on input line 68.
-(pdftex.def)             Requested size: 346.89731pt x 275.12805pt.
+(pdftex.def)             Requested size: 303.53267pt x 240.73425pt.
 
-<figs/column_collapse_3d_brighter.pdf, id=1715, 588.31194pt x 181.34451pt>
+<figs/column_collapse_3d_brighter.pdf, id=1690, 588.31194pt x 181.34451pt>
 File: figs/column_collapse_3d_brighter.pdf Graphic file (type pdf)
 
 <use figs/column_collapse_3d_brighter.pdf>
 Package pdftex.def Info: figs/column_collapse_3d_brighter.pdf used on input lin
 e 82.
 (pdftex.def)             Requested size: 346.89731pt x 106.93422pt.
-
-Underfull \vbox (badness 1038) has occurred while \output is active []
-
- [60]
+ [60 <./figs/column_collapse.pdf>]
 [61 <./figs/runout_curve.pdf> <./figs/column_collapse_3d_brighter.pdf>]
-<figs/silo_larger.pdf, id=1757, 467.41324pt x 250.269pt>
+<figs/silo_larger.pdf, id=1761, 467.41324pt x 250.269pt>
 File: figs/silo_larger.pdf Graphic file (type pdf)
 
 <use figs/silo_larger.pdf>
-Package pdftex.def Info: figs/silo_larger.pdf used on input line 107.
+Package pdftex.def Info: figs/silo_larger.pdf used on input line 103.
 (pdftex.def)             Requested size: 346.89731pt x 185.74225pt.
 
-<figs/bouncing_silo/hybrid/combine.pdf, id=1758, 1094.01729pt x 696.5152pt>
+<figs/bouncing_silo/hybrid/combine.pdf, id=1762, 1094.01729pt x 696.5152pt>
 File: figs/bouncing_silo/hybrid/combine.pdf Graphic file (type pdf)
 
 <use figs/bouncing_silo/hybrid/combine.pdf>
 Package pdftex.def Info: figs/bouncing_silo/hybrid/combine.pdf used on input li
-ne 117.
+ne 115.
 (pdftex.def)             Requested size: 216.81pt x 138.0252pt.
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-pdfTeX warning: pdflatex (file ./figs/grain_bouncing.pdf): PDF inclusion: found
- PDF version <1.6>, but at most version <1.5> allowed
-<figs/grain_bouncing.pdf, id=1759, 1439.44771pt x 708.68762pt>
-File: figs/grain_bouncing.pdf Graphic file (type pdf)
-
-<use figs/grain_bouncing.pdf>
-Package pdftex.def Info: figs/grain_bouncing.pdf used on input line 127.
-(pdftex.def)             Requested size: 216.81pt x 106.74191pt.
-
-<figs/bouncing_silo.pdf, id=1760, 852.18375pt x 1181.95581pt>
+ [62 <./figs/silo_larger.pdf>]
+<figs/bouncing_silo.pdf, id=1788, 852.18375pt x 1181.95581pt>
 File: figs/bouncing_silo.pdf Graphic file (type pdf)
 
 <use figs/bouncing_silo.pdf>
-Package pdftex.def Info: figs/bouncing_silo.pdf used on input line 137.
-(pdftex.def)             Requested size: 346.89731pt x 481.14227pt.
- [62 <./figs/silo_larger.pdf>] [63 <./figs/bouncing_silo/hybrid/combine.pdf> <.
-/figs/grain_bouncing.pdf>] [64 <./figs/bouncing_silo.pdf>] <figs/jamming.pdf, i
-d=1838, 2477.26505pt x 722.7pt>
+Package pdftex.def Info: figs/bouncing_silo.pdf used on input line 126.
+(pdftex.def)             Requested size: 216.81pt x 300.7004pt.
+ [63 <./figs/bouncing_silo/hybrid/combine.pdf> <./figs/bouncing_silo.pdf>] <fig
+s/jamming.pdf, id=1834, 2477.26505pt x 722.7pt>
 File: figs/jamming.pdf Graphic file (type pdf)
 
 <use figs/jamming.pdf>
-Package pdftex.def Info: figs/jamming.pdf used on input line 164.
+Package pdftex.def Info: figs/jamming.pdf used on input line 137.
 (pdftex.def)             Requested size: 346.89731pt x 101.19936pt.
 
-<figs/stake_insertion.pdf, id=1839, 4941.95332pt x 1716.6333pt>
+<figs/stake_insertion.pdf, id=1835, 4941.95332pt x 1716.6333pt>
 File: figs/stake_insertion.pdf Graphic file (type pdf)
 
 <use figs/stake_insertion.pdf>
-Package pdftex.def Info: figs/stake_insertion.pdf used on input line 185.
+Package pdftex.def Info: figs/stake_insertion.pdf used on input line 153.
 (pdftex.def)             Requested size: 346.89731pt x 120.49092pt.
- [65 <./figs/jamming.pdf>]
-<figs/bunny_drill/toss_config_0032_COR00.pdf, id=1865, 787.94376pt x 705.61517p
+ [64 <./figs/jamming.pdf>]
+<figs/bunny_drill/toss_config_0032_COR00.pdf, id=1860, 787.94376pt x 705.61517p
 t>
 File: figs/bunny_drill/toss_config_0032_COR00.pdf Graphic file (type pdf)
  <use figs/bunny_drill/toss_config_0032_COR00.pdf>
 Package pdftex.def Info: figs/bunny_drill/toss_config_0032_COR00.pdf used on in
-put line 212.
+put line 179.
 (pdftex.def)             Requested size: 173.44534pt x 155.32195pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [66 <./figs/stake_insertion.pdf> <./figs/bunny_drill/toss_config_0032_COR00.pd
+ [65 <./figs/stake_insertion.pdf> <./figs/bunny_drill/toss_config_0032_COR00.pd
 f>]
-<figs/bunny_drill/excavator.pdf, id=1918, 746.79pt x 814.65352pt>
+<figs/bunny_drill/excavator.pdf, id=1914, 746.79pt x 814.65352pt>
 File: figs/bunny_drill/excavator.pdf Graphic file (type pdf)
 
 <use figs/bunny_drill/excavator.pdf>
-Package pdftex.def Info: figs/bunny_drill/excavator.pdf used on input line 228.
+Package pdftex.def Info: figs/bunny_drill/excavator.pdf used on input line 193.
 
 (pdftex.def)             Requested size: 173.44534pt x 189.20609pt.
 
+<figs/bunny_drill.pdf, id=1915, 2397.87837pt x 605.26125pt>
+File: figs/bunny_drill.pdf Graphic file (type pdf)
 
-LaTeX Warning: Reference `fig:hybrid:bunny_drill' on page 67 undefined on input
- line 246.
+<use figs/bunny_drill.pdf>
+Package pdftex.def Info: figs/bunny_drill.pdf used on input line 204.
+(pdftex.def)             Requested size: 433.62pt x 109.45027pt.
 
+Underfull \vbox (badness 7397) has occurred while \output is active []
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [67 <./figs/bunny_drill/excavator.pdf>]
-<figs/bunny_drill/tire/config_0000_single_cropped.png, id=1933, 1000.73875pt x 
+ [66 <./figs/bunny_drill/excavator.pdf>]
+<figs/bunny_drill/tire/config_0000_single_cropped.png, id=1929, 1000.73875pt x 
 563.10374pt>
 File: figs/bunny_drill/tire/config_0000_single_cropped.png Graphic file (type p
 ng)
  <use figs/bunny_drill/tire/config_0000_single_cropped.png>
 Package pdftex.def Info: figs/bunny_drill/tire/config_0000_single_cropped.png u
-sed on input line 250.
-(pdftex.def)             Requested size: 143.09538pt x 80.51807pt.
+sed on input line 216.
+(pdftex.def)             Requested size: 173.44534pt x 97.59088pt.
 
-<figs/bunny_drill/tire/config_0066_speed_multi.png, id=1935, 1284.8pt x 722.7pt
+<figs/bunny_drill/tire/config_0066_speed_multi.png, id=1931, 1284.8pt x 722.7pt
 >
 File: figs/bunny_drill/tire/config_0066_speed_multi.png Graphic file (type png)
 
  <use figs/bunny_drill/tire/config_0066_speed_multi.png>
 Package pdftex.def Info: figs/bunny_drill/tire/config_0066_speed_multi.png used
- on input line 251.
-(pdftex.def)             Requested size: 143.09538pt x 80.48972pt.
+ on input line 217.
+(pdftex.def)             Requested size: 173.44534pt x 97.56029pt.
 
-<figs/bunny_drill/tire/config_0052_density.png, id=1936, 1284.8pt x 722.7pt>
+<figs/bunny_drill/tire/config_0052_density.png, id=1932, 1284.8pt x 722.7pt>
 File: figs/bunny_drill/tire/config_0052_density.png Graphic file (type png)
 
 <use figs/bunny_drill/tire/config_0052_density.png>
 Package pdftex.def Info: figs/bunny_drill/tire/config_0052_density.png used on 
-input line 252.
-(pdftex.def)             Requested size: 143.09538pt x 80.48972pt.
- [68 <./figs/bunny_drill/tire/config_0000_single_cropped.png> <./figs/bunny_dri
-ll/tire/config_0066_speed_multi.png> <./figs/bunny_drill/tire/config_0052_densi
-ty.png>]
-<figs/drum.pdf, id=1943, 2734.07458pt x 1224.01285pt>
+input line 218.
+(pdftex.def)             Requested size: 173.44534pt x 97.56029pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [67 <./figs/bunny_drill.pdf>] <figs/drum.pdf, id=1959, 2734.07458pt x 1224.012
+85pt>
 File: figs/drum.pdf Graphic file (type pdf)
- <use figs/drum.pdf>
-Package pdftex.def Info: figs/drum.pdf used on input line 267.
+
+<use figs/drum.pdf>
+Package pdftex.def Info: figs/drum.pdf used on input line 233.
 (pdftex.def)             Requested size: 346.89731pt x 155.29848pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [69 <./figs/drum.pdf>] <figs/chute_flow.pdf, id=1983, 803.68254pt x 542.025pt>
+ [68 <./figs/bunny_drill/tire/config_0000_single_cropped.png> <./figs/bunny_dri
+ll/tire/config_0066_speed_multi.png> <./figs/bunny_drill/tire/config_0052_densi
+ty.png>]
+<figs/chute_flow.pdf, id=1966, 803.68254pt x 542.025pt>
 File: figs/chute_flow.pdf Graphic file (type pdf)
 
 <use figs/chute_flow.pdf>
-Package pdftex.def Info: figs/chute_flow.pdf used on input line 303.
-(pdftex.def)             Requested size: 346.89731pt x 233.95943pt.
+Package pdftex.def Info: figs/chute_flow.pdf used on input line 259.
+(pdftex.def)             Requested size: 260.17464pt x 175.46957pt.
 
-<figs/phase_plots2.pdf, id=1984, 846.16125pt x 693.42363pt>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [69 <./figs/drum.pdf>] <figs/phase_plots2.pdf, id=2006, 846.16125pt x 693.4236
+3pt>
 File: figs/phase_plots2.pdf Graphic file (type pdf)
 
 <use figs/phase_plots2.pdf>
-Package pdftex.def Info: figs/phase_plots2.pdf used on input line 313.
-(pdftex.def)             Requested size: 346.89731pt x 284.27379pt.
+Package pdftex.def Info: figs/phase_plots2.pdf used on input line 280.
+(pdftex.def)             Requested size: 303.53267pt x 248.74353pt.
+ [70 <./figs/chute_flow.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Underfull \vbox (badness 1107) has occurred while \output is active []
-
- [70 <./figs/chute_flow.pdf>] [71 <./figs/phase_plots2.pdf>]
+ [71 <./figs/phase_plots2.pdf>]
 
 LaTeX Warning: Reference `sec:sugar_coated' on page 72 undefined on input line 
-359.
+326.
 
-
-Underfull \vbox (badness 1308) has occurred while \output is active []
-
- [72]
-<figs/core_scaling.pdf, id=2067, 406.1845pt x 315.51175pt>
+<figs/core_scaling.pdf, id=2086, 406.1845pt x 315.51175pt>
 File: figs/core_scaling.pdf Graphic file (type pdf)
 
 <use figs/core_scaling.pdf>
-Package pdftex.def Info: figs/core_scaling.pdf used on input line 371.
+Package pdftex.def Info: figs/core_scaling.pdf used on input line 338.
 (pdftex.def)             Requested size: 216.81pt x 168.41437pt.
-) [73 <./figs/core_scaling.pdf>] [74]
+ [72]) [73 <./figs/core_scaling.pdf>]
 \openout2 = `chap06_enrichment.aux'.
 
 
-(./chap06_enrichment.tex
-Chapter 6.
-
-Underfull \vbox (badness 2351) has occurred while \output is active []
-
- [75
+(./chap06_enrichment.tex [74
 
 
 
 ]
-<figs/paraviewSetup/chute_initial.png, id=2094, 1204.5pt x 1202.4925pt>
+Chapter 6.
+
+Underfull \vbox (badness 2351) has occurred while \output is active []
+
+ [75]
+<figs/paraviewSetup/chute_initial.png, id=2116, 1204.5pt x 1202.4925pt>
 File: figs/paraviewSetup/chute_initial.png Graphic file (type png)
 
 <use figs/paraviewSetup/chute_initial.png>
@@ -1139,7 +1127,7 @@ Package pdftex.def Info: figs/paraviewSetup/chute_initial.png used on input lin
 e 24.
 (pdftex.def)             Requested size: 130.08731pt x 129.87093pt.
 
-<figs/paraviewSetup/chute_0_5s.png, id=2095, 1204.5pt x 1202.4925pt>
+<figs/paraviewSetup/chute_0_5s.png, id=2117, 1204.5pt x 1202.4925pt>
 File: figs/paraviewSetup/chute_0_5s.png Graphic file (type png)
 
 <use figs/paraviewSetup/chute_0_5s.png>
@@ -1147,7 +1135,7 @@ Package pdftex.def Info: figs/paraviewSetup/chute_0_5s.png used on input line 2
 6.
 (pdftex.def)             Requested size: 130.08731pt x 129.87093pt.
 
-<figs/paraviewSetup/chute_1s.png, id=2096, 1204.5pt x 1202.4925pt>
+<figs/paraviewSetup/chute_1s.png, id=2118, 1204.5pt x 1202.4925pt>
 File: figs/paraviewSetup/chute_1s.png Graphic file (type png)
 
 <use figs/paraviewSetup/chute_1s.png>
@@ -1159,7 +1147,7 @@ Underfull \vbox (badness 1675) has occurred while \output is active []
 
  [77 <./figs/paraviewSetup/chute_initial.png (PNG copy)> <./figs/paraviewSetup/
 chute_0_5s.png (PNG copy)> <./figs/paraviewSetup/chute_1s.png (PNG copy)>]
-<figs/simple_hybrid.pdf, id=2103, 82.1235pt x 46.38623pt>
+<figs/simple_hybrid.pdf, id=2125, 82.1235pt x 46.38623pt>
 File: figs/simple_hybrid.pdf Graphic file (type pdf)
 
 <use figs/simple_hybrid.pdf>
@@ -1169,10 +1157,7 @@ Package pdftex.def Info: figs/simple_hybrid.pdf used on input line 43.
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [79]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [80]
-<figs/non_optimal_packing_1.pdf, id=2253, 32.4412pt x 32.4412pt>
+[80] [81] <figs/non_optimal_packing_1.pdf, id=2278, 32.4412pt x 32.4412pt>
 File: figs/non_optimal_packing_1.pdf Graphic file (type pdf)
 
 <use figs/non_optimal_packing_1.pdf>
@@ -1180,7 +1165,7 @@ Package pdftex.def Info: figs/non_optimal_packing_1.pdf used on input line 103.
 
 (pdftex.def)             Requested size: 130.08731pt x 130.10144pt.
 
-<figs/non_optimal_packing_2.pdf, id=2254, 33.31195pt x 32.4412pt>
+<figs/non_optimal_packing_2.pdf, id=2279, 33.31195pt x 32.4412pt>
 File: figs/non_optimal_packing_2.pdf Graphic file (type pdf)
 
 <use figs/non_optimal_packing_2.pdf>
@@ -1188,14 +1173,14 @@ Package pdftex.def Info: figs/non_optimal_packing_2.pdf used on input line 105.
 
 (pdftex.def)             Requested size: 130.08731pt x 126.74377pt.
 
-<figs/non_optimal_packing_3.pdf, id=2255, 33.31195pt x 32.4412pt>
+<figs/non_optimal_packing_3.pdf, id=2280, 33.31195pt x 32.4412pt>
 File: figs/non_optimal_packing_3.pdf Graphic file (type pdf)
 
 <use figs/non_optimal_packing_3.pdf>
 Package pdftex.def Info: figs/non_optimal_packing_3.pdf used on input line 107.
 
 (pdftex.def)             Requested size: 130.08731pt x 126.74377pt.
- [81] [82 <./figs/non_optimal_packing_1.pdf> <./figs/non_optimal_packing_2.pdf
+ [82 <./figs/non_optimal_packing_1.pdf> <./figs/non_optimal_packing_2.pdf
 
 pdfTeX warning: pdflatex (file ./figs/non_optimal_packing_2.pdf): PDF inclusion
 : multiple pdfs with page group included in a single page
@@ -1203,31 +1188,29 @@ pdfTeX warning: pdflatex (file ./figs/non_optimal_packing_2.pdf): PDF inclusion
 
 pdfTeX warning: pdflatex (file ./figs/non_optimal_packing_3.pdf): PDF inclusion
 : multiple pdfs with page group included in a single page
->] <figs/grid_packing_scheme.pdf, id=2287, 48.58154pt x 36.63687pt>
+>] <figs/grid_packing_scheme.pdf, id=2309, 48.58154pt x 36.63687pt>
 File: figs/grid_packing_scheme.pdf Graphic file (type pdf)
 
 <use figs/grid_packing_scheme.pdf>
 Package pdftex.def Info: figs/grid_packing_scheme.pdf used on input line 120.
 (pdftex.def)             Requested size: 281.85034pt x 212.63478pt.
 
-<figs/circle_sweep_scheme.pdf, id=2288, 89.50053pt x 99.91478pt>
+<figs/circle_sweep_scheme.pdf, id=2310, 89.50053pt x 99.91478pt>
 File: figs/circle_sweep_scheme.pdf Graphic file (type pdf)
 
 <use figs/circle_sweep_scheme.pdf>
 Package pdftex.def Info: figs/circle_sweep_scheme.pdf used on input line 133.
 (pdftex.def)             Requested size: 216.81pt x 242.0384pt.
  [83 <./figs/grid_packing_scheme.pdf>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [84 <./figs/circle_sweep_scheme.pdf>]
-<figs/two_point_tangent.pdf, id=2458, 80.83678pt x 101.33429pt>
+[84 <./figs/circle_sweep_scheme.pdf>]
+<figs/two_point_tangent.pdf, id=2480, 80.83678pt x 101.33429pt>
 File: figs/two_point_tangent.pdf Graphic file (type pdf)
 
 <use figs/two_point_tangent.pdf>
 Package pdftex.def Info: figs/two_point_tangent.pdf used on input line 147.
 (pdftex.def)             Requested size: 216.81pt x 271.81412pt.
  [85 <./figs/two_point_tangent.pdf>]
-<figs/compare_technique_m_v_t.pdf, id=2498, 377.41pt x 297.11pt>
+<figs/compare_technique_m_v_t.pdf, id=2520, 377.41pt x 297.11pt>
 File: figs/compare_technique_m_v_t.pdf Graphic file (type pdf)
 
 <use figs/compare_technique_m_v_t.pdf>
@@ -1235,31 +1218,31 @@ Package pdftex.def Info: figs/compare_technique_m_v_t.pdf used on input line 15
 8.
 (pdftex.def)             Requested size: 260.17464pt x 204.8157pt.
  [86 <./figs/compare_technique_m_v_t.pdf>] <figs/dem_enter_continuum.pdf, id=25
-19, 43.57426pt x 48.58151pt>
+41, 43.57426pt x 48.58151pt>
 File: figs/dem_enter_continuum.pdf Graphic file (type pdf)
 
 <use figs/dem_enter_continuum.pdf>
 Package pdftex.def Info: figs/dem_enter_continuum.pdf used on input line 170.
 (pdftex.def)             Requested size: 173.44534pt x 193.42778pt.
  [87 <./figs/dem_enter_continuum.pdf>]
-<figs/beta_m_v_t_cropped.pdf, id=2623, 371.3875pt x 294.09875pt>
+[88] <figs/beta_m_v_t_cropped.pdf, id=2648, 371.3875pt x 294.09875pt>
 File: figs/beta_m_v_t_cropped.pdf Graphic file (type pdf)
 
 <use figs/beta_m_v_t_cropped.pdf>
 Package pdftex.def Info: figs/beta_m_v_t_cropped.pdf used on input line 193.
 (pdftex.def)             Requested size: 260.17464pt x 206.03375pt.
- [88] [89 <./figs/beta_m_v_t_cropped.pdf>]
-<figs/pic_flip_beta_m_v_t_cropped.pdf, id=2648, 377.41pt x 311.1625pt>
+ [89 <./figs/beta_m_v_t_cropped.pdf>]
+<figs/pic_flip_beta_m_v_t_cropped.pdf, id=2670, 377.41pt x 311.1625pt>
 File: figs/pic_flip_beta_m_v_t_cropped.pdf Graphic file (type pdf)
 
 <use figs/pic_flip_beta_m_v_t_cropped.pdf>
 Package pdftex.def Info: figs/pic_flip_beta_m_v_t_cropped.pdf used on input lin
 e 217.
 (pdftex.def)             Requested size: 260.17464pt x 214.50294pt.
-)
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [90]
+ [90])
 [91 <./figs/pic_flip_beta_m_v_t_cropped.pdf>]
 \openout2 = `chap07_conclusions.aux'.
 
@@ -1289,10 +1272,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 15425 strings out of 494902
- 299809 string characters out of 6179891
- 310007 words of memory out of 5000000
- 18343 multiletter control sequences out of 15000+600000
+ 15430 strings out of 494902
+ 299957 string characters out of 6179891
+ 310070 words of memory out of 5000000
+ 18345 multiletter control sequences out of 15000+600000
  29946 words of font info for 83 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  44i,25n,51p,10375b,601s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1327,10 +1310,10 @@ sr/share/texmf/fonts/type1/public/cm-super/sfrm0900.pfb></usr/share/texmf/fonts
 /type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-sup
 er/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></us
 r/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
-Output written on main.pdf (98 pages, 33980749 bytes).
+Output written on main.pdf (98 pages, 37771373 bytes).
 PDF statistics:
- 2796 PDF objects out of 2984 (max. 8388607)
- 1574 compressed objects within 16 object streams
+ 2818 PDF objects out of 2984 (max. 8388607)
+ 1578 compressed objects within 16 object streams
  0 named destinations out of 1000 (max. 500000)
  220 words of extra memory for PDF output out of 10000 (max. 10000000)
 

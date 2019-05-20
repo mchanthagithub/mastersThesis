@@ -10,7 +10,7 @@ Modeling is a game of balance. Tractability and reasonable solution times fight 
 
 Granular media present an interesting intermediary between the world of the discrete and the continuum. While oftentimes they are studied in contexts where continuum approximations are appropriate (i.e. geological), their behavior at much smaller length scales (a bucket of sand at the beach or flow through an hour glass) are still of great interest. However at those more everyday scales, the length scale of a single grain of sand is a relatively large proportion of the scale of the entire problem, and thus cannot be ignored. And even at the larger aforementioned geological scales, the initiation of an earthquake, for an example, still relies on individual grains of sand slipping and deforming against each other.
 
-The great challenge, then is to formulate a model that can capture length scale effects but still have enough simplifying assumptions to make the problem solvable with efficient methods. This however seems to fly in the face of the modeling trade-off previously discussed; it is nearly impossible to have a single model that allows for fine-scale resolution and yet ignores those small length scales to become efficiently solvable. The solution we now propose addresses this issue by ignoring the "single" part of the "single model" clause, and instead hybridizes two distinct models to yield the two distinct attributes desired: resolution of length scale while maintaining efficient solvability. It is noted that the current work focuses on cohesionless granular systems, and thus approximate dry granular systems with no sources of attraction, like liquid bridges or electrostatic charges.
+The great challenge, then is to formulate a model that can capture length scale effects but still have enough simplifying assumptions to make the problem solvable with efficient methods. This however seems to fly in the face of the modeling trade-off previously discussed; it is nearly impossible to have a single model that allows for fine-scale resolution and yet ignores those small length scales to become efficiently solvable. The solution we now propose addresses this issue by ignoring the "single" part of the "single model" clause, and instead hybridizes two distinct models to yield the two distinct attributes desired: resolution of length scale while maintaining efficient solvability. It is noted that the current work focuses on cohesionless granular systems, and thus approximate dry granular systems with no sources of attraction, like liquid bridges or electrostatic charges. This work is an elaboration and expansion of the work shown in Yue et al \cite{HG:2018}.
 
 The work is structured as follows. The remainder of chapter 1 puts the current work in the greater academic context and discusses prior work on the modeling of granular media. Hybridization models in and out of granular media contexts are also discussed. 
 
@@ -32,8 +32,8 @@ The ubiquity of granular media in everyday life cannot be understated. We walk o
 
 \begin{figure}[htp] 
     \centering
-        \includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-    \caption{Flowing hourglass displaying three distinct granular phases.}
+        \includegraphics[width=0.4\textwidth]{figs/grain_bouncing.pdf}
+    \caption{Bottom of an hourglass displaying three distinct granular phases.}
     \label{hourglass}
 \end{figure}
 

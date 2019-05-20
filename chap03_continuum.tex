@@ -28,19 +28,19 @@ where $\bm{x}$ is the coordinate space of a deformed body and $\bm{X}$ is the co
 Being a hyperleastic model, the constitutive law is derived from a strain energy density function.
 Under small strains, we desire to have the material behave elastically. In 2D the strain energy density function we use to achieve this is:
 \begin{equation}
-W = \frac{\kappa}{2} \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} G ( Tr[ \bar{\bm{B}}^e ] - 2 )
+W = \frac{\kappa}{2} \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} G ( \text{Tr}[ \bar{\bm{B}}^e ] - 2 )
 \end{equation}
 and in 3D is:
 \begin{equation}
-W = \frac{1}{2} \kappa \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} G ( Tr[ \bar{\bm{B}}^e ] - 3 )
+W = \frac{1}{2} \kappa \left[ \frac{1}{2} ( J^2 - 1 ) - \ln J \right] + \frac{1}{2} G ( \text{Tr}[ \bar{\bm{B}}^e ] - 3 )
 \end{equation}
-where $\bar{\bm{B}}^e = det\left( \bm{B}^e \right)^{-1/{dim}} \bm{B}^e$ is the isovolumetric component of the elastic left Cauchy-Green strain, $J = det\left( \bm{F} \right)$, and $dim$ is the spatial dimension (2 for 2D and 3 for 3D). The resulting Kirchoff stress is:
+where $\bar{\bm{B}}^e = \text{det}\left( \bm{B}^e \right)^{-1/{dim}} \bm{B}^e$ is the isovolumetric component of the elastic left Cauchy-Green strain, $J = \text{det}\left( \bm{F} \right)$, and $dim$ is the spatial dimension (2 for 2D and 3 for 3D). The resulting Kirchoff stress is:
 \begin{equation}
-\tau = \frac{\kappa}{2} \left( J^2 - 1 \right)\bm{I} + G dev[\bar{\bm{b}}^e] \label{kirchoff_stress_hyper}
+\tau = \frac{\kappa}{2} \left( J^2 - 1 \right)\bm{I} + G \text{dev}[\bar{\bm{b}}^e] \label{kirchoff_stress_hyper}
 \end{equation}
 where $\kappa$ and $G$ are the bulk and shear moduli respectively of the material.
 
-One of the key properties of a granular media is that like a solid it can resist compression, but under tension it changes phases, acts like a fluid, and cannot resist extension. Therefore to allow the granular medium to separate with no resistance, we consider a "no-tension" rule. We model this effect with a free-flow mode, similar to Dunatunga et al. \cite{Dunatunga:2015:Continuum}. If $det[\bm{B}^e]>1$, the material is in extension. When this occurs, the deformation of the material is projected into the isovolumetric space where $det[\bm{B}^e]=1$, by multiplying by the inverse of $J^2$, or $\bm{B}^e=det\left( \bm{B}^e \right)^{-1/{dim}} \bm{B}^e$. With no elastic volumetric strain under this projection in tension, the pressure drops to 0.
+One of the key properties of a granular media is that like a solid it can resist compression, but under tension it changes phases, acts like a fluid, and cannot resist extension. Therefore to allow the granular medium to separate with no resistance, we consider a "no-tension" rule. We model this effect with a free-flow mode, similar to Dunatunga et al. \cite{Dunatunga:2015:Continuum}. If $\text{det}[\bm{B}^e]>1$, the material is in extension. When this occurs, the deformation of the material is projected into the isovolumetric space where $\text{det}[\bm{B}^e]=1$, by multiplying by the inverse of $J^2$, or $\bm{B}^e=\text{det}\left( \bm{B}^e \right)^{-1/{dim}} \bm{B}^e$. With no elastic volumetric strain under this projection in tension, the pressure drops to 0.
 
 In order to incorporate plasticity, we must define a yield condition and a plastic flow rate. For the yield condition we take a simple Drucker-Prager model defined as
 \begin{align}
@@ -55,7 +55,7 @@ p=-\frac{1}{3}\bm{\sigma}\label{pressure_stress}
 \end{equation}
 Substituting in the elastic constitutive law (\ref{kirchoff_stress_hyper}), the yield condition can also be expressed as
 \begin{equation}
-\Phi = G \|  dev[ \bar{\bm{b}}^e ] \|_F + \mu \frac{\kappa}{2} \left( J^2 - 1 \right) \label{yield_hyper_strain}
+\Phi = G \|  \text{dev}[ \bar{\bm{b}}^e ] \|_F + \mu \frac{\kappa}{2} \left( J^2 - 1 \right) \label{yield_hyper_strain}
 \end{equation}
 When $\Phi \leq 0$, the material behaves elastically and no plastic evolution occurs, while when $\Phi > 0$, the material plastically flows. The Drucker-Prager yield criterion looks very similar in form to Coulomb friction, and this is not a coincidence. An analogy can be drawn between the two, such that when the yield function is less than 0, the shear stress (or tangential force) is not enough to overcome the pressure scaled by the internal friction coefficient (normal force and friction coefficient) and the material deforms elastically (does not slip). When the yield criterion is met, yield or slip occurs. Much like how the friction coefficient can be used to control the incline angle at which a block at rest will start slipping, the internal friction coefficient $\mu$ is a tuning parameter that controls how easily the material yields, which macroscopically determines behavior like the repose angle of a pile of collapsed grains.
 
@@ -71,22 +71,23 @@ The new predicted $\bm{B}^e$, which we denote as $\bm{B}^{e,*}$, is then used to
 
 To return the material to a valid state, we keep in mind the isochoric plastic flow requirement as well as the fact that final accepted state, which we denote as $\b_p$ must satisfy the yield condition, such that $\Phi{\b_p}$. We also assume that plastic flow is codirectional with the shear stress. With these assumptions in place, the admissible strain is decomposed into
 \begin{equation}
-\bm{B}^{e,p}=\lambda_1\bm{I}+\lambda_2 dev[det[\bm{B}^{e,*}]] \label{be_split}
+\bm{B}^{e,p}=\lambda_1\bm{I}+\lambda_2 \text{dev}[\text{det}[\bm{B}^{e,*}]] \label{be_split}
 \end{equation}
 The goal is to solve for $\lambda_1$ and $\lambda_2$ that satisfies the constraints. We therefore substitute (\ref{be_split}) into (\ref{yield_hyper_strain}) to obtain:
 \begin{align}
 \begin{aligned}
-  \Phi\left( \tau \left( \bm{B}^{e,p} \right) \right) &= \mu \| dev[\bm{B}^{e,p}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
-                                                             &= \mu \lambda_2 \| dev[\bm{B}^{e,*}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
+  \Phi\left( \tau \left( \bm{B}^{e,p} \right) \right) &= \mu \| \text{dev}[\bm{B}^{e,p}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
+                                                             &= \mu \lambda_2 \| \text{dev}[\bm{B}^{e,*}] \|_F + \alpha \frac{\kappa}{2} ( J^2 - 1 ) \\
 &= 0
 \end{aligned}
 \end{align}
-We use the expansions of the determinants such that in 2D, $det[\bm{I} + \bm{A}] = 1 + det[\bm{A}] + Tr[\bm{A}]$ and in 3D, $det[\bm{I} + \bm{A}] = 1 + det[\bm{A}] + Tr[\bm{A}] + \frac{1}{2}Tr[\bm{A}]^2 - \frac{1}{2}Tr[\bm{A}^2]$, to, after some mathematical manipulation arrive at a system of equations for $\lambda_1$ and $\lambda_2$:
+We use the expansions of the determinants such that in 2D, $\text{det}[\bm{I} + \bm{A}] = 1 + \text{det}[\bm{A}] + \text{Tr}[\bm{A}]$ and in 3D, $\text{det}[\bm{I} + \bm{A}] = 1 + \text{det}[\bm{A}] + \text{Tr}[\bm{A}] + \frac{1}{2}\text{Tr}[\bm{A}]^2 - \frac{1}{2}\text{Tr}[\bm{A}^2]$, to, after some mathematical manipulation arrive at a system of equations for $\lambda_1$ and $\lambda_2$:
 \begin{equation}
-\lambda_1 = \sqrt{det[\bm{B}^{e,*}] - \lambda_2^2 det[ dev[\bm{B}^{e,*}]]}
+\lambda_1 = \sqrt{\text{det}[\bm{B}^{e,*}] - \lambda_2^2 \text{det}[ \text{dev}[\bm{B}^{e,*}]]}
 \end{equation}
 \begin{equation}
-\lambda^3_1 + \lambda^3_2 det[dev[\bm{B}^{e,*}]] - \frac{\lambda_1 \lambda^2_2}{2} \|dev[\bm{B}^{e,*}]\|^2_F - det[\bm{B}^{e,*}] = 0
+\lambda^3_1 + \lambda^3_2 \text{det}[\text{dev}[\bm{B}^{e,*}]] - \frac{\lambda_1 \lambda^2_2}{2} \|\text{dev}[\bm{B}^{e,*}]\|^2_F - 
+\text{det}[\bm{B}^{e,*}] = 0
 \end{equation}
 Solving for $\lambda_1$ and $\lambda_2$ yields the admissible strain state $\b_p$ at the end of the step.
 
@@ -195,7 +196,7 @@ where $S_{ip}$ is the value of the basis function $S_i$ at location $\bm{x}_p$, 
 \end{equation}
 While one is free to choose from any number of function spaces for the basis functions, two types are used in this study. The first are classic linear "hat" functions, which in 1D are defined as
 \begin{equation}
-S_i(x)=max[0,(1-\frac{|x_i-x|}{h})]\label{linear_basis}
+S_i(x)=\text{max}\left[0,\left(1-\frac{|x_i-x|}{h}\right)\right]\label{linear_basis}
 \end{equation}
 where h is the element length. The gradient is then defined as
 \begin{equation}
@@ -246,7 +247,7 @@ To begin, the point masses and momenta are projected onto the nodes via the oper
 \end{equation}
 For the hypoelastic model, the point volumes and stresses are then updated. The volume update is described by
 \begin{equation}
-{V_p}^{n+1}={V_p}^n exp(\Delta tr\bm{L}^n) \label{volume_update}
+{V_p}^{n+1}={V_p}^n \text{exp}(\Delta tr\bm{L}^n) \label{volume_update}
 \end{equation}
 The stress update is then calculated with the constitutive law described in Section \ref{hypoelastic_model}, and the exact numerical implementation can be found in Dunantunga and Kamrin \cite{Dunatunga:2015:Continuum}. In the hyperelastic case, the volumetric strain $J$ and stress are also updated here, as described in \ref{hyperelastic_model}.
 The external forces ${\bm{b}_i}^n$ and internal forces ${\bm{f}_i}^n$ (internal forces being derived from the divergence of the just-calculated Cauchy stress) are then projected to the grid.
@@ -307,10 +308,10 @@ Another collision check is conducted on the advected position of the points. Thi
 \subsection{Relevant Notes on MPM}
 As alluded to with the "FEM-like solve", MPM can be interpreted as a finite element method with a single point quadrature integration rule, where the quadrature points are the MPM points. Both start from a weak form formulation and are discretized into points/elements, with interpolation conducted under some basis. However in MPM, there is no strict notion of connectivity. Instead, communication of points is done through the projection of the point quantities to the nodes.
 
-In the original MPM formulation described by Sulsky, the extent of the points are described via $\delta(x)$ functions, and so only project to the grid nodes of the element that the point is currently in. If two points project to the same grid node, then connectivity is in effect established between the points. This then implies that if two points start out "connected", or are at most in directly adjacent cells, and then become separated by a completely empty element, they lose connectivity, completely separating the two points. While this can be useful in some applications to capture fracture, such as in the modeling of snow breakage in graphics usage, it should be stated that this in fact numerical error \cite{Stomakhin:2013:MPM}. While schemes that integrate a point across a finite extent, such as GIMP, ameliorate this problem somewhat, this is not a complete fix. Thus while MPM avoids having grid cell inversions and other issues inherent in a completely lagrangian mesh, a sort of numerical fracture becomes the byproduct.
+In the original MPM formulation described by Sulsky, the extent of the points are described via $\delta(x)$ functions, and so only project to the grid nodes of the element that the point is currently in. If two points project to the same grid node, then connectivity is in effect established between the points. This then implies that if two points start out "connected", or are at most in directly adjacent cells, and then become separated by a completely empty element, they lose connectivity, completely separating the two points. While this can be useful in some applications to capture fracture, such as in the modeling of snow breakage in graphics usage, it should be stated that this in fact numerical error \cite{Stomakhin:2013:MPM}. While schemes that integrate a point across a finite extent, such as GIMP, ameliorate this problem somewhat, this is not a complete fix. Thus while MPM avoids having grid cell inversions and other issues inherent in a lagrangian mesh, a sort of numerical fracture becomes the byproduct.
 
 Numerical fracture is not the only issue that can arise however. In a somewhat less catastrophic error, the fact that the MPM points are effectively quadrature points, and they are allowed to advect from cell to cell, means that integration errors can occur. For example, a simulation can begin with the same number of MPM points per cell for all cells representing the body, exactly integrating those elements. Over time however, the volumes that the MPM points represent deform and change in size, and the points themselves move. This can mean that if at a certain timestep, a cell contains much fewer points than the simulation started with, that portion of the body can be under-integrated. On the other hand, a cell may have a large concentration of points, with the volumes that the points represent actually overlapping; over-integration of that portion of the domain then results.
 
 Techniques exist to address these points. To better track the deformation of the volume that the MPM point represents in order to help with over and under integration, the previously mentioned GIMP as well as the Convected Particle Domain Interpolation (CPDI) technique can be used. CPDI, as its name implies, convects and keeps track of the representation of the MPM point volume, so that the area over which one integrates changes with MPM deformation \cite{Sadeghirad:2011}.
 
-Resampling can also help to avoid over or under integration, keeping the MPM point concentration similar to what the simulation started with. A resampling algorithm was developed by Yue et al in the context of using MPM for foam modeling, where very large deformations occur that can result in under integration \cite{Yue:2015:Continuum}. This technique, called Avoid a Void, is used in the current study both for the MPM simulations as well as the basis for a component of hybridization later discussed. 
+Resampling can also help to avoid over or under integration, keeping the MPM point relatively constant. A resampling algorithm was developed by Yue et al in the context of using MPM for foam modeling, where very large deformations occur that can result in under integration \cite{Yue:2015:Continuum}. This technique, called Avoid a Void, is used in the current study both for the MPM simulations as well as the basis for a component of hybridization later discussed. 

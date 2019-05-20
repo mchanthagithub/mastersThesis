@@ -1,7 +1,7 @@
 \chapter{Results} \label{sec:results}
 To benchmark the hybrid technique we employ the method on a number of model problems. In all of the following simulations we use a weight of uniform weight of $0.5$ for both the discrete and continuum components in the hybrid zones. Unless otherwise stated, the simulations utilized an MPM cell width to DEM grain diameter ratio of 2:1. We also utilize the hyperelastic formulation to model the continuum regions in all simulations. 
 
-\begin{table}
+\begin{table}[!htb]
   %\begin{tabular}{|p{1.7cm}|p{0.7cm}|p{1.0cm}|p{0.7cm}|p{0.8cm}|p{1.0cm}|}
   \begin{tabular}{llllll}
       \hline
@@ -65,7 +65,7 @@ threshold, we observe a second power law scaling.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\linewidth]{figs/runout_curve.pdf}
+  \includegraphics[width=0.7\linewidth]{figs/runout_curve.pdf}
   %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
   \caption{
     Runout of a 2D granular column: Nondimensionalized runout distance, $\delta d/d_i=(d_f-d_i) / d_i$, vs aspect ratio, $AR = h_i / d_i$. Like DEM, our hybrid technique captures the two distinct regimes that Lube \cite{Lube:2005} observed in experiments. We perform a linear fit in the low-$AR$ regime, and a power-law fit in the high-$AR$ regime.}
@@ -91,93 +91,61 @@ Extending to 3D, we also obtain a good qualitative matchup of the collapse in mo
 Again note the grains at the edge of the runout, which the hybrid technique is able to capture.
 
 \section{Silo Discharge}
-In Fig.~\ref{fig:hybrid:silo_discharge}, we simulate a silo that discharges grains 
-%using a purely discrete approach, our hybrid approach, and a purely continuum approach. 
-using a purely discrete approach and our hybrid approach.
+In Fig.~\ref{fig:hybrid:silo_discharge}, we simulate a silo that discharges grains using a purely discrete approach and our hybrid approach.
 With our approach, the oracle identifies the interior of the
 initial mass of grains as a continuum. As grains exit the silo and the continuum region falls towards the orifice, our
 method automatically converts the continuum material to discrete material. As grains form a pile on the ground, our
 method detects the formation of the sufficiently dense portions of the pile and automatically converts discrete grains
 to continuum material points in this area.
-%In discrete sim, flow rate is controlled by Coulomb friction coefficient $\mu$; In continuum sim, flow rate is controlled by Drucker-Prager's $\alpha$ (continuum analog of $\mu$).
-The hybrid 2D hourglass has a slightly faster flow rate than the discrete only counterpart. We believe that the ability to control the coordination number for newly sampled DEM particles would reconcile these flow rates. Generating packings given constraints is an interesting avenue of future work.
 
-\begin{figure}
+\begin{center}
   \centering
   \includegraphics[width=0.8\linewidth]{figs/silo_larger.pdf}
   %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  \caption{
+  \captionof{figure}{
     Silo discharge: A silo discharges grains with a discrete method (left) and with our hybrid method (right).
   }
   \label{fig:hybrid:silo_discharge}
-\end{figure}
+\end{center}
 
-\begin{figure}
+The hybrid 2D hourglass has a slightly faster flow rate than the discrete only counterpart. We believe that the ability to control the coordination number for newly sampled DEM particles would reconcile these flow rates. Generating packings given constraints is an interesting avenue of future work.
+
+\begin{center}
   \centering
   \includegraphics[width=0.5\linewidth]{figs/bouncing_silo/hybrid/combine.pdf}
   %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  \caption{
+  \captionof{figure}{
     3D silo discharge simulated with our hybrid approach: Left is a full view of the discharging grains while right is a cutaway view.
   }
   \label{fig:hybrid:silo_discharge_3d}
-\end{figure}
+\end{center}
 
-\begin{figure}
+We also simulate a hybrid silo discharge in 3D (Fig.~\ref{fig:hybrid:silo_discharge_3d}). The hybrid approach is able to model ballistic motion and collisions after grains flowing from the silo enter a "gaseous" state. This ability to model contact is crucial for capturing the asymmetrical shape of the column, as well as the ballistic bounces when grains impact the container and the pile, both of which are observed in real-life hourglasses.
+\begin{center}
   \centering
-  \includegraphics[width=0.5\linewidth]{figs/grain_bouncing.pdf}
+  \includegraphics[width=0.5\linewidth]{figs/bouncing_silo.pdf}
   %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  \caption{
-    Hourglass experiment: Individual grains bounce off a sand pile, violating the continuum assumption and requiring a discrete model. \textcopyright MIT
-  }
-  \label{fig:hybrid:grain_bouncing}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.8\linewidth]{figs/bouncing_silo.pdf}
-  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  \caption{Silo discharge (3D large orifice, $r=1.8$): Our hybrid approach supports a range of restitution coefficients. Top: with $0$ restitution, the flow looks
-  uniform. Middle: with $e=0.5$, the flow appears more energetic, with multiple visible fly away grains. Observe that the MPM version of this simulation (c) has both a less energetic flow, and fails to simulate grains bouncing away from the bulk whole. The MPM counterpart is simulated with sticky boundary conditions on the bottom.}
+  \captionof{figure}{Silo discharge (3D large orifice, $r=1.8$): Top: with $0$ restitution, the flow looks uniform. Middle: with $e=0.5$, the flow appears more energetic, with multiple fly away grains. The pure MPM version of this simulation (bottom) has a less energetic flow and fails to simulate grains bouncing away from the bulk.}
   \label{COR-compare}
-\end{figure}
-
-We also simulate a hybrid silo discharge in 3D (Fig.~\ref{fig:hybrid:silo_discharge_3d}). The hybrid approach is able to model ballistic motion and collisions after grains flowing from the silo enter a "gaseous" state. This ability to model contact is crucial for capturing the asymmetrical shape of the column, as well as the ballistic bounces when grains impact the container and the pile, both of which are observed in real-life hourglasses. See Fig.~\ref{fig:hybrid:grain_bouncing}.
+\end{center}
 
 MPM fails at simulating fly away grains, as the Particle-in-Cell method handles collisions by homogenizing each Lagrangian particle's velocity onto a background Eulerian grid and then transferring back. This series of operations results in an effectively inelastic collision among Lagrangian particles, i.e. with restitution coefficient $e = 0$. Note that this inelastic nature is independent of the particle-grid transfer scheme, i.e. PIC, FLIP, or APIC.
 
-In contrast, our hybrid approach handles the full range of restitution coefficients from $0$ to $1$. In Fig.~\ref{COR-compare}, we show a comparison between $e=0$ and $e=0.5$. Notice that when $e=0$, the hybrid approach also fails to capture the detailed bouncing effects and has a more uniform shape and flow profile.
-% did not run COR=1 because that is unphysical?
-
-% \begin{figure}
-%   \includegraphics[width=\linewidth]{figs/hybrid_jamming.pdf}
-%   \caption{
-%     Frictional jamming: A silo discharge simulated with our hybrid algorithm for a large orifice width (left) and for a
-%     small orifice width (right). For the large width, grains are able to freely flow from the funnel as the oracle
-%     enriches the region near the orifice. For the small width, the granular assembly jams after a tenth of a second,
-%     halting all flow from the orifice.
-%   }
-%   \label{fig:hybrid:silo_frictoinal_jam}
-% \end{figure}
-
-\begin{figure}
+In contrast, our hybrid approach handles the full range of restitution coefficients from $0$ to $1$, due to the fact that we handle these collisions via DEM. In Fig.~\ref{COR-compare}, we show a comparison between $e=0$ and $e=0.5$. Note that the MPM counterpart is simulated with sticky boundary conditions on the bottom. Notice that when $e=0$, the hybrid approach results in the expected behavior of less energetic-appearing grains. It fails to capture the detailed bouncing effects and has a more uniform shape and flow profile.
+\begin{center}
   \centering
   \includegraphics[width=0.8\linewidth]{figs/jamming.pdf}
   %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  \caption{
+  \captionof{figure}{
     Silo discharge (small orifice, $r=0.2$): A silo discharges grains with a discrete method (left), our hybrid
     method (middle), and a continuum method (right). Both the discrete and hybrid approach capture size-dependent clogging effects, and
     all flow from the orifice halts. The continuum simulation, in contrast, flows nonphysically.
   }
   \label{fig:hybrid:silo_frictoinal_jam}
-\end{figure}
-
+\end{center}
 Another advantage of our hybrid approach over a purely continuum method is the ability to frictionally
 jam due to so-called finite size effects. In Fig.~\ref{fig:hybrid:silo_frictoinal_jam}, we simulate a silo discharge with a small orifice
 width using a purely DEM algorithm, our hybrid algorithm, and a purely continuum algorithm. Note that we use an MPM cell width to DEM mean grain diameter ratio of 1:1 to more accurately couple the hybrid region near the orifice. Our hybrid simulation, like the purely DEM simulation, jams with the small orifice width, as expected. On the contrary the continuum, regardless of the grid resolution, fails to capture these finite size effects. Extra non-local modeling is needed \cite{Kamrin:2014}.
-
-% \todo{Can we do this?}
-% In the near future we plan to explore whether our hybrid method can reproduce the findings of Beverloo
-% \cite{Beverloo:1961:Flow}, who identified a scaling law for the flow rate from a funnel as a function of orifice size.
 
 \section{Penetrometer Insertion}
 \begin{figure}
@@ -206,15 +174,12 @@ As the penetrometer is fully inserted into the bed, the original single continuu
 approach gracefully treats this topological change with no extra machinery.
 
 \section{Bunny Toss}
-%Top: coefficient of restitution $e = 0$. Bottom: coefficient of restitution $e = 0.5$.}
-\begin{figure}
+\begin{center}
   \centering
   \includegraphics[width=0.4\linewidth]{figs/bunny_drill/toss_config_0032_COR00.pdf}
-  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  % \includegraphics[width=\linewidth]{figs/bunny_drill/toss_config_0032_COR05.pdf}
-  \caption{The bunny crashes into a container of gumballs with different coefficients of restitution using our hybrid method.}
+  \captionof{figure}{The bunny crashes into a container of gumballs with different coefficients of restitution using our hybrid method.}
   \label{fig:hybrid:bunny_toss}
-\end{figure}
+\end{center}
 We initialize a bunny with non-zero translational and angular velocity and simulate the resulting collision 
 with a packing of gumballs. This high-speed bunny produces a splash upon impact with the gumballs before coming to rest.
 In Fig.~\ref{fig:hybrid:bunny_toss}, the top simulation has zero restitution, while the bottom simulation has restitution of $e = 0.5$.
@@ -223,70 +188,82 @@ The larger coefficient of restitution leads to a simulation with a more dynamic 
 While DEM uses 120,000 grains to simulate this scene, our hybrid approach only uses an average of 28,289 grains. In total, taking into account of the cost of MPM and the coupling computation (where again the MPM cell width is $2\times$ the mean grain diameter), our method is $1.74\times$ faster than DEM (Table \ref{tbl:speedup}).
 
 \section{Excavator}
-\begin{figure}
+\begin{center}
 \centering
   \includegraphics[width=0.4\linewidth]{figs/bunny_drill/excavator.pdf}
   %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  \caption{We script an excavator to scoop gumballs out of a container.}
+  \captionof{figure}{We script an excavator to scoop gumballs out of a container.}
   \label{fig:hybrid:excavator}
-\end{figure}
+\end{center}
 
-In Fig.~\ref{fig:hybrid:excavator}, we script an excavator to scoop gumballs from the same container as the bunny toss. Our hybrid oracle robustly handles topology changes in the simulation domain induced by the excavator. As we employ the same gumball packing as the bunny toss in this test, we obtain a comparable speedup to that example.
-
-% \begin{figure*}
-% \centering
-% \includegraphics[width=1.0\textwidth]{figs/bunny_drill.pdf}
-% \capspace
-% \caption{Four rigid bunnies are scripted to rapidly rotate about the vertical axis while simultaneously moving into and out of a packing of 360,000 grains. The bunnies inject a large amount of energy into the system, causing significant displacement of grains in the interior while also producing an energetic splash near the free surface. From left to right we show: a cutaway view of initial conditions for a hybrid simulation, a cutaway frame from when the bunnies have penetrated the surface, a top down view of the same frame, and a cutaway view of purely discrete simulation at the same frame.}
-% \label{fig:hybrid:bunny_drill}
-% \capspace
-% \end{figure*}
+In Fig.~\ref{fig:hybrid:excavator}, we script an excavator to scoop gumballs from the same container as the bunny toss. Our hybrid oracle robustly handles topology changes in the simulation domain induced by the excavator. Although not visible, as the excavator enters the granular pile, the continuum elements directly below the top DEM and hybrid layers are enriched to DEM grains. As the excavator digs in and rotates through the pile, it only interacts with DEM grains. material, it only  As we employ the same granular packing as the bunny toss in this test, we obtain a comparable speedup to that example.
 
 \section{Bunny Drill}
+ \begin{center}
+ \centering
+ \includegraphics[width=1.0\textwidth]{figs/bunny_drill.pdf}
+ \captionof{figure}{Four rigid bunnies are scripted to rapidly rotate about the vertical axis while simultaneously moving into and out of a packing of 360,000 grains. The bunnies inject a large amount of energy into the system, causing significant displacement of grains in the interior while also producing an energetic splash near the free surface. From left to right we show: a cutaway view of initial conditions for a hybrid simulation, a cutaway frame from when the bunnies have penetrated the surface, a top down view of the same frame, and a cutaway view of purely discrete simulation at the same frame.}
+ \label{fig:hybrid:bunny_drill}
+ \end{center}
+ 
 We aggressively insert and remove four scripted bunnies from a pile of 360,000 grains (Fig.~\ref{fig:hybrid:bunny_drill}). While initially only the top surface is represented as discrete grains, our method is able to dynamically enrich the interior around the bunnies in response to their motion. Our hybrid method obtains a similar visual result compared to the pure DEM simulation, yet it uses $88\%$ fewer discrete grains and is thus $6.82\times$ faster (See Table ~\ref{tbl:speedup}).
 
-\begin{figure*}
-  \centering
-  \includegraphics[width=0.33\textwidth]{figs/bunny_drill/tire/config_0000_single_cropped.png}
-  \includegraphics[width=0.33\textwidth]{figs/bunny_drill/tire/config_0066_speed_multi.png}
-  \includegraphics[width=0.33\textwidth]{figs/bunny_drill/tire/config_0052_density.png}
-  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  \caption{Simulations of tires traversing a bed of gravel. Left: A render of the initial condition (boundary condition not shown), with a tire poised to race across the bed of grains. Notice the layered hybridization employed here. Center: Tires with different angular velocities but equal densities. Left to right the tires rotate at 1000 rad/s, 100 rad/s, and 10 rad/s. The 1000 rad/s tire produces a large granular splash while the 10 rad/s tire produces almost no splash. Right: Tires of different densities, but with the same angular velocities. Left to right the tires have $5\times$, $2\times$, and $1\times$ the density of gravel. As the tires traverse the system, the larger density tires sink into the gravel.}
-  \label{fig:hybrid:tire}
-\end{figure*}
+The bunny drill provides a key example of when the hybrid method is useful. While visually the only grains seen from the observer are the grains at the top of the container, the behavior of those flyaway grains are directly impacted by the physics of the granular layer underneath. By still solving for physics while the bunnies are not visible we enhance the final result, while still retaining a speedup over a pure discrete simulation that would capture similar visible granular dynamics. Also much like the excavator example, as the bunnies move through the interior of the domain, they are constantly kept in contact with discrete grains, so that any momentum transfers occur at bunny-DEM interfaces. This does away with the need to introduce continuum contact laws. Another advantage of the hybrid technique is thus shown: while we use the DEM to simplify the need to derive complicated constitutive laws in the continuum, we also use the DEM to simplify contact laws with rigid bodies.
 
 \section{Tires on Gravel Road}
-To test our method on a real world example, we simulate off-road tires traversing a gravel road. The tires are given a constant angular velocity around each of their axes, but are otherwise dynamically simulated. The hybrid method is able to capture multiple effects such as large splashes when fast rotating wheels collide with the grains, as well as tires sinking into the pile of grains due to a large density difference. While simulating this scene with a pure discrete method requires 822,956 grains, our hybrid approach allows us to simulate only a thin layer of discrete grains and the remainder is continuum (Fig.~\ref{fig:hybrid:tire} (a)). Here, the MPM cell width is $1.75\times$ the mean grain diameter. On average, the hybrid approach is $3.43\times$ faster than a purely discrete method (Table ~\ref{tbl:speedup}).
+\begin{center}
+  \centering
+  \includegraphics[width=0.4\textwidth]{figs/bunny_drill/tire/config_0000_single_cropped.png}
+  \includegraphics[width=0.4\textwidth]{figs/bunny_drill/tire/config_0066_speed_multi.png}
+  \includegraphics[width=0.4\textwidth]{figs/bunny_drill/tire/config_0052_density.png}
+  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
+  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
+  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
+  \captionof{figure}{Simulations of tires traversing a bed of gravel. Left: A render of the initial condition (boundary condition not shown), with a tire poised to race across the bed of grains. Notice the layered hybridization employed here. Center: Tires with different angular velocities but equal densities. Left to right the tires rotate at 1000 rad/s, 100 rad/s, and 10 rad/s. The 1000 rad/s tire produces a large granular splash while the 10 rad/s tire produces almost no splash. Right: Tires of different densities, but with the same angular velocities. Left to right the tires have $5\times$, $2\times$, and $1\times$ the density of gravel. As the tires traverse the system, the larger density tires sink into the gravel.}
+  \label{fig:hybrid:tire}
+\end{center}
+On a slightly less whimsical note and to test our method on a more real world example, we simulate off-road tires traversing a gravel road. The tires are given a constant angular velocity around each of their axes, but are otherwise dynamically simulated. The hybrid method is able to capture multiple effects such as large splashes when fast rotating wheels collide with the grains, as well as tires sinking into the pile of grains due to a large density difference. While simulating this scene with a pure discrete method requires 822,956 grains, our hybrid approach allows us to simulate only a thin layer of discrete grains and the remainder is continuum (Fig.~\ref{fig:hybrid:tire} (a)). Here, the MPM cell width is $1.75\times$ the mean grain diameter. On average, the hybrid approach is $3.43\times$ faster than a purely discrete method (Table ~\ref{tbl:speedup}).
+
+Again, as the tires dig through the domain, DEM grains are constantly being enriched, so that the entires only interact with those grains. The enrichment also provides a source for grains that are splayed back behind the tire.
 
 \section{Spinning Drum}
 
-\begin{figure}
+\begin{center}
   \centering
   \includegraphics[width=0.8\linewidth]{figs/drum.pdf}
   %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  \caption{
+  \captionof{figure}{
     Spinning drum: We rotate a drum filled halfway with grains using DEM (top row) and using our
     hybrid algorithm (bottom row). As the system evolves, observe that the shape of the free surface obtained with our
     hybrid method agrees with that of the purely discrete method.
   }
   \label{fig:hybrid:spinning_drum}
-\end{figure}
+\end{center}
 
-An understanding of drum geometries is important in industrial applications (e.g. mills,
+Continuing the theme of more practical applications, we simulate the flow of grains in a spinning drum. An understanding of drum geometries is important in industrial applications (e.g. mills,
 tumblers) and in the study of free-surface flows \cite{Midi:2004:Dense}. To assess whether our algorithm is
 suitable for these geometries, we fill a drum with grains to half its area, and impose a rotation to the drum with
-a constant angular velocity. With a DEM simulation, we observe nearly rigid grains near the base of the
-drum, a steadily increasing flow towards the interior of the granular assembly, and loosely packed grains near the free
-surface. As the transient phase subsides, we observe the characteristic free-surface shape of these experiments.
-Comparing the purely discrete results to those from our hybrid algorithm (Fig.~\ref{fig:hybrid:spinning_drum}), we find
+a constant angular velocity.
+
+With a pure DEM simulation, we observe nearly rigid grains near the base of the drum, a steadily increasing flow towards the interior of the granular assembly, and loosely packed grains near the free surface. As the transient phase subsides, we observe the characteristic free-surface shape. Our pure DEM simulation thus matches physical experiment and other numerical simulation, providing a baseline of comparison.
+
+Thus comparing the purely discrete results to those from our hybrid algorithm (Fig.~\ref{fig:hybrid:spinning_drum}), we find
 the profiles to be in good agreement throughout the simulation. Because our hybrid algorithm treats
 regions near surfaces with discrete grains, we do not require any additional machinery to handle the drum boundary
-condition beyond that from the discrete simulation. Like the discrete simulation, our hybrid algorithm is also able to
+condition beyond that from the discrete simulation. Again, we demonstrate the advantage of the hybrid algorithm in treating interactions with boundaries and rigid objects. Like the discrete simulation, our hybrid algorithm is also able to
 capture free flight fly away grains near the top of the domain.
 
 \section{Speedup Study}
+\begin{center}
+  \centering
+  \includegraphics[width=0.6\linewidth]{figs/chute_flow.pdf}
+  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
+  \captionof{figure}{
+    Periodic chute flow: We set a granular packing at an angle $\theta$ with periodic boundary conditions to simulate flow down a chute.
+  }
+  \label{fig:hybrid:chute_flow}
+\end{center}
+
 We seek to quantify the speedup we are able to obtain from the hybrid
 method over a pure discrete simulation. In order to do this, a chute-flow geometry is taken, as seen in
 Fig.~\ref{fig:hybrid:chute_flow}. Grains are initialized in a column and are then tilted at an angle $\theta$ relative
@@ -300,17 +277,7 @@ decreasing or increasing the average grain diameter.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\linewidth]{figs/chute_flow.pdf}
-  %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
-  \caption{
-    Periodic chute flow: We set a granular packing at an angle $\theta$ with periodic boundary conditions to simulate flow down a chute.
-  }
-  \label{fig:hybrid:chute_flow}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.8\linewidth]{figs/phase_plots2.pdf}
+  \includegraphics[width=0.7\linewidth]{figs/phase_plots2.pdf}
   %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
   \caption{
     Phase plots: Phase plots for $H = 0.0025$ (top left), $H = 0.00125$ (top right), $H = 0.00083$ (bottom left), and $H = 0.000625$ (bottom right). Red denotes
