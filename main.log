@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2018.8.27)  20 MAY 2019 16:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2018.8.27)  20 MAY 2019 17:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1090,15 +1090,11 @@ File: figs/phase_plots2.pdf Graphic file (type pdf)
 
 <use figs/phase_plots2.pdf>
 Package pdftex.def Info: figs/phase_plots2.pdf used on input line 280.
-(pdftex.def)             Requested size: 303.53267pt x 248.74353pt.
+(pdftex.def)             Requested size: 325.215pt x 266.50865pt.
  [70 <./figs/chute_flow.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [71 <./figs/phase_plots2.pdf>]
-
-LaTeX Warning: Reference `sec:sugar_coated' on page 72 undefined on input line 
-326.
-
 <figs/core_scaling.pdf, id=2086, 406.1845pt x 315.51175pt>
 File: figs/core_scaling.pdf Graphic file (type pdf)
 
@@ -1265,17 +1261,14 @@ Chapter 7.
 (./chap03_continuum.aux) (./chap04_hybridization.aux) (./chap05_results.aux)
 (./chap06_enrichment.aux) (./chap07_conclusions.aux) (./biblio.aux))
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 15430 strings out of 494902
- 299957 string characters out of 6179891
+ 15429 strings out of 494902
+ 299939 string characters out of 6179891
  310070 words of memory out of 5000000
- 18345 multiletter control sequences out of 15000+600000
+ 18344 multiletter control sequences out of 15000+600000
  29946 words of font info for 83 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  44i,25n,51p,10375b,601s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1310,7 +1303,7 @@ sr/share/texmf/fonts/type1/public/cm-super/sfrm0900.pfb></usr/share/texmf/fonts
 /type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-sup
 er/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></us
 r/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
-Output written on main.pdf (98 pages, 37771373 bytes).
+Output written on main.pdf (98 pages, 37771310 bytes).
 PDF statistics:
  2818 PDF objects out of 2984 (max. 8388607)
  1578 compressed objects within 16 object streams

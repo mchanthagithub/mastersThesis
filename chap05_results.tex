@@ -265,19 +265,19 @@ capture free flight fly away grains near the top of the domain.
 \end{center}
 
 We seek to quantify the speedup we are able to obtain from the hybrid
-method over a pure discrete simulation. In order to do this, a chute-flow geometry is taken, as seen in
+method over a pure discrete simulation. In order to do this, we use the geometry, seen in
 Fig.~\ref{fig:hybrid:chute_flow}. Grains are initialized in a column and are then tilted at an angle $\theta$ relative
-to the horizontal, with gravity applied. Periodic boundary conditions are then enforced, allowing for a continual 
+to the horizontal, with gravity applied. We then apply periodic boundary conditions, causing a continual 
 flow of grains down-slope. Three factors are adjusted: the initial total number of grains $N_i$ before hybridization, the fraction of DEM left
 after the hybridization $F$, and the hybrid grid size (identical to the MPM grid size here) $H$. A parametric sweep
-adjusting these three variables allows for the construction of a phase plot, which shows for a given $N_i$, when a 
-pure discrete simulation with $N_i$ grains is faster or slower relative to a hybrid simulation initialized with $N_i$ grains but with
+over these variables allows for the construction of a phase plot, which shows for a given $N_i$, when a 
+pure discrete simulation with $N_i$ grains is faster or slower than a hybrid simulation initialized with $N_i$ grains but with
 different $F$ and $H$. Note that the geometry is kept fixed for all simulations, so that increasing or decreasing $N_i$ means
 decreasing or increasing the average grain diameter.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.7\linewidth]{figs/phase_plots2.pdf}
+  \includegraphics[width=0.75\linewidth]{figs/phase_plots2.pdf}
   %\includegraphics[width=0.4\textwidth]{figs/hourglass_whole.jpg}
   \caption{
     Phase plots: Phase plots for $H = 0.0025$ (top left), $H = 0.00125$ (top right), $H = 0.00083$ (bottom left), and $H = 0.000625$ (bottom right). Red denotes
@@ -292,7 +292,7 @@ with hybridization increase. However, even for the most refined grid, a speedup 
 It can be seen from Fig.~\ref{fig:hybrid:phase_plots} that a speedup on the order of $12\times$ can be obtained. While it may seem that increasing the resolution (thus decreasing $H$)
 results in a decay of the maximum speedup obtained, one can exploit a characteristic of a smaller $H$: with smaller $H$, a smaller $F$ can be obtained.
 
-Looking at the relationship between $H$ and $F$ from a different perspective, an analysis of the speedup for layered hybridization in 2D can be conducted from the geometry of the problem (see the supplemental material for a detailed derivation). Letting $C_D$ be the computational cost
+Looking at the relationship between $H$ and $F$ from a different perspective, an analysis of the speedup for layered hybridization in 2D can be conducted from the geometry of the problem. Letting $C_D$ be the computational cost
 of a discrete grain, $C_E$ the cost of enrichment for a hybrid cell, $C_C$ the cost for a continuum element, and $A$ the effective total number of grains (average number of grains per 
 cell multiplied with the number of cells containing grains), we obtain the following expression for the total time $T_H$ for a complete hybrid iteration and total time $T_C$ for a pure discrete simulation:
 
@@ -323,7 +323,7 @@ The key insight is that if $N$ is chosen in the manner shown above in relation t
 can be had for increasing grain numbers. This is an extremely useful property, and serves to highlight the potential of our hybrid method to tackle problems bridging 
 micro/mesoscale causes to macroscale effects. 
 
-For the sugar coated hybridization method in 3D described in Section~\ref{sec:sugar_coated} and the layered hybridization method in 3D described in Section~\ref{sec:layered_3D}, we obtain the best speedups if $N$ scales with $A$ according to $N \propto A^{1/4}$. Then as $A\rightarrow\infty$, $R_A\rightarrow0$. See the supplemental material for the detailed derivation.
+For the layered hybridization method in 3D described in Section~\ref{sec:layered_3D}, we obtain the best speedups if $N$ scales with $A$ according to $N \propto A^{1/4}$. Then as $A\rightarrow\infty$, $R_A\rightarrow0$.
 
 It is important to note that $N$ scales with $A$ in the power of $1/4$ ($1/3$ in 2D), not $1/3$ ($1/2$ in 2D).
 An intuitive explanation is that if we refine both the discrete and continuum elements equally (this corresponds to setting $N \propto A^{1/3}$ ($N \propto A^{1/2}$ in 2D)) while keeping the discrete layer thickness to a minimum,
@@ -343,6 +343,12 @@ then the acceleration continues.
   \label{fig:hybrid:chute_flow}
 \end{figure}
 
-To study how our code parallelizes, we conducted a test with the bunny drill. We ran both a pure DEM and a hybrid simulation with increasing core counts. For each core count, we ran each simulation for two hours of wall clock time and measured the number of completed time steps. As evident in the inset, both DEM and our hybrid method do parallelize, albeit with sub-linear scaling. We note that at the time of this test, many routines in the code were not fully parallelized, and a complete refactoring with parallelization in mind would greatly improve scaling.
+
+It should be noted that while the hybrid technique itself is able to push the domain sizes we are able to simulate, the ability to run in parallel is also crucial for even larger problems. Therefore we require an analysis of how well the code scales with core count.
+
+To study how well our code parallelizes, we conducted a test with the bunny drill example. We ran both a pure DEM and a hybrid simulation of the bunny drill with varying core counts. For each core count, we ran each simulation for two hours of wall clock time and measured the number of completed time steps. 
+
+As evident from Figure \ref{fig:hybrid:chute_flow}, both DEM and our hybrid method do parallelize, albeit with sub-linear scaling. We note that at the time of this test, many routines in the code were not fully parallelized, and a complete refactoring with parallelization in mind would greatly improve scaling. For example, a domain decomposition algorithm across all components of the hybrid solve would result in much closer to linear scaling.
+
 
 
