@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2018.8.27)  20 MAY 2019 01:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2018.8.27)  20 MAY 2019 02:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1208,7 +1208,7 @@ File: figs/grid_packing_scheme.pdf Graphic file (type pdf)
 
 <use figs/grid_packing_scheme.pdf>
 Package pdftex.def Info: figs/grid_packing_scheme.pdf used on input line 120.
-(pdftex.def)             Requested size: 346.89731pt x 261.70778pt.
+(pdftex.def)             Requested size: 281.85034pt x 212.63478pt.
 
 <figs/circle_sweep_scheme.pdf, id=2288, 89.50053pt x 99.91478pt>
 File: figs/circle_sweep_scheme.pdf Graphic file (type pdf)
@@ -1217,7 +1217,9 @@ File: figs/circle_sweep_scheme.pdf Graphic file (type pdf)
 Package pdftex.def Info: figs/circle_sweep_scheme.pdf used on input line 133.
 (pdftex.def)             Requested size: 216.81pt x 242.0384pt.
  [83 <./figs/grid_packing_scheme.pdf>]
-[84 <./figs/circle_sweep_scheme.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [84 <./figs/circle_sweep_scheme.pdf>]
 <figs/two_point_tangent.pdf, id=2458, 80.83678pt x 101.33429pt>
 File: figs/two_point_tangent.pdf Graphic file (type pdf)
 
@@ -1231,22 +1233,23 @@ File: figs/compare_technique_m_v_t.pdf Graphic file (type pdf)
 <use figs/compare_technique_m_v_t.pdf>
 Package pdftex.def Info: figs/compare_technique_m_v_t.pdf used on input line 15
 8.
-(pdftex.def)             Requested size: 303.53267pt x 238.94864pt.
- [86 <./figs/compare_technique_m_v_t.pdf>]
-File: figs/compare_technique_m_v_t.pdf Graphic file (type pdf)
- <use figs/compare_technique_m_v_t.pdf>
-Package pdftex.def Info: figs/compare_technique_m_v_t.pdf used on input line 17
-0.
 (pdftex.def)             Requested size: 260.17464pt x 204.8157pt.
- [87]
-<figs/beta_m_v_t_cropped.pdf, id=2522, 371.3875pt x 294.09875pt>
+ [86 <./figs/compare_technique_m_v_t.pdf>] <figs/dem_enter_continuum.pdf, id=25
+19, 43.57426pt x 48.58151pt>
+File: figs/dem_enter_continuum.pdf Graphic file (type pdf)
+
+<use figs/dem_enter_continuum.pdf>
+Package pdftex.def Info: figs/dem_enter_continuum.pdf used on input line 170.
+(pdftex.def)             Requested size: 173.44534pt x 193.42778pt.
+ [87 <./figs/dem_enter_continuum.pdf>]
+<figs/beta_m_v_t_cropped.pdf, id=2623, 371.3875pt x 294.09875pt>
 File: figs/beta_m_v_t_cropped.pdf Graphic file (type pdf)
 
 <use figs/beta_m_v_t_cropped.pdf>
 Package pdftex.def Info: figs/beta_m_v_t_cropped.pdf used on input line 193.
 (pdftex.def)             Requested size: 260.17464pt x 206.03375pt.
  [88] [89 <./figs/beta_m_v_t_cropped.pdf>]
-<figs/pic_flip_beta_m_v_t_cropped.pdf, id=2546, 377.41pt x 311.1625pt>
+<figs/pic_flip_beta_m_v_t_cropped.pdf, id=2648, 377.41pt x 311.1625pt>
 File: figs/pic_flip_beta_m_v_t_cropped.pdf Graphic file (type pdf)
 
 <use figs/pic_flip_beta_m_v_t_cropped.pdf>
@@ -1286,10 +1289,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 15420 strings out of 494902
- 299655 string characters out of 6179891
+ 15425 strings out of 494902
+ 299809 string characters out of 6179891
  310007 words of memory out of 5000000
- 18339 multiletter control sequences out of 15000+600000
+ 18343 multiletter control sequences out of 15000+600000
  29946 words of font info for 83 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  44i,25n,51p,10375b,601s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1324,10 +1327,10 @@ sr/share/texmf/fonts/type1/public/cm-super/sfrm0900.pfb></usr/share/texmf/fonts
 /type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-sup
 er/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></us
 r/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
-Output written on main.pdf (98 pages, 33962515 bytes).
+Output written on main.pdf (98 pages, 33980749 bytes).
 PDF statistics:
- 2695 PDF objects out of 2984 (max. 8388607)
- 1516 compressed objects within 16 object streams
+ 2796 PDF objects out of 2984 (max. 8388607)
+ 1574 compressed objects within 16 object streams
  0 named destinations out of 1000 (max. 500000)
- 215 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 220 words of extra memory for PDF output out of 10000 (max. 10000000)
 
